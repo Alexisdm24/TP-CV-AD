@@ -1,58 +1,75 @@
-# [Prénom Nom]
+# Alexis DOMINGUEZ
 
-**Étudiant en BTS SIO – 1ère année**
-🔗 [github.com/ton-pseudo](https://github.com/ton-pseudo)
+**Alternant BTS SIO SISR – Systèmes & Réseaux**
+
+📍 00 000 Ville · 📞 00 00 00 00 00 · ✉️ [adresse@mail.fr] · 🚗 Permis A et B
 
 ---
 
-## Présentation
+## Profil
 
-[2 à 3 lignes : qui tu es, ce que tu cherches (alternance/stage), ce que tu
-apportes. Sois concis — un CV web se lit vite.]
+En reconversion professionnelle vers l'informatique, je souhaite intégrer un **BTS SIO option SISR** afin de développer mes compétences en **systèmes, réseaux et cybersécurité**, dans le cadre d'une alternance motivante et formatrice.
+
+---
+
+## Expériences professionnelles
+
+### Responsable magasin — Dafy-Moto, Plan de Campagne
+*Janvier 2024 – Juin 2025*
+
+- Encadrement d'une équipe de vente (jusqu'à 8 personnes)
+- Gestion des stocks, des commandes et des réassorts
+- Suivi de la satisfaction client et traitement des réclamations
+- Animation commerciale et organisation du magasin
+
+### Responsable adjoint — Dafy-Moto, Plan de Campagne
+*Décembre 2019 – Décembre 2023*
+
+- Gestion du réassort et du merchandising
+- Gestion des réseaux sociaux du magasin
+- Assistance au management de l'équipe
+
+### Vendeur — Dafy-Moto, Plan de Campagne
+*Mai 2018 – Novembre 2019*
+
+- Accueil et conseil client
+- Réception et mise en rayon des produits
+- Gestion des SAV
+
+### Apprenti pâtissier / Pâtissier — EURL Le Tual, Monteux
+*2014 – 2017*
+
+- Préparation de pâtisseries artisanales
+- Respect des normes d'hygiène et de qualité
+
+---
+
+## Formations
+
+| Année       | Formation                                               | Établissement          |
+|-------------|---------------------------------------------------------|------------------------|
+| 2018        | Titre professionnel Vendeur Conseil en Magasin (niveau IV) | AFPA, Avignon – Le Pontet |
+| 2014 – 2016 | CAP Pâtisserie (cursus suivi)                           | CFA, Avignon           |
 
 ---
 
 ## Compétences
 
-- [Compétence 1 — ex: HTML / CSS / JavaScript]
-- [Compétence 2 — ex: Git / GitHub]
-- [Compétence 3 — ex: Bases de données SQL]
-- [Compétence 4 — ex: Réseaux / Systèmes]
+- Intérêt marqué pour les systèmes, les réseaux et la cybersécurité
+- Compréhension des enjeux de la sécurité informatique
+- Capacité d'analyse et de résolution de problèmes
+- Rigueur, organisation et respect des procédures
+- Communication professionnelle et travail en équipe
 
 ---
 
-## Formation
+## Langues
 
-**BTS SIO – 1ère année** (2025 – 2027)
-[Nom de l'établissement], [Ville]
-
-**Baccalauréat [série]** (2025)
-[Nom du lycée], [Ville]
-
----
-
-## Expériences / Projets
-
-*(3 à 4 maximum, avec un résultat concret si possible)*
-
-**[Titre du projet ou poste]**
-[1 à 2 lignes décrivant ce que tu as fait et le résultat obtenu.
-Ex : "Création d'un site vitrine en HTML/CSS — mis en ligne via GitHub Pages."]
-
-**[Titre du projet ou poste]**
-[Description courte + résultat mesurable si possible.]
+- **Français** : langue maternelle
+- **Anglais** : notions
 
 ---
 
 ## Centres d'intérêt
 
-*(optionnel)*
-
-- [Centre d'intérêt 1]
-- [Centre d'intérêt 2]
-
----
-
-## Contact
-
-Me contacter via mon profil GitHub : [github.com/ton-pseudo](https://github.com/ton-pseudo)
+Informatique · Moto · Musculation · Randonnée
