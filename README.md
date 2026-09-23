@@ -6,7 +6,7 @@ d'après le sujet [fabrice1618/cv_html_statique](https://github.com/fabrice1618/
 <<<<<<< HEAD
 - **Dépôt GitHub** : https://github.com/alexisdm24/TP-CV-AD
 - **Site en ligne (GitHub Pages)** : https://alexisdm24.github.io/TP-CV-AD/
-=======
+
 ## Concept
 
 Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
