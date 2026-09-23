@@ -3,8 +3,8 @@
 CV en ligne statique (HTML / CSS / JS), réalisé dans le cadre du BTS SIO,
 d'après le sujet [fabrice1618/cv_html_statique](https://github.com/fabrice1618/cv_html_statique).
 
-- **Dépôt GitHub** : https://github.com/VOTRE-ALIAS/TP-CV-AD
-- **Site en ligne (GitHub Pages)** : https://VOTRE-ALIAS.github.io/TP-CV-AD/
+- **Dépôt GitHub** : https://github.com/alexisdm24/TP-CV-AD
+- **Site en ligne (GitHub Pages)** : https://alexisdm24.github.io/TP-CV-AD/
 
 ## Concept
 
@@ -63,4 +63,8 @@ Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
 - Fenêtre des sections : `aria-labelledby` pointait vers un id absent au
   chargement, remplacé par un `aria-label`.
 - `<title>` raccourci à moins de 60 caractères.
+- Version « réaliste » : nuages volumétriques et mer de nuages réalisés avec
+  des filtres SVG (`feTurbulence` + `feDisplacementMap`), parchemin texturé
+  aux bords irréguliers, rouleaux en bois, ange ombré aux ailes en plumes.
+  Toujours aucune image ni bibliothèque : tout est généré par le navigateur.
 - …

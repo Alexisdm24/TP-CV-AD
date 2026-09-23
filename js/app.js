@@ -97,26 +97,41 @@ function fly(now) {
 }
 requestAnimationFrame(fly);
 
-/* ===== Décor : étincelles et nuages lointains ===== */
-const skyDecor = document.getElementById("skyDecor");
+/* ===== Ailes : trois rangées de plumes, en éventail depuis l'épaule ===== */
+const SVG_NS = "http://www.w3.org/2000/svg";
+const featherRows = [
+  { count: 11, from: -30, to: 72, length: [1.2, 1.75], width: 1.2 }, // rémiges
+  { count: 9, from: -12, to: 66, length: [0.8, 1.05], width: 1.1 },  // couvertures
+  { count: 7, from: 4, to: 60, length: [0.45, 0.6], width: 1 }       // petites plumes
+];
 
-for (let i = 0; i < 40; i++) {
-  const sparkle = document.createElement("span");
-  sparkle.className = "sparkle";
-  sparkle.style.left = `${Math.random() * 100}%`;
-  sparkle.style.top = `${Math.random() * 100}%`;
-  sparkle.style.animationDelay = `${Math.random() * -3}s`;
-  sparkle.style.animationDuration = `${2 + Math.random() * 3}s`;
-  skyDecor.appendChild(sparkle);
-}
+document.querySelectorAll(".angel .wing").forEach((wing) => {
+  featherRows.forEach((row) => {
+    for (let i = 0; i < row.count; i++) {
+      const k = i / (row.count - 1);
+      const angle = row.from + (row.to - row.from) * k;
+      const length = row.length[0] + (row.length[1] - row.length[0]) * k;
+      const plume = document.createElementNS(SVG_NS, "use");
+      plume.setAttribute("href", "#a-plume");
+      plume.setAttribute("fill", "url(#a-feather)");
+      plume.setAttribute("stroke", "#cfc5b5");
+      plume.setAttribute("stroke-width", "0.5");
+      plume.setAttribute("transform", `rotate(${angle.toFixed(1)}) scale(${length.toFixed(2)} ${row.width})`);
+      wing.appendChild(plume);
+    }
+  });
+});
 
-for (let i = 0; i < 5; i++) {
-  const cloud = document.createElement("span");
-  cloud.className = "far-cloud";
-  cloud.style.width = `${120 + Math.random() * 120}px`;
-  cloud.style.top = `${8 + i * 18 + Math.random() * 6}%`;
-  cloud.style.animationDuration = `${60 + Math.random() * 60}s`;
-  cloud.style.animationDelay = `${Math.random() * -100}s`;
-  cloud.style.opacity = 0.5 + Math.random() * 0.4;
-  skyDecor.appendChild(cloud);
+if (reduceMotion) angel.querySelector("svg").pauseAnimations();
+
+/* ===== Décor : particules de lumière qui montent ===== */
+const sky = document.getElementById("sky");
+
+for (let i = 0; i < 24; i++) {
+  const mote = document.createElement("span");
+  mote.className = "mote";
+  mote.style.left = `${Math.random() * 100}%`;
+  mote.style.animationDuration = `${18 + Math.random() * 22}s`;
+  mote.style.animationDelay = `${Math.random() * -40}s`;
+  sky.appendChild(mote);
 }

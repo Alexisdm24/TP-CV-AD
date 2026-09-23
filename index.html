@@ -9,21 +9,19 @@
   <style>
 /* ===== Design tokens ===== */
 :root {
-  --sky-top: #fffdf5;
-  --sky-mid: #fdf6e3;
-  --sky-low: #e9f4ff;
-  --gold: #e8c15a;
-  --gold-soft: #f7e3a3;
-  --gold-deep: #7d5a10;
-  --ink: #3a3548;
-  --ink-soft: #5c5570;
-  --cloud: #ffffff;
-  --cloud-shade: rgba(160, 175, 210, 0.35);
-  --parchment-1: #fbf2d8;
-  --parchment-2: #f1dfae;
-  --parchment-edge: #c9a45c;
-  --parchment-ink: #3b2f1c;
-  --parchment-title: #6e4a0c;
+  --sky-1: #8fc6ee;
+  --sky-2: #b3d9f4;
+  --sky-3: #d6ebf8;
+  --sky-4: #f6f8f4;
+  --gold: #e3b54a;
+  --gold-soft: #f3dfa2;
+  --gold-deep: #7a560e;
+  --ink: #26232f;
+  --ink-soft: #4f4a5c;
+  --cloud-shade: #b3c1d3;
+  --paper-ink: #3a2a14;
+  --paper-title: #5a3a0c;
+  --paper-edge: #b08a4a;
   --font-heading: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -46,10 +44,8 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--ink);
-  background-color: var(--sky-top);
-  background-image:
-    radial-gradient(ellipse 70% 45% at 50% -5%, #fffbe6 0%, rgba(255, 246, 204, 0.9) 35%, transparent 70%),
-    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 45%, var(--sky-low) 100%);
+  background-color: var(--sky-3);
+  background-image: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 35%, var(--sky-3) 70%, var(--sky-4) 100%);
   background-attachment: fixed;
   overflow-x: hidden;
 }
@@ -62,6 +58,13 @@ a:focus-visible,
 button:focus-visible {
   outline: 3px solid var(--gold-deep);
   outline-offset: 3px;
+}
+
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 /* ===== Lien d'évitement ===== */
@@ -80,79 +83,113 @@ button:focus-visible {
   top: 1rem;
 }
 
-/* ===== Décor céleste ===== */
-.rays {
+/* ===== Ciel : soleil, rayons, mer de nuages ===== */
+.sky {
   position: fixed;
-  top: -60vmax;
-  left: 50%;
-  width: 120vmax;
-  height: 120vmax;
-  margin-left: -60vmax;
-  background: repeating-conic-gradient(from 0deg, rgba(255, 230, 150, 0.22) 0deg 6deg, transparent 6deg 18deg);
-  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 65%);
-  mask-image: radial-gradient(circle, #000 0%, transparent 65%);
-  animation: spin 120s linear infinite;
-  pointer-events: none;
+  inset: 0;
   z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-@keyframes spin {
+.sun {
+  position: absolute;
+  top: -32vh;
+  left: 50%;
+  width: 90vh;
+  height: 90vh;
+  margin-left: -45vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #fff 9%, rgba(255, 251, 232, 0.95) 17%, rgba(255, 238, 180, 0.55) 34%, rgba(255, 230, 160, 0.18) 52%, transparent 70%);
+}
+
+.rays {
+  position: absolute;
+  top: -80vmax;
+  left: 50%;
+  width: 160vmax;
+  height: 160vmax;
+  margin-left: -80vmax;
+  background: repeating-conic-gradient(from 0deg,
+    rgba(255, 246, 214, 0.34) 0deg 2.5deg,
+    transparent 2.5deg 9deg,
+    rgba(255, 246, 214, 0.18) 9deg 11deg,
+    transparent 11deg 19deg);
+  -webkit-mask-image: radial-gradient(circle, #000 4%, rgba(0, 0, 0, 0.5) 25%, transparent 48%);
+  mask-image: radial-gradient(circle, #000 4%, rgba(0, 0, 0, 0.5) 25%, transparent 48%);
+  filter: blur(7px);
+  animation: rays 240s linear infinite;
+}
+
+@keyframes rays {
   to { transform: rotate(360deg); }
 }
 
-.sky-decor {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.sparkle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, var(--gold) 45%, transparent 70%);
-  animation: twinkle 3s ease-in-out infinite;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.1; transform: scale(0.6); }
-  50% { opacity: 1; transform: scale(1.3); }
-}
-
-.far-cloud {
+/* Nuages lointains qui dérivent */
+.wisp {
   position: absolute;
   left: 0;
-  height: 40px;
-  border-radius: 40px;
-  background: rgba(255, 255, 255, 0.75);
-  filter: blur(2px);
-  animation: drift linear infinite;
-}
-
-.far-cloud::before,
-.far-cloud::after {
-  content: "";
-  position: absolute;
+  width: 320px;
+  height: 70px;
   border-radius: 50%;
-  background: inherit;
+  background: #fff;
+  opacity: 0.55;
+  filter: url(#wisp);
+  animation: drift linear infinite;
+  will-change: transform;
 }
 
-.far-cloud::before { width: 50px; height: 50px; left: 20%; top: -25px; }
-.far-cloud::after { width: 70px; height: 70px; right: 18%; top: -38px; }
+.wisp:nth-child(3) { top: 14%; animation-duration: 150s; animation-delay: -40s; }
+.wisp:nth-child(4) { top: 34%; width: 420px; animation-duration: 190s; animation-delay: -120s; opacity: 0.4; }
+.wisp:nth-child(5) { top: 55%; width: 260px; animation-duration: 170s; animation-delay: -75s; }
 
 @keyframes drift {
-  from { transform: translateX(-30vw); }
+  from { transform: translateX(-40vw); }
   to { transform: translateX(130vw); }
+}
+
+/* Mer de nuages en bas de l'écran */
+.cloud-sea {
+  position: absolute;
+  left: -20vw;
+  right: -20vw;
+  bottom: -12vh;
+  height: 30vh;
+}
+
+.cloud-sea span {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.sea-back { inset: 0 0 0 0; background: #fff; filter: url(#sea-back); }
+.sea-mid { left: 4%; right: 6%; top: 42%; bottom: -10%; background: var(--cloud-shade); opacity: 0.55; filter: url(#sea-mid); }
+.sea-front { left: 10%; right: 12%; top: 8%; bottom: 40%; background: #fff; filter: url(#sea-front); }
+
+/* Particules de lumière */
+.mote {
+  position: absolute;
+  bottom: -10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, rgba(255, 236, 170, 0.9) 40%, transparent 70%);
+  filter: blur(0.5px);
+  animation: rise-up linear infinite;
+}
+
+@keyframes rise-up {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.7; }
+  100% { transform: translate(40px, -105vh); opacity: 0; }
 }
 
 /* ===== En-tête ===== */
 .site-header {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2.5rem 1rem 2rem;
+  padding: 2.5rem 1rem 1.5rem;
   text-align: center;
 }
 
@@ -167,9 +204,11 @@ button:focus-visible {
 h1 {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 8vw, 4.2rem);
+  font-size: clamp(2.4rem, 8vw, 4.4rem);
+  font-weight: 700;
   line-height: 1.1;
-  text-shadow: 0 0 30px #fff, 0 0 60px rgba(255, 225, 140, 0.8);
+  color: var(--ink);
+  text-shadow: 0 0 24px #fff, 0 0 48px #fff, 0 2px 2px rgba(255, 255, 255, 0.9);
 }
 
 h1 span {
@@ -182,148 +221,175 @@ h1 span {
   font-style: italic;
   font-size: clamp(1.15rem, 3vw, 1.45rem);
   color: var(--ink-soft);
+  text-shadow: 0 0 12px #fff;
 }
 
 .hint {
   display: inline-block;
   margin: 1.25rem 0 0;
-  padding: 0.5rem 1.1rem;
-  border: 1px solid var(--gold-soft);
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   color: var(--ink-soft);
-  box-shadow: 0 4px 20px rgba(232, 193, 90, 0.2);
+  box-shadow: 0 6px 24px rgba(120, 150, 190, 0.18);
 }
 
-/* ===== Nuages (navigation) — mobile d'abord : 2 colonnes ===== */
+/* ===== Nuages cliquables (navigation) — mobile d'abord ===== */
 .clouds {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 3.5rem 1rem;
+  gap: 2rem 0.5rem;
   margin: 0;
-  padding: 4rem 0 1rem;
+  padding: 2.5rem 0 1rem;
   list-style: none;
 }
 
 .clouds li {
   display: flex;
   justify-content: center;
-  animation: float 6s ease-in-out infinite;
+  animation: float 7s ease-in-out infinite;
+  will-change: transform;
 }
 
 .clouds li:nth-child(even) {
   margin-top: 2.5rem;
-  animation-delay: -3s;
-  animation-duration: 7.5s;
+  animation-delay: -3.5s;
+  animation-duration: 8.5s;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 
 .cloud {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 250px;
-  height: 80px;
-  border-radius: 60px;
-  background: var(--cloud);
+  max-width: 300px;
+  height: 115px;
   color: var(--ink);
   text-decoration: none;
-  filter: drop-shadow(0 14px 18px var(--cloud-shade));
-  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1), filter 0.3s;
 }
 
-.cloud::before,
-.cloud::after {
-  content: "";
+.cloud-body {
   position: absolute;
-  z-index: -1;
-  aspect-ratio: 1;
+  inset: 0;
+  transition: transform 0.6s cubic-bezier(0.2, 1.2, 0.4, 1), filter 0.4s;
+}
+
+.cloud-body span {
+  position: absolute;
   border-radius: 50%;
-  background: var(--cloud);
 }
 
-.cloud::before { width: 42%; left: 12%; top: -40%; }
-.cloud::after { width: 52%; right: 10%; top: -58%; }
+.c-back { left: 6%; right: 6%; top: 10%; bottom: 10%; background: radial-gradient(ellipse at 50% 25%, #fff 45%, #e3eaf3 100%); filter: url(#cloud-back-a); }
+.c-mid { left: 20%; right: 18%; top: 52%; bottom: 16%; background: var(--cloud-shade); opacity: 0.6; filter: url(#cloud-mid-a); }
+.c-front { left: 16%; right: 22%; top: 2%; bottom: 46%; background: #fffdf6; filter: url(#cloud-front-a); }
 
-.cloud-icon {
-  margin-top: -1rem;
-  font-size: 1.4rem;
-  line-height: 1;
-}
+.clouds li:nth-child(even) .c-back { left: 2%; right: 10%; filter: url(#cloud-back-b); }
+.clouds li:nth-child(even) .c-mid { left: 14%; right: 24%; filter: url(#cloud-mid-b); }
+.clouds li:nth-child(even) .c-front { left: 24%; right: 14%; filter: url(#cloud-front-b); }
+
+.clouds li:nth-child(3n) .c-back { top: 4%; }
+.clouds li:nth-child(3n) .c-front { left: 12%; right: 30%; }
 
 .cloud-label {
-  margin-top: 0.25rem;
+  position: relative;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 22px #fff;
 }
 
-.cloud:hover {
-  transform: scale(1.07);
-  filter: drop-shadow(0 14px 22px rgba(232, 193, 90, 0.6));
+.cloud:hover .cloud-body {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 22px rgba(255, 222, 140, 0.9));
 }
 
 .cloud:focus-visible {
   outline: 3px solid var(--gold-deep);
-  outline-offset: 6px;
+  outline-offset: 4px;
+  border-radius: 60px;
 }
 
 /* ===== Parchemin (CV complet) ===== */
 main {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 1rem 1rem 2rem;
+  padding: 1rem 1.5rem 2rem;
 }
 
 .scroll {
   position: relative;
-  padding: 22px 0;
+  padding: 26px 0;
 }
 
-.scroll::before,
-.scroll::after {
+.rod {
+  position: absolute;
+  left: -14px;
+  right: -14px;
+  z-index: 2;
+  height: 26px;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #4a2c12 0%, #9c6936 28%, #d8a86c 42%, #a06d3a 60%, #5a3717 85%, #2e1b09 100%);
+  box-shadow: 0 10px 16px rgba(60, 35, 10, 0.35);
+}
+
+.rod::before,
+.rod::after {
   content: "";
   position: absolute;
-  left: -10px;
-  right: -10px;
-  z-index: 1;
-  height: 30px;
-  border-radius: 15px;
-  background: linear-gradient(180deg, #e6c98a 0%, #f7e8c0 40%, #c9a45c 100%);
-  box-shadow: 0 6px 12px rgba(120, 85, 20, 0.25);
+  top: -6px;
+  width: 24px;
+  height: 38px;
+  border-radius: 50% / 40%;
+  background: radial-gradient(circle at 35% 30%, #fff5cc 0%, #e8bd52 35%, #9a6b12 75%, #5a3c06 100%);
+  box-shadow: 0 4px 8px rgba(60, 35, 10, 0.4);
 }
 
-.scroll::before { top: 8px; }
-.scroll::after { bottom: 8px; }
+.rod::before { left: -12px; }
+.rod::after { right: -12px; }
+.rod-top { top: 4px; }
+.rod-bottom { bottom: 4px; }
 
 .parchment {
   position: relative;
+  isolation: isolate;
   padding: 3rem 1.25rem 2.5rem;
-  border-left: 1px solid var(--parchment-edge);
-  border-right: 1px solid var(--parchment-edge);
-  color: var(--parchment-ink);
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(255, 255, 255, 0.6), transparent 50%),
-    radial-gradient(ellipse at 80% 90%, rgba(201, 164, 92, 0.25), transparent 55%),
-    linear-gradient(180deg, var(--parchment-1), var(--parchment-2));
+  color: var(--paper-ink);
   transform-origin: top center;
+}
+
+.parchment::before {
+  content: "";
+  position: absolute;
+  inset: 0 -4px;
+  z-index: -1;
+  background-color: #efdcb0;
+  background-image:
+    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(120, 78, 28, 0.38) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .38 0 0 0 0 .16 0 0 0 .5 -.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .28 0 0 0 0 .12 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #f6e8c6 0%, #eed9a8 50%, #e4c98f 100%);
+  filter: url(#paper-rough) drop-shadow(0 12px 24px rgba(80, 50, 15, 0.3));
 }
 
 .cv-name {
   margin: 0 0 0.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--parchment-edge);
+  border-bottom: 1px solid var(--paper-edge);
   font-family: var(--font-heading);
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 700;
   text-align: center;
+  color: var(--paper-title);
 }
 
 .parchment section {
@@ -335,12 +401,12 @@ h2 {
   margin: 0 0 0.75rem;
   font-family: var(--font-heading);
   font-size: 1.5rem;
-  color: var(--parchment-title);
+  color: var(--paper-title);
 }
 
 .parchment h2 {
   padding-bottom: 0.25rem;
-  border-bottom: 1px dashed var(--parchment-edge);
+  border-bottom: 1px dashed var(--paper-edge);
 }
 
 h3 {
@@ -353,13 +419,13 @@ h3 {
 .meta {
   margin: 0.15rem 0 0.5rem;
   font-weight: 600;
-  color: var(--parchment-title);
+  color: var(--paper-title);
 }
 
 .entry {
   margin-bottom: 0.75rem;
   padding: 0.75rem 0 0.5rem 1rem;
-  border-left: 3px solid var(--parchment-edge);
+  border-left: 3px solid var(--paper-edge);
 }
 
 .entry ul {
@@ -387,6 +453,7 @@ h3 {
   height: 6px;
   border: 2px solid var(--gold);
   border-radius: 50%;
+  box-shadow: 0 0 6px rgba(227, 181, 74, 0.7);
 }
 
 .contact,
@@ -402,9 +469,9 @@ h3 {
 .chips li,
 .contact li {
   padding: 0.5rem 1.1rem;
-  border: 1px solid var(--parchment-edge);
+  border: 1px solid var(--paper-edge);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 250, 235, 0.45);
 }
 
 .parchment-actions {
@@ -414,10 +481,10 @@ h3 {
 
 .btn {
   padding: 0.6rem 1.4rem;
-  border: 1px solid var(--parchment-edge);
+  border: 1px solid var(--paper-edge);
   border-radius: 999px;
-  background: #fff8e6;
-  color: var(--parchment-title);
+  background: #fbf1d8;
+  color: var(--paper-title);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -431,19 +498,20 @@ h3 {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  z-index: 2;
+  z-index: 3;
   width: 44px;
   height: 44px;
-  border: 1px solid var(--gold-soft);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.85);
   color: var(--gold-deep);
   font-size: 1.2rem;
   cursor: pointer;
+  box-shadow: 0 4px 14px rgba(80, 60, 20, 0.2);
 }
 
 .close-btn:hover {
-  background: var(--gold-soft);
+  background: #fff;
 }
 
 /* ===== Mode JavaScript : le parchemin s'ouvre par l'ange ===== */
@@ -461,31 +529,32 @@ h3 {
   inset: 0;
   z-index: 20;
   max-width: none;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 1.5rem;
+  overflow-x: hidden;
   overflow-y: auto;
-  background: rgba(255, 250, 235, 0.7);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(240, 246, 252, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .js.cv-open #closeCv {
   position: fixed;
   top: 1.25rem;
   right: 1.25rem;
-  box-shadow: 0 4px 14px rgba(120, 85, 20, 0.25);
+  z-index: 5;
 }
 
 .js.cv-open .scroll {
   max-width: 780px;
   margin: 0 auto;
-  animation: unroll 0.8s cubic-bezier(0.3, 0.9, 0.3, 1);
+  animation: unroll 0.9s cubic-bezier(0.3, 0.9, 0.3, 1);
 }
 
 @keyframes unroll {
-  from { transform: scaleY(0.05); opacity: 0.4; }
+  from { transform: scaleY(0.04); opacity: 0.5; }
 }
 
-/* ===== Fenêtre d'une section (nuage) ===== */
+/* ===== Fenêtre d'une section (verre dépoli) ===== */
 dialog {
   width: 100%;
   max-width: min(680px, calc(100vw - 2rem));
@@ -498,7 +567,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background: rgba(255, 250, 235, 0.65);
+  background: rgba(235, 244, 252, 0.45);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
@@ -508,29 +577,37 @@ dialog::backdrop {
   max-height: calc(100vh - 3rem);
   overflow-y: auto;
   padding: 2.25rem 1.25rem 1.5rem;
-  border: 2px solid var(--gold-soft);
-  border-radius: 30px;
-  background: linear-gradient(180deg, #fff 0%, #fffaf0 100%);
-  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.6), 0 20px 60px rgba(232, 193, 90, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 252, 244, 0.82) 100%);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: 0 30px 80px rgba(90, 120, 160, 0.3), 0 0 60px rgba(255, 236, 180, 0.45), inset 0 1px 0 #fff;
 }
 
 dialog[open] .panel {
-  animation: rise 0.45s cubic-bezier(0.2, 1.3, 0.4, 1);
+  animation: appear 0.5s cubic-bezier(0.2, 1.2, 0.4, 1);
 }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(30px) scale(0.92); }
+@keyframes appear {
+  from { opacity: 0; transform: translateY(24px) scale(0.94); filter: blur(6px); }
 }
 
 .panel h2 {
   padding-right: 3rem;
   font-size: 1.8rem;
+  color: var(--gold-deep);
 }
 
 .panel .entry,
 .panel .chips li,
 .panel .contact li {
   border-color: var(--gold-soft);
+}
+
+.panel .chips li,
+.panel .contact li {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .panel .meta {
@@ -543,13 +620,13 @@ dialog[open] .panel {
   left: 0;
   top: 0;
   z-index: 10;
-  width: 105px;
+  width: 120px;
   padding: 0;
   border: 0;
   background: none;
   font: inherit;
   cursor: pointer;
-  filter: drop-shadow(0 0 18px rgba(255, 225, 140, 0.9));
+  filter: drop-shadow(0 8px 14px rgba(90, 110, 150, 0.25));
   will-change: transform;
 }
 
@@ -561,7 +638,8 @@ dialog[open] .panel {
   display: block;
   width: 100%;
   height: auto;
-  transition: transform 0.4s;
+  overflow: visible;
+  transition: transform 0.5s;
 }
 
 .angel.facing-left svg {
@@ -579,9 +657,9 @@ dialog[open] .panel {
   bottom: 100%;
   transform: translateX(-50%);
   padding: 0.3rem 0.8rem;
-  border: 1px solid var(--gold-soft);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 999px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.85);
   color: var(--gold-deep);
   white-space: nowrap;
   opacity: 0;
@@ -594,47 +672,29 @@ dialog[open] .panel {
   opacity: 1;
 }
 
-.wing {
-  transform-box: fill-box;
-  transform-origin: 100% 60%;
-  animation: flap 0.5s ease-in-out infinite alternate;
-}
-
-@keyframes flap {
-  from { transform: rotate(12deg); }
-  to { transform: rotate(-18deg); }
-}
-
-.halo {
-  animation: halo 2s ease-in-out infinite;
-}
-
-@keyframes halo {
-  50% { transform: translateY(-3px); }
-}
-
 /* ===== Pied de page ===== */
 .site-footer {
   padding: 2rem 1rem 3rem;
   text-align: center;
-  color: var(--ink-soft);
+  color: var(--ink);
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff;
 }
 
 /* ===== Tablette ===== */
 @media (min-width: 600px) {
-  .cloud { height: 96px; }
-  .cloud-icon { font-size: 1.7rem; }
-  .cloud-label { font-size: 1.4rem; }
-  .parchment { padding: 3rem 3rem 2.5rem; }
-  .panel { padding: 2.5rem 2.25rem 2rem; border-radius: 40px; }
-  .angel { width: 150px; }
+  .clouds { gap: 3rem 1.5rem; }
+  .cloud { height: 140px; }
+  .cloud-label { font-size: 1.45rem; }
+  .parchment { padding: 3.25rem 3.25rem 2.75rem; }
+  .panel { padding: 2.5rem 2.25rem 2rem; border-radius: 34px; }
+  .angel { width: 170px; }
 }
 
 /* ===== Desktop : 3 colonnes de nuages ===== */
 @media (min-width: 900px) {
   .clouds {
     grid-template-columns: repeat(3, 1fr);
-    gap: 4.5rem 2.5rem;
+    gap: 3.5rem 2.5rem;
   }
 
   .clouds li:nth-child(even) { margin-top: 0; }
@@ -657,13 +717,13 @@ dialog[open] .panel {
 @media print {
   body { background: #fff; }
 
-  .rays,
-  .sky-decor,
+  .sky,
   .site-header,
   .site-footer,
   .angel,
   .close-btn,
   .parchment-actions,
+  .rod,
   dialog,
   .skip-link {
     display: none !important;
@@ -678,14 +738,8 @@ dialog[open] .panel {
     overflow: visible;
   }
 
-  .scroll::before,
-  .scroll::after { display: none; }
-
-  .parchment {
-    padding: 0;
-    border: 0;
-    background: #fff;
-  }
+  .parchment { padding: 0; }
+  .parchment::before { display: none; }
 }
   </style>
   <script>document.documentElement.classList.add("js");</script>
@@ -694,31 +748,96 @@ dialog[open] .panel {
 <body>
   <a class="skip-link" href="#cv">Aller directement au CV complet</a>
 
-  <div class="rays" aria-hidden="true"></div>
-  <div class="sky-decor" id="skyDecor" aria-hidden="true"></div>
+  <!-- Filtres SVG : nuages volumétriques et bords du parchemin -->
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <filter id="cloud-back-a" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="5" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="85" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+    <filter id="cloud-mid-a" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="4" seed="9"/>
+      <feDisplacementMap in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="cloud-front-a" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" seed="14"/>
+      <feDisplacementMap in="SourceGraphic" scale="55" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+    <filter id="cloud-back-b" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="5" seed="23"/>
+      <feDisplacementMap in="SourceGraphic" scale="85" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+    <filter id="cloud-mid-b" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="4" seed="31"/>
+      <feDisplacementMap in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="cloud-front-b" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" seed="37"/>
+      <feDisplacementMap in="SourceGraphic" scale="55" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+    <filter id="wisp" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="5"/>
+      <feDisplacementMap in="SourceGraphic" scale="90" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+    <filter id="sea-back" x="-20%" y="-50%" width="140%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="5" seed="2"/>
+      <feDisplacementMap in="SourceGraphic" scale="170" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="sea-mid" x="-20%" y="-50%" width="140%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="12"/>
+      <feDisplacementMap in="SourceGraphic" scale="130" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <filter id="sea-front" x="-20%" y="-50%" width="140%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="4" seed="19"/>
+      <feDisplacementMap in="SourceGraphic" scale="110" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+    <filter id="paper-rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="6"/>
+      <feDisplacementMap in="SourceGraphic" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <div class="sky" id="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="rays"></div>
+    <span class="wisp"></span>
+    <span class="wisp"></span>
+    <span class="wisp"></span>
+    <div class="cloud-sea"><span class="sea-back"></span><span class="sea-mid"></span><span class="sea-front"></span></div>
+  </div>
 
   <header class="site-header">
     <p class="gate">✦ Bienvenue au paradis du CV ✦</p>
     <h1>Alexis <span>Dominguez</span></h1>
     <p class="subtitle">Alternant BTS SIO SISR – Systèmes &amp; Réseaux</p>
-    <p class="hint">Cliquez sur un nuage… ou attrapez le petit ange pour lire le parchemin complet</p>
+    <p class="hint">Cliquez sur un nuage… ou attrapez l'ange pour lire le parchemin complet</p>
 
     <nav aria-label="Sections du CV">
       <ul class="clouds">
-        <li><a class="cloud" href="#presentation"><span class="cloud-icon" aria-hidden="true">😇</span><span class="cloud-label">Présentation</span></a></li>
-        <li><a class="cloud" href="#experiences"><span class="cloud-icon" aria-hidden="true">💼</span><span class="cloud-label">Expériences</span></a></li>
-        <li><a class="cloud" href="#formations"><span class="cloud-icon" aria-hidden="true">🎓</span><span class="cloud-label">Formations</span></a></li>
-        <li><a class="cloud" href="#competences"><span class="cloud-icon" aria-hidden="true">⚡</span><span class="cloud-label">Compétences</span></a></li>
-        <li><a class="cloud" href="#langues"><span class="cloud-icon" aria-hidden="true">🗣️</span><span class="cloud-label">Langues</span></a></li>
-        <li><a class="cloud" href="#hobbies"><span class="cloud-icon" aria-hidden="true">🌈</span><span class="cloud-label">Hobbies</span></a></li>
+        <li><a class="cloud" href="#presentation"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Présentation</span></a></li>
+        <li><a class="cloud" href="#experiences"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Expériences</span></a></li>
+        <li><a class="cloud" href="#formations"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Formations</span></a></li>
+        <li><a class="cloud" href="#competences"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Compétences</span></a></li>
+        <li><a class="cloud" href="#langues"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Langues</span></a></li>
+        <li><a class="cloud" href="#hobbies"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Hobbies</span></a></li>
       </ul>
     </nav>
   </header>
 
   <main id="cv" tabindex="-1">
+    <button class="close-btn" type="button" id="closeCv" hidden aria-label="Fermer le parchemin">✕</button>
     <div class="scroll">
+      <span class="rod rod-top" aria-hidden="true"></span>
       <div class="parchment">
-        <button class="close-btn" type="button" id="closeCv" hidden aria-label="Fermer le parchemin">✕</button>
         <p class="cv-name" aria-hidden="true">Alexis Dominguez</p>
 
         <section id="presentation" aria-labelledby="presentation-title">
@@ -726,7 +845,7 @@ dialog[open] .panel {
           <p>En reconversion professionnelle vers l'informatique, je souhaite intégrer un <strong>BTS SIO option SISR</strong> afin de développer mes compétences en <strong>systèmes, réseaux et cybersécurité</strong>, dans le cadre d'une alternance motivante et formatrice.</p>
           <ul class="contact">
             <li>Permis A et B</li>
-            <li><a href="https://github.com/VOTRE-ALIAS">Voir mon profil GitHub</a></li>
+            <li><a href="https://github.com/alexisdm24">Voir mon profil GitHub</a></li>
           </ul>
         </section>
 
@@ -815,51 +934,79 @@ dialog[open] .panel {
           <button class="btn" type="button" id="printBtn" hidden>Imprimer le CV</button>
         </p>
       </div>
+      <span class="rod rod-bottom" aria-hidden="true"></span>
     </div>
   </main>
 
   <footer class="site-footer">
-    <p>© 2026 Alexis Dominguez · <a href="https://github.com/VOTRE-ALIAS">Voir mes projets sur GitHub</a></p>
+    <p>© 2026 Alexis Dominguez · <a href="https://github.com/alexisdm24">Voir mes projets sur GitHub</a></p>
   </footer>
 
   <button class="angel" id="angel" type="button" hidden aria-label="Ouvrir le CV complet sur le parchemin de l'ange">
     <span class="angel-tip" aria-hidden="true">Lire mon parchemin ✨</span>
-    <svg viewBox="0 0 160 140" aria-hidden="true" focusable="false">
-      <g class="wing">
-        <path d="M72 64 C48 30 16 30 6 52 C18 52 22 60 14 70 C30 68 36 78 28 88 C46 86 58 80 72 74 Z" fill="#fff" stroke="#f0dca0" stroke-width="1.5"/>
-        <path d="M62 60 C46 46 30 44 20 50 M60 68 C44 62 32 64 24 70" stroke="#f0dca0" stroke-width="1.2" fill="none"/>
+    <svg viewBox="0 0 200 210" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="a-aura"><stop offset="0" stop-color="#fffbe8" stop-opacity="0.95"/><stop offset="0.55" stop-color="#fff3c8" stop-opacity="0.35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="a-skin" cx="0.42" cy="0.38" r="0.65"><stop offset="0" stop-color="#fff2e8"/><stop offset="0.65" stop-color="#f7d0b4"/><stop offset="1" stop-color="#dfa585"/></radialGradient>
+        <radialGradient id="a-hair" cx="0.4" cy="0.3" r="0.7"><stop offset="0" stop-color="#fff3c0"/><stop offset="0.45" stop-color="#e8bd5a"/><stop offset="1" stop-color="#9c6b22"/></radialGradient>
+        <linearGradient id="a-robe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="0.55" stop-color="#f3f0f6"/><stop offset="1" stop-color="#c9c2d6"/></linearGradient>
+        <linearGradient id="a-feather" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="0.6" stop-color="#f7f4ee"/><stop offset="1" stop-color="#d8cfc1"/></linearGradient>
+        <linearGradient id="a-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c9"/><stop offset="0.5" stop-color="#f0c24a"/><stop offset="1" stop-color="#a87814"/></linearGradient>
+        <linearGradient id="a-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0d2"/><stop offset="1" stop-color="#dfc285"/></linearGradient>
+        <filter id="a-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+        <path id="a-plume" d="M0 0 C-12 -6 -44 -7 -62 -1 C-66 0 -66 2 -62 3 C-44 7 -12 6 0 0 Z"/>
+      </defs>
+
+      <circle cx="100" cy="100" r="98" fill="url(#a-aura)"/>
+
+      <!-- Ailes (plumes ajoutées par js/app.js) -->
+      <g transform="translate(90 90)"><g class="wing"><animateTransform attributeName="transform" type="rotate" values="-8;16;-8" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="1.2s" repeatCount="indefinite"/></g></g>
+      <g transform="translate(110 90) scale(-1 1)"><g class="wing"><animateTransform attributeName="transform" type="rotate" values="-8;16;-8" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="1.2s" repeatCount="indefinite"/></g></g>
+
+      <!-- Cheveux (arrière) -->
+      <ellipse cx="100" cy="53" rx="21" ry="21" fill="url(#a-hair)"/>
+
+      <!-- Pieds et robe -->
+      <ellipse cx="91" cy="193" rx="5" ry="3" fill="url(#a-skin)"/>
+      <ellipse cx="109" cy="193" rx="5" ry="3" fill="url(#a-skin)"/>
+      <path d="M100 76 C84 76 78 92 76 116 L66 184 Q100 196 134 184 L124 116 C122 92 116 76 100 76 Z" fill="url(#a-robe)" stroke="#d6d0e0" stroke-width="0.8"/>
+      <path d="M90 124 Q86 152 82 186 M100 128 Q100 158 100 191 M110 124 Q114 152 118 186" stroke="#b7aec8" stroke-width="1.2" fill="none" opacity="0.55"/>
+      <path d="M68 182 Q100 194 132 182" stroke="url(#a-gold)" stroke-width="2.5" fill="none"/>
+      <path d="M88 80 Q100 90 112 80" stroke="url(#a-gold)" stroke-width="2.5" fill="none"/>
+
+      <!-- Cou et tête -->
+      <rect x="95" y="68" width="10" height="12" rx="4" fill="url(#a-skin)"/>
+      <circle cx="100" cy="56" r="18" fill="url(#a-skin)"/>
+      <circle cx="90" cy="63" r="4.5" fill="#f29a98" opacity="0.4" filter="url(#a-blur)"/>
+      <circle cx="110" cy="63" r="4.5" fill="#f29a98" opacity="0.4" filter="url(#a-blur)"/>
+      <path d="M90 52 Q94 50 97 51 M103 51 Q106 50 110 52" stroke="#b98c4e" stroke-width="1" fill="none" opacity="0.7"/>
+      <path d="M91 57 Q94 60 97 57 M103 57 Q106 60 109 57" stroke="#5e4034" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <path d="M100 59 Q101.5 63 99 64.5" stroke="#d2987a" stroke-width="1" fill="none"/>
+      <path d="M96 68 Q100 71 104 68" stroke="#c9675f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+      <!-- Boucles (avant) -->
+      <g fill="url(#a-hair)">
+        <circle cx="85" cy="46" r="7"/><circle cx="92" cy="40" r="7"/><circle cx="100" cy="38" r="7.5"/>
+        <circle cx="108" cy="40" r="7"/><circle cx="115" cy="46" r="7"/><circle cx="82" cy="55" r="5"/><circle cx="118" cy="55" r="5"/>
       </g>
-      <g transform="translate(160 0) scale(-1 1)">
-        <g class="wing">
-          <path d="M72 64 C48 30 16 30 6 52 C18 52 22 60 14 70 C30 68 36 78 28 88 C46 86 58 80 72 74 Z" fill="#fff" stroke="#f0dca0" stroke-width="1.5"/>
-          <path d="M62 60 C46 46 30 44 20 50 M60 68 C44 62 32 64 24 70" stroke="#f0dca0" stroke-width="1.2" fill="none"/>
-        </g>
-      </g>
-      <path d="M80 56 C68 56 64 72 62 98 L57 122 Q80 130 103 122 L98 98 C96 72 92 56 80 56 Z" fill="#fff" stroke="#ecd9a4" stroke-width="1.5"/>
-      <path d="M70 60 Q80 66 90 60 M60 120 Q80 127 100 120" stroke="#e8c15a" stroke-width="2" fill="none"/>
-      <ellipse cx="73" cy="126" rx="4" ry="2.5" fill="#ffe1c9"/>
-      <ellipse cx="87" cy="126" rx="4" ry="2.5" fill="#ffe1c9"/>
-      <path d="M68 64 Q60 76 62 86 L70 86 Q70 76 74 68 Z M92 64 Q100 76 98 86 L90 86 Q90 76 86 68 Z" fill="#fff" stroke="#ecd9a4" stroke-width="1.2"/>
-      <rect x="58" y="82" width="44" height="16" rx="2" fill="#f6e6bb" stroke="#c9a45c" stroke-width="1.2"/>
-      <path d="M64 87 H96 M64 91 H92 M64 95 H88" stroke="#c9a45c" stroke-width="0.8"/>
-      <ellipse cx="58" cy="90" rx="4" ry="9" fill="#e3c585" stroke="#b08a3e"/>
-      <ellipse cx="102" cy="90" rx="4" ry="9" fill="#e3c585" stroke="#b08a3e"/>
-      <circle cx="80" cy="98" r="3.5" fill="#d9534f"/>
-      <circle cx="63" cy="88" r="4" fill="#ffe1c9"/>
-      <circle cx="97" cy="88" r="4" fill="#ffe1c9"/>
-      <circle cx="80" cy="42" r="14" fill="#ffe1c9"/>
-      <g fill="#f2c94c">
-        <circle cx="70" cy="33" r="5"/><circle cx="76" cy="29" r="5"/><circle cx="83" cy="28" r="5"/>
-        <circle cx="89" cy="32" r="5"/><circle cx="92" cy="38" r="4"/><circle cx="68" cy="39" r="4"/>
-      </g>
-      <path d="M73 43 Q75 45 77 43 M83 43 Q85 45 87 43" stroke="#5a4636" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <circle cx="72" cy="48" r="2.5" fill="#ffb3b3" opacity="0.8"/>
-      <circle cx="88" cy="48" r="2.5" fill="#ffb3b3" opacity="0.8"/>
-      <path d="M77 50 Q80 53 83 50" stroke="#c46a5a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <g class="halo">
-        <ellipse cx="80" cy="20" rx="14" ry="4" fill="none" stroke="#f5c542" stroke-width="3"/>
-        <ellipse cx="80" cy="20" rx="14" ry="4" fill="none" stroke="#fff6cc" stroke-width="1"/>
-      </g>
+
+      <!-- Bras et parchemin -->
+      <path d="M84 84 Q70 100 72 124 L84 126 Q84 106 90 94 Z" fill="url(#a-robe)" stroke="#d6d0e0" stroke-width="0.8"/>
+      <path d="M116 84 Q130 100 128 124 L116 126 Q116 106 110 94 Z" fill="url(#a-robe)" stroke="#d6d0e0" stroke-width="0.8"/>
+      <rect x="70" y="116" width="60" height="22" rx="2" fill="url(#a-paper)" stroke="#b8964f" stroke-width="0.8"/>
+      <path d="M78 123 H122 M78 128 H118 M78 133 H112" stroke="#8a6a35" stroke-width="0.7" opacity="0.55"/>
+      <ellipse cx="70" cy="127" rx="5" ry="12" fill="#e8d3a0" stroke="#a8864a" stroke-width="0.8"/>
+      <ellipse cx="130" cy="127" rx="5" ry="12" fill="#e8d3a0" stroke="#a8864a" stroke-width="0.8"/>
+      <circle cx="70" cy="114" r="3" fill="url(#a-gold)"/><circle cx="70" cy="140" r="3" fill="url(#a-gold)"/>
+      <circle cx="130" cy="114" r="3" fill="url(#a-gold)"/><circle cx="130" cy="140" r="3" fill="url(#a-gold)"/>
+      <path d="M97 139 L95 148 M103 139 L105 148" stroke="#a3262a" stroke-width="2"/>
+      <circle cx="100" cy="139" r="4.5" fill="#a3262a"/>
+      <circle cx="76" cy="125" r="5" fill="url(#a-skin)"/>
+      <circle cx="124" cy="125" r="5" fill="url(#a-skin)"/>
+
+      <!-- Auréole -->
+      <ellipse cx="100" cy="24" rx="20" ry="5.5" fill="none" stroke="#ffe9a0" stroke-width="6" opacity="0.8" filter="url(#a-blur)"/>
+      <ellipse cx="100" cy="24" rx="20" ry="5.5" fill="none" stroke="url(#a-gold)" stroke-width="3.5"/>
     </svg>
   </button>
 
