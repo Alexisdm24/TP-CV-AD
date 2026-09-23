@@ -3,86 +3,871 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prénom Nom — CV Étudiant BTS SIO</title>
-  <meta name="description" content="CV en ligne de Prénom Nom, étudiant en BTS SIO 1ère année, à la recherche d'une alternance en développement web.">
-  <link rel="stylesheet" href="css/style.css">
+  <title>Alexis Dominguez – CV alternance BTS SIO SISR</title>
+  <meta name="description" content="CV en ligne d'Alexis Dominguez : reconversion vers l'informatique, recherche d'alternance en BTS SIO option SISR (systèmes, réseaux, cybersécurité).">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='16' rx='13' ry='5' fill='none' stroke='%23e8c15a' stroke-width='4'/%3E%3C/svg%3E">
+  <style>
+/* ===== Design tokens ===== */
+:root {
+  --sky-top: #fffdf5;
+  --sky-mid: #fdf6e3;
+  --sky-low: #e9f4ff;
+  --gold: #e8c15a;
+  --gold-soft: #f7e3a3;
+  --gold-deep: #7d5a10;
+  --ink: #3a3548;
+  --ink-soft: #5c5570;
+  --cloud: #ffffff;
+  --cloud-shade: rgba(160, 175, 210, 0.35);
+  --parchment-1: #fbf2d8;
+  --parchment-2: #f1dfae;
+  --parchment-edge: #c9a45c;
+  --parchment-ink: #3b2f1c;
+  --parchment-title: #6e4a0c;
+  --font-heading: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ===== Reset minimal ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background-color: var(--sky-top);
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% -5%, #fffbe6 0%, rgba(255, 246, 204, 0.9) 35%, transparent 70%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 45%, var(--sky-low) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--gold-deep);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 3px;
+}
+
+/* ===== Lien d'évitement ===== */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 30;
+  padding: 0.5rem 1rem;
+  background: var(--gold-deep);
+  color: #fff;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* ===== Décor céleste ===== */
+.rays {
+  position: fixed;
+  top: -60vmax;
+  left: 50%;
+  width: 120vmax;
+  height: 120vmax;
+  margin-left: -60vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 230, 150, 0.22) 0deg 6deg, transparent 6deg 18deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 65%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 65%);
+  animation: spin 120s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.sky-decor {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--gold) 45%, transparent 70%);
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.far-cloud {
+  position: absolute;
+  left: 0;
+  height: 40px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.75);
+  filter: blur(2px);
+  animation: drift linear infinite;
+}
+
+.far-cloud::before,
+.far-cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.far-cloud::before { width: 50px; height: 50px; left: 20%; top: -25px; }
+.far-cloud::after { width: 70px; height: 70px; right: 18%; top: -38px; }
+
+@keyframes drift {
+  from { transform: translateX(-30vw); }
+  to { transform: translateX(130vw); }
+}
+
+/* ===== En-tête ===== */
+.site-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 2rem;
+  text-align: center;
+}
+
+.gate {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 8vw, 4.2rem);
+  line-height: 1.1;
+  text-shadow: 0 0 30px #fff, 0 0 60px rgba(255, 225, 140, 0.8);
+}
+
+h1 span {
+  color: var(--gold-deep);
+}
+
+.subtitle {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  color: var(--ink-soft);
+}
+
+.hint {
+  display: inline-block;
+  margin: 1.25rem 0 0;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink-soft);
+  box-shadow: 0 4px 20px rgba(232, 193, 90, 0.2);
+}
+
+/* ===== Nuages (navigation) — mobile d'abord : 2 colonnes ===== */
+.clouds {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3.5rem 1rem;
+  margin: 0;
+  padding: 4rem 0 1rem;
+  list-style: none;
+}
+
+.clouds li {
+  display: flex;
+  justify-content: center;
+  animation: float 6s ease-in-out infinite;
+}
+
+.clouds li:nth-child(even) {
+  margin-top: 2.5rem;
+  animation-delay: -3s;
+  animation-duration: 7.5s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.cloud {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 250px;
+  height: 80px;
+  border-radius: 60px;
+  background: var(--cloud);
+  color: var(--ink);
+  text-decoration: none;
+  filter: drop-shadow(0 14px 18px var(--cloud-shade));
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1), filter 0.3s;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--cloud);
+}
+
+.cloud::before { width: 42%; left: 12%; top: -40%; }
+.cloud::after { width: 52%; right: 10%; top: -58%; }
+
+.cloud-icon {
+  margin-top: -1rem;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.cloud-label {
+  margin-top: 0.25rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.cloud:hover {
+  transform: scale(1.07);
+  filter: drop-shadow(0 14px 22px rgba(232, 193, 90, 0.6));
+}
+
+.cloud:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 6px;
+}
+
+/* ===== Parchemin (CV complet) ===== */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+}
+
+.scroll {
+  position: relative;
+  padding: 22px 0;
+}
+
+.scroll::before,
+.scroll::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  z-index: 1;
+  height: 30px;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #e6c98a 0%, #f7e8c0 40%, #c9a45c 100%);
+  box-shadow: 0 6px 12px rgba(120, 85, 20, 0.25);
+}
+
+.scroll::before { top: 8px; }
+.scroll::after { bottom: 8px; }
+
+.parchment {
+  position: relative;
+  padding: 3rem 1.25rem 2.5rem;
+  border-left: 1px solid var(--parchment-edge);
+  border-right: 1px solid var(--parchment-edge);
+  color: var(--parchment-ink);
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255, 255, 255, 0.6), transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(201, 164, 92, 0.25), transparent 55%),
+    linear-gradient(180deg, var(--parchment-1), var(--parchment-2));
+  transform-origin: top center;
+}
+
+.cv-name {
+  margin: 0 0 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--parchment-edge);
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.parchment section {
+  margin-top: 1.5rem;
+  scroll-margin-top: 1.5rem;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--parchment-title);
+}
+
+.parchment h2 {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px dashed var(--parchment-edge);
+}
+
+h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.meta {
+  margin: 0.15rem 0 0.5rem;
+  font-weight: 600;
+  color: var(--parchment-title);
+}
+
+.entry {
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 0 0.5rem 1rem;
+  border-left: 3px solid var(--parchment-edge);
+}
+
+.entry ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.halo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.halo-list li {
+  position: relative;
+  padding: 0.4rem 0 0.4rem 1.9rem;
+}
+
+.halo-list li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.95rem;
+  width: 14px;
+  height: 6px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+
+.contact,
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li,
+.contact li {
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--parchment-edge);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.parchment-actions {
+  margin: 1.75rem 0 0;
+  text-align: center;
+}
+
+.btn {
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--parchment-edge);
+  border-radius: 999px;
+  background: #fff8e6;
+  color: var(--parchment-title);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--gold-soft);
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--gold-deep);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: var(--gold-soft);
+}
+
+/* ===== Mode JavaScript : le parchemin s'ouvre par l'ange ===== */
+.js main {
+  display: none;
+}
+
+.js.cv-open {
+  overflow: hidden;
+}
+
+.js.cv-open main {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  max-width: none;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  background: rgba(255, 250, 235, 0.7);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.js.cv-open #closeCv {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  box-shadow: 0 4px 14px rgba(120, 85, 20, 0.25);
+}
+
+.js.cv-open .scroll {
+  max-width: 780px;
+  margin: 0 auto;
+  animation: unroll 0.8s cubic-bezier(0.3, 0.9, 0.3, 1);
+}
+
+@keyframes unroll {
+  from { transform: scaleY(0.05); opacity: 0.4; }
+}
+
+/* ===== Fenêtre d'une section (nuage) ===== */
+dialog {
+  width: 100%;
+  max-width: min(680px, calc(100vw - 2rem));
+  max-height: calc(100vh - 3rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+
+dialog::backdrop {
+  background: rgba(255, 250, 235, 0.65);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.panel {
+  position: relative;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding: 2.25rem 1.25rem 1.5rem;
+  border: 2px solid var(--gold-soft);
+  border-radius: 30px;
+  background: linear-gradient(180deg, #fff 0%, #fffaf0 100%);
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.6), 0 20px 60px rgba(232, 193, 90, 0.35);
+}
+
+dialog[open] .panel {
+  animation: rise 0.45s cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(30px) scale(0.92); }
+}
+
+.panel h2 {
+  padding-right: 3rem;
+  font-size: 1.8rem;
+}
+
+.panel .entry,
+.panel .chips li,
+.panel .contact li {
+  border-color: var(--gold-soft);
+}
+
+.panel .meta {
+  color: var(--gold-deep);
+}
+
+/* ===== Ange ===== */
+.angel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 105px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  filter: drop-shadow(0 0 18px rgba(255, 225, 140, 0.9));
+  will-change: transform;
+}
+
+.angel[hidden] {
+  display: none;
+}
+
+.angel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s;
+}
+
+.angel.facing-left svg {
+  transform: scaleX(-1);
+}
+
+.angel:focus-visible {
+  outline: 3px dashed var(--gold-deep);
+  border-radius: 20px;
+}
+
+.angel-tip {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--gold-deep);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.angel:hover .angel-tip,
+.angel:focus-visible .angel-tip {
+  opacity: 1;
+}
+
+.wing {
+  transform-box: fill-box;
+  transform-origin: 100% 60%;
+  animation: flap 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes flap {
+  from { transform: rotate(12deg); }
+  to { transform: rotate(-18deg); }
+}
+
+.halo {
+  animation: halo 2s ease-in-out infinite;
+}
+
+@keyframes halo {
+  50% { transform: translateY(-3px); }
+}
+
+/* ===== Pied de page ===== */
+.site-footer {
+  padding: 2rem 1rem 3rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+/* ===== Tablette ===== */
+@media (min-width: 600px) {
+  .cloud { height: 96px; }
+  .cloud-icon { font-size: 1.7rem; }
+  .cloud-label { font-size: 1.4rem; }
+  .parchment { padding: 3rem 3rem 2.5rem; }
+  .panel { padding: 2.5rem 2.25rem 2rem; border-radius: 40px; }
+  .angel { width: 150px; }
+}
+
+/* ===== Desktop : 3 colonnes de nuages ===== */
+@media (min-width: 900px) {
+  .clouds {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4.5rem 2.5rem;
+  }
+
+  .clouds li:nth-child(even) { margin-top: 0; }
+  .clouds li:nth-child(3n + 2) { margin-top: 3rem; }
+}
+
+/* ===== Mouvement réduit ===== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ===== Impression : uniquement le CV ===== */
+@media print {
+  body { background: #fff; }
+
+  .rays,
+  .sky-decor,
+  .site-header,
+  .site-footer,
+  .angel,
+  .close-btn,
+  .parchment-actions,
+  dialog,
+  .skip-link {
+    display: none !important;
+  }
+
+  .js main,
+  .js.cv-open main {
+    display: block;
+    position: static;
+    padding: 0;
+    background: none;
+    overflow: visible;
+  }
+
+  .scroll::before,
+  .scroll::after { display: none; }
+
+  .parchment {
+    padding: 0;
+    border: 0;
+    background: #fff;
+  }
+}
+  </style>
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/app.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#cv">Aller directement au CV complet</a>
 
-  <a class="skip-link" href="#contenu">Aller au contenu principal</a>
+  <div class="rays" aria-hidden="true"></div>
+  <div class="sky-decor" id="skyDecor" aria-hidden="true"></div>
 
   <header class="site-header">
-    <h1>Prénom Nom</h1>
-    <p class="tagline">Étudiant en BTS SIO — 1<sup>re</sup> année</p>
-    <p class="header-links">
-      <a href="https://github.com/ton-pseudo" target="_blank" rel="noopener">Voir mon profil GitHub</a>
-    </p>
+    <p class="gate">✦ Bienvenue au paradis du CV ✦</p>
+    <h1>Alexis <span>Dominguez</span></h1>
+    <p class="subtitle">Alternant BTS SIO SISR – Systèmes &amp; Réseaux</p>
+    <p class="hint">Cliquez sur un nuage… ou attrapez le petit ange pour lire le parchemin complet</p>
+
+    <nav aria-label="Sections du CV">
+      <ul class="clouds">
+        <li><a class="cloud" href="#presentation"><span class="cloud-icon" aria-hidden="true">😇</span><span class="cloud-label">Présentation</span></a></li>
+        <li><a class="cloud" href="#experiences"><span class="cloud-icon" aria-hidden="true">💼</span><span class="cloud-label">Expériences</span></a></li>
+        <li><a class="cloud" href="#formations"><span class="cloud-icon" aria-hidden="true">🎓</span><span class="cloud-label">Formations</span></a></li>
+        <li><a class="cloud" href="#competences"><span class="cloud-icon" aria-hidden="true">⚡</span><span class="cloud-label">Compétences</span></a></li>
+        <li><a class="cloud" href="#langues"><span class="cloud-icon" aria-hidden="true">🗣️</span><span class="cloud-label">Langues</span></a></li>
+        <li><a class="cloud" href="#hobbies"><span class="cloud-icon" aria-hidden="true">🌈</span><span class="cloud-label">Hobbies</span></a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main id="contenu">
+  <main id="cv" tabindex="-1">
+    <div class="scroll">
+      <div class="parchment">
+        <button class="close-btn" type="button" id="closeCv" hidden aria-label="Fermer le parchemin">✕</button>
+        <p class="cv-name" aria-hidden="true">Alexis Dominguez</p>
 
-    <section id="presentation" aria-labelledby="presentation-titre">
-      <h2 id="presentation-titre">Présentation</h2>
-      <p>
-        Décris ici en 2 à 3 lignes qui tu es, ce que tu cherches
-        (alternance ou stage) et ce que tu apportes.
-      </p>
-    </section>
+        <section id="presentation" aria-labelledby="presentation-title">
+          <h2 id="presentation-title">Présentation</h2>
+          <p>En reconversion professionnelle vers l'informatique, je souhaite intégrer un <strong>BTS SIO option SISR</strong> afin de développer mes compétences en <strong>systèmes, réseaux et cybersécurité</strong>, dans le cadre d'une alternance motivante et formatrice.</p>
+          <ul class="contact">
+            <li>Permis A et B</li>
+            <li><a href="https://github.com/VOTRE-ALIAS">Voir mon profil GitHub</a></li>
+          </ul>
+        </section>
 
-    <section id="competences" aria-labelledby="competences-titre">
-      <h2 id="competences-titre">Compétences</h2>
-      <ul class="skills-list">
-        <li>HTML / CSS / JavaScript</li>
-        <li>Git / GitHub</li>
-        <li>Bases de données SQL</li>
-        <li>Réseaux / Systèmes</li>
-      </ul>
-    </section>
+        <section id="experiences" aria-labelledby="experiences-title">
+          <h2 id="experiences-title">Expériences professionnelles</h2>
+          <article class="entry">
+            <h3>Responsable magasin – Dafy-Moto, Plan de Campagne</h3>
+            <p class="meta"><time datetime="2024-01">Janvier 2024</time> – <time datetime="2025-06">juin 2025</time></p>
+            <ul>
+              <li>Encadrement d'une équipe de vente (jusqu'à 8 personnes)</li>
+              <li>Gestion des stocks, des commandes et des réassorts</li>
+              <li>Suivi de la satisfaction client et traitement des réclamations</li>
+              <li>Animation commerciale et organisation du magasin</li>
+            </ul>
+          </article>
+          <article class="entry">
+            <h3>Responsable adjoint – Dafy-Moto, Plan de Campagne</h3>
+            <p class="meta"><time datetime="2019-12">Décembre 2019</time> – <time datetime="2023-12">décembre 2023</time></p>
+            <ul>
+              <li>Gestion du réassort et du merchandising</li>
+              <li>Gestion des réseaux sociaux du magasin</li>
+              <li>Assistance au management de l'équipe</li>
+            </ul>
+          </article>
+          <article class="entry">
+            <h3>Vendeur – Dafy-Moto, Plan de Campagne</h3>
+            <p class="meta"><time datetime="2018-05">Mai 2018</time> – <time datetime="2019-11">novembre 2019</time></p>
+            <ul>
+              <li>Accueil et conseil client</li>
+              <li>Réception et mise en rayon des produits</li>
+              <li>Gestion des SAV</li>
+            </ul>
+          </article>
+          <article class="entry">
+            <h3>Apprenti pâtissier / Pâtissier – EURL Le Tual, Monteux</h3>
+            <p class="meta"><time datetime="2014">2014</time> – <time datetime="2017">2017</time></p>
+            <ul>
+              <li>Préparation de pâtisseries artisanales</li>
+              <li>Respect des normes d'hygiène et de qualité</li>
+            </ul>
+          </article>
+        </section>
 
-    <section id="formation" aria-labelledby="formation-titre">
-      <h2 id="formation-titre">Formation</h2>
+        <section id="formations" aria-labelledby="formations-title">
+          <h2 id="formations-title">Formations</h2>
+          <article class="entry">
+            <h3>Titre professionnel Vendeur Conseil en Magasin (niveau IV)</h3>
+            <p class="meta"><time datetime="2018">2018</time> · AFPA, Avignon – Le Pontet</p>
+          </article>
+          <article class="entry">
+            <h3>CAP Pâtisserie (cursus suivi)</h3>
+            <p class="meta"><time datetime="2014">2014</time> – <time datetime="2016">2016</time> · CFA, Avignon</p>
+          </article>
+        </section>
 
-      <article class="entry">
-        <h3>BTS SIO — 1<sup>re</sup> année</h3>
-        <p class="entry-meta"><time datetime="2025-09">2025</time> – <time datetime="2027-06">2027</time> · Nom de l'établissement, Ville</p>
-      </article>
+        <section id="competences" aria-labelledby="competences-title">
+          <h2 id="competences-title">Compétences</h2>
+          <ul class="halo-list">
+            <li>Intérêt marqué pour les systèmes, les réseaux et la cybersécurité</li>
+            <li>Compréhension des enjeux de la sécurité informatique</li>
+            <li>Capacité d'analyse et de résolution de problèmes</li>
+            <li>Rigueur, organisation et respect des procédures</li>
+            <li>Communication professionnelle et travail en équipe</li>
+          </ul>
+        </section>
 
-      <article class="entry">
-        <h3>Baccalauréat [série]</h3>
-        <p class="entry-meta"><time datetime="2025-06">2025</time> · Nom du lycée, Ville</p>
-      </article>
-    </section>
+        <section id="langues" aria-labelledby="langues-title">
+          <h2 id="langues-title">Langues</h2>
+          <ul class="halo-list">
+            <li><strong>Français</strong> : langue maternelle</li>
+            <li><strong>Anglais</strong> : notions</li>
+          </ul>
+        </section>
 
-    <section id="experiences" aria-labelledby="experiences-titre">
-      <h2 id="experiences-titre">Expériences &amp; projets</h2>
+        <section id="hobbies" aria-labelledby="hobbies-title">
+          <h2 id="hobbies-title">Centres d'intérêt</h2>
+          <ul class="chips">
+            <li>Informatique</li>
+            <li>Moto</li>
+            <li>Musculation</li>
+            <li>Randonnée</li>
+          </ul>
+        </section>
 
-      <article class="entry">
-        <h3>Titre du projet ou poste</h3>
-        <p>Décris ce que tu as fait et, si possible, un résultat mesurable.</p>
-      </article>
-
-      <article class="entry">
-        <h3>Titre du projet ou poste</h3>
-        <p>Description courte du projet et de son résultat.</p>
-      </article>
-    </section>
-
-    <section id="interets" aria-labelledby="interets-titre">
-      <h2 id="interets-titre">Centres d'intérêt</h2>
-      <ul class="skills-list">
-        <li>Centre d'intérêt 1</li>
-        <li>Centre d'intérêt 2</li>
-      </ul>
-    </section>
-
+        <p class="parchment-actions">
+          <button class="btn" type="button" id="printBtn" hidden>Imprimer le CV</button>
+        </p>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">
-    <p>Me contacter via mon profil GitHub :
-      <a href="https://github.com/ton-pseudo" target="_blank" rel="noopener">github.com/ton-pseudo</a>
-    </p>
+    <p>© 2026 Alexis Dominguez · <a href="https://github.com/VOTRE-ALIAS">Voir mes projets sur GitHub</a></p>
   </footer>
 
-  <script src="js/app.js" defer></script>
+  <button class="angel" id="angel" type="button" hidden aria-label="Ouvrir le CV complet sur le parchemin de l'ange">
+    <span class="angel-tip" aria-hidden="true">Lire mon parchemin ✨</span>
+    <svg viewBox="0 0 160 140" aria-hidden="true" focusable="false">
+      <g class="wing">
+        <path d="M72 64 C48 30 16 30 6 52 C18 52 22 60 14 70 C30 68 36 78 28 88 C46 86 58 80 72 74 Z" fill="#fff" stroke="#f0dca0" stroke-width="1.5"/>
+        <path d="M62 60 C46 46 30 44 20 50 M60 68 C44 62 32 64 24 70" stroke="#f0dca0" stroke-width="1.2" fill="none"/>
+      </g>
+      <g transform="translate(160 0) scale(-1 1)">
+        <g class="wing">
+          <path d="M72 64 C48 30 16 30 6 52 C18 52 22 60 14 70 C30 68 36 78 28 88 C46 86 58 80 72 74 Z" fill="#fff" stroke="#f0dca0" stroke-width="1.5"/>
+          <path d="M62 60 C46 46 30 44 20 50 M60 68 C44 62 32 64 24 70" stroke="#f0dca0" stroke-width="1.2" fill="none"/>
+        </g>
+      </g>
+      <path d="M80 56 C68 56 64 72 62 98 L57 122 Q80 130 103 122 L98 98 C96 72 92 56 80 56 Z" fill="#fff" stroke="#ecd9a4" stroke-width="1.5"/>
+      <path d="M70 60 Q80 66 90 60 M60 120 Q80 127 100 120" stroke="#e8c15a" stroke-width="2" fill="none"/>
+      <ellipse cx="73" cy="126" rx="4" ry="2.5" fill="#ffe1c9"/>
+      <ellipse cx="87" cy="126" rx="4" ry="2.5" fill="#ffe1c9"/>
+      <path d="M68 64 Q60 76 62 86 L70 86 Q70 76 74 68 Z M92 64 Q100 76 98 86 L90 86 Q90 76 86 68 Z" fill="#fff" stroke="#ecd9a4" stroke-width="1.2"/>
+      <rect x="58" y="82" width="44" height="16" rx="2" fill="#f6e6bb" stroke="#c9a45c" stroke-width="1.2"/>
+      <path d="M64 87 H96 M64 91 H92 M64 95 H88" stroke="#c9a45c" stroke-width="0.8"/>
+      <ellipse cx="58" cy="90" rx="4" ry="9" fill="#e3c585" stroke="#b08a3e"/>
+      <ellipse cx="102" cy="90" rx="4" ry="9" fill="#e3c585" stroke="#b08a3e"/>
+      <circle cx="80" cy="98" r="3.5" fill="#d9534f"/>
+      <circle cx="63" cy="88" r="4" fill="#ffe1c9"/>
+      <circle cx="97" cy="88" r="4" fill="#ffe1c9"/>
+      <circle cx="80" cy="42" r="14" fill="#ffe1c9"/>
+      <g fill="#f2c94c">
+        <circle cx="70" cy="33" r="5"/><circle cx="76" cy="29" r="5"/><circle cx="83" cy="28" r="5"/>
+        <circle cx="89" cy="32" r="5"/><circle cx="92" cy="38" r="4"/><circle cx="68" cy="39" r="4"/>
+      </g>
+      <path d="M73 43 Q75 45 77 43 M83 43 Q85 45 87 43" stroke="#5a4636" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="72" cy="48" r="2.5" fill="#ffb3b3" opacity="0.8"/>
+      <circle cx="88" cy="48" r="2.5" fill="#ffb3b3" opacity="0.8"/>
+      <path d="M77 50 Q80 53 83 50" stroke="#c46a5a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <g class="halo">
+        <ellipse cx="80" cy="20" rx="14" ry="4" fill="none" stroke="#f5c542" stroke-width="3"/>
+        <ellipse cx="80" cy="20" rx="14" ry="4" fill="none" stroke="#fff6cc" stroke-width="1"/>
+      </g>
+    </svg>
+  </button>
+
+  <dialog id="sectionDialog" aria-label="Section du CV">
+    <div class="panel">
+      <button class="close-btn" type="button" id="closeSection" aria-label="Fermer la section">✕</button>
+      <div id="sectionContent"></div>
+    </div>
+  </dialog>
 </body>
 </html>

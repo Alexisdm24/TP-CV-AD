@@ -2,7 +2,7 @@
 
 **Alternant BTS SIO SISR – Systèmes & Réseaux**
 
-📍 00 000 Ville · 📞 00 00 00 00 00 · ✉️ [adresse@mail.fr] · 🚗 Permis A et B
+🚗 Permis A et B · 🔗 [Voir mon profil GitHub](https://github.com/VOTRE-ALIAS)
 
 ---
 
