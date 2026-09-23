@@ -626,7 +626,7 @@ dialog[open] .panel {
   background: none;
   font: inherit;
   cursor: pointer;
-  filter: drop-shadow(0 8px 14px rgba(90, 110, 150, 0.25));
+  filter: drop-shadow(0 14px 16px rgba(70, 85, 110, 0.3)) drop-shadow(0 0 20px rgba(255, 244, 210, 0.6));
   will-change: transform;
 }
 
@@ -944,69 +944,101 @@ dialog[open] .panel {
 
   <button class="angel" id="angel" type="button" hidden aria-label="Ouvrir le CV complet sur le parchemin de l'ange">
     <span class="angel-tip" aria-hidden="true">Lire mon parchemin ✨</span>
-    <svg viewBox="0 0 200 210" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 200 220" aria-hidden="true" focusable="false">
       <defs>
-        <radialGradient id="a-aura"><stop offset="0" stop-color="#fffbe8" stop-opacity="0.95"/><stop offset="0.55" stop-color="#fff3c8" stop-opacity="0.35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-        <radialGradient id="a-skin" cx="0.42" cy="0.38" r="0.65"><stop offset="0" stop-color="#fff2e8"/><stop offset="0.65" stop-color="#f7d0b4"/><stop offset="1" stop-color="#dfa585"/></radialGradient>
-        <radialGradient id="a-hair" cx="0.4" cy="0.3" r="0.7"><stop offset="0" stop-color="#fff3c0"/><stop offset="0.45" stop-color="#e8bd5a"/><stop offset="1" stop-color="#9c6b22"/></radialGradient>
-        <linearGradient id="a-robe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="0.55" stop-color="#f3f0f6"/><stop offset="1" stop-color="#c9c2d6"/></linearGradient>
-        <linearGradient id="a-feather" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="0.6" stop-color="#f7f4ee"/><stop offset="1" stop-color="#d8cfc1"/></linearGradient>
-        <linearGradient id="a-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c9"/><stop offset="0.5" stop-color="#f0c24a"/><stop offset="1" stop-color="#a87814"/></linearGradient>
-        <linearGradient id="a-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0d2"/><stop offset="1" stop-color="#dfc285"/></linearGradient>
-        <filter id="a-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
-        <path id="a-plume" d="M0 0 C-12 -6 -44 -7 -62 -1 C-66 0 -66 2 -62 3 C-44 7 -12 6 0 0 Z"/>
+        <linearGradient id="s-stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f2eb"/><stop offset="0.5" stop-color="#dcd7cc"/><stop offset="1" stop-color="#aba597"/></linearGradient>
+        <linearGradient id="s-stone-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9d4c8"/><stop offset="1" stop-color="#948e81"/></linearGradient>
+        <!-- Pierre : relief (éclairage sur la silhouette adoucie) + grain -->
+        <filter id="a-stone" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="8" result="grain"/>
+          <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.33 0.33 0.33 0 0" result="grainAlpha"/>
+          <feComposite in="grainAlpha" in2="soft" operator="arithmetic" k2="0.07" k3="1" result="height"/>
+          <feDiffuseLighting in="height" surfaceScale="3" diffuseConstant="1.15" lighting-color="#fffaf0" result="light">
+            <feDistantLight azimuth="225" elevation="50"/>
+          </feDiffuseLighting>
+          <feComposite in="light" in2="SourceAlpha" operator="in" result="lightMask"/>
+          <feBlend in="SourceGraphic" in2="lightMask" mode="multiply" result="shaded"/>
+          <feComposite in="shaded" in2="SourceAlpha" operator="in"/>
+        </filter>
+        <path id="a-plume" d="M0 0 C-10 -6 -36 -7 -52 -1 C-56 0 -56 2 -52 3 C-36 7 -10 6 0 0 Z"/>
       </defs>
 
-      <circle cx="100" cy="100" r="98" fill="url(#a-aura)"/>
-
-      <!-- Ailes (plumes ajoutées par js/app.js) -->
-      <g transform="translate(90 90)"><g class="wing"><animateTransform attributeName="transform" type="rotate" values="-8;16;-8" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="1.2s" repeatCount="indefinite"/></g></g>
-      <g transform="translate(110 90) scale(-1 1)"><g class="wing"><animateTransform attributeName="transform" type="rotate" values="-8;16;-8" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="1.2s" repeatCount="indefinite"/></g></g>
-
-      <!-- Cheveux (arrière) -->
-      <ellipse cx="100" cy="53" rx="21" ry="21" fill="url(#a-hair)"/>
-
-      <!-- Pieds et robe -->
-      <ellipse cx="91" cy="193" rx="5" ry="3" fill="url(#a-skin)"/>
-      <ellipse cx="109" cy="193" rx="5" ry="3" fill="url(#a-skin)"/>
-      <path d="M100 76 C84 76 78 92 76 116 L66 184 Q100 196 134 184 L124 116 C122 92 116 76 100 76 Z" fill="url(#a-robe)" stroke="#d6d0e0" stroke-width="0.8"/>
-      <path d="M90 124 Q86 152 82 186 M100 128 Q100 158 100 191 M110 124 Q114 152 118 186" stroke="#b7aec8" stroke-width="1.2" fill="none" opacity="0.55"/>
-      <path d="M68 182 Q100 194 132 182" stroke="url(#a-gold)" stroke-width="2.5" fill="none"/>
-      <path d="M88 80 Q100 90 112 80" stroke="url(#a-gold)" stroke-width="2.5" fill="none"/>
-
-      <!-- Cou et tête -->
-      <rect x="95" y="68" width="10" height="12" rx="4" fill="url(#a-skin)"/>
-      <circle cx="100" cy="56" r="18" fill="url(#a-skin)"/>
-      <circle cx="90" cy="63" r="4.5" fill="#f29a98" opacity="0.4" filter="url(#a-blur)"/>
-      <circle cx="110" cy="63" r="4.5" fill="#f29a98" opacity="0.4" filter="url(#a-blur)"/>
-      <path d="M90 52 Q94 50 97 51 M103 51 Q106 50 110 52" stroke="#b98c4e" stroke-width="1" fill="none" opacity="0.7"/>
-      <path d="M91 57 Q94 60 97 57 M103 57 Q106 60 109 57" stroke="#5e4034" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      <path d="M100 59 Q101.5 63 99 64.5" stroke="#d2987a" stroke-width="1" fill="none"/>
-      <path d="M96 68 Q100 71 104 68" stroke="#c9675f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-
-      <!-- Boucles (avant) -->
-      <g fill="url(#a-hair)">
-        <circle cx="85" cy="46" r="7"/><circle cx="92" cy="40" r="7"/><circle cx="100" cy="38" r="7.5"/>
-        <circle cx="108" cy="40" r="7"/><circle cx="115" cy="46" r="7"/><circle cx="82" cy="55" r="5"/><circle cx="118" cy="55" r="5"/>
+      <!-- Ailes sculptées (plumes ajoutées par js/app.js) -->
+      <g filter="url(#a-stone)">
+        <g class="wing" transform="translate(86 98)"></g>
+        <g class="wing" transform="translate(114 98) scale(-1 1)"></g>
       </g>
 
-      <!-- Bras et parchemin -->
-      <path d="M84 84 Q70 100 72 124 L84 126 Q84 106 90 94 Z" fill="url(#a-robe)" stroke="#d6d0e0" stroke-width="0.8"/>
-      <path d="M116 84 Q130 100 128 124 L116 126 Q116 106 110 94 Z" fill="url(#a-robe)" stroke="#d6d0e0" stroke-width="0.8"/>
-      <rect x="70" y="116" width="60" height="22" rx="2" fill="url(#a-paper)" stroke="#b8964f" stroke-width="0.8"/>
-      <path d="M78 123 H122 M78 128 H118 M78 133 H112" stroke="#8a6a35" stroke-width="0.7" opacity="0.55"/>
-      <ellipse cx="70" cy="127" rx="5" ry="12" fill="#e8d3a0" stroke="#a8864a" stroke-width="0.8"/>
-      <ellipse cx="130" cy="127" rx="5" ry="12" fill="#e8d3a0" stroke="#a8864a" stroke-width="0.8"/>
-      <circle cx="70" cy="114" r="3" fill="url(#a-gold)"/><circle cx="70" cy="140" r="3" fill="url(#a-gold)"/>
-      <circle cx="130" cy="114" r="3" fill="url(#a-gold)"/><circle cx="130" cy="140" r="3" fill="url(#a-gold)"/>
-      <path d="M97 139 L95 148 M103 139 L105 148" stroke="#a3262a" stroke-width="2"/>
-      <circle cx="100" cy="139" r="4.5" fill="#a3262a"/>
-      <circle cx="76" cy="125" r="5" fill="url(#a-skin)"/>
-      <circle cx="124" cy="125" r="5" fill="url(#a-skin)"/>
+      <!-- Carquois et flèches à pointe en cœur -->
+      <g filter="url(#a-stone)" fill="url(#s-stone-dark)" stroke="#8f897d" stroke-width="0.6">
+        <g transform="rotate(-28 126 96)">
+          <rect x="119" y="74" width="15" height="44" rx="6"/>
+          <path d="M123 74 V56 M127 74 V52 M131 74 V58" stroke="#8f897d" stroke-width="1.6"/>
+          <path d="M127 45 C124 41 120 45 123 49 L127 53 L131 49 C134 45 130 41 127 45 Z"/>
+          <path d="M120 60 L123 56 L126 60 M128 64 L131 58 L134 64"/>
+        </g>
+      </g>
 
-      <!-- Auréole -->
-      <ellipse cx="100" cy="24" rx="20" ry="5.5" fill="none" stroke="#ffe9a0" stroke-width="6" opacity="0.8" filter="url(#a-blur)"/>
-      <ellipse cx="100" cy="24" rx="20" ry="5.5" fill="none" stroke="url(#a-gold)" stroke-width="3.5"/>
+      <!-- Jambes potelées -->
+      <g filter="url(#a-stone)" fill="url(#s-stone-dark)">
+        <ellipse cx="86" cy="158" rx="13" ry="18" transform="rotate(25 86 158)"/>
+        <ellipse cx="75" cy="180" rx="9" ry="14" transform="rotate(-35 75 180)"/>
+        <ellipse cx="67" cy="191" rx="7" ry="4" transform="rotate(-20 67 191)"/>
+        <ellipse cx="114" cy="156" rx="13" ry="18" transform="rotate(-30 114 156)"/>
+        <ellipse cx="128" cy="172" rx="9" ry="14" transform="rotate(45 128 172)"/>
+        <ellipse cx="138" cy="181" rx="7" ry="4" transform="rotate(30 138 181)"/>
+      </g>
+
+      <!-- Corps et drapé -->
+      <g filter="url(#a-stone)" fill="url(#s-stone)">
+        <path d="M100 90 C80 90 72 105 74 124 C76 142 86 153 100 153 C114 153 124 142 126 124 C128 105 120 90 100 90 Z"/>
+        <path d="M72 134 Q100 150 128 128 Q126 150 112 161 Q100 167 86 161 Q76 153 72 134 Z"/>
+        <path d="M126 130 Q142 132 148 144 Q136 142 122 142 Z"/>
+      </g>
+      <path d="M84 143 Q92 152 90 160 M100 147 Q104 156 100 164 M114 141 Q116 150 112 158" fill="none" stroke="#8f897d" stroke-width="1" opacity="0.7"/>
+      <path d="M99 112 Q101 114 99 116" fill="none" stroke="#8f897d" stroke-width="0.8" opacity="0.6"/>
+
+      <!-- Bras -->
+      <g filter="url(#a-stone)" fill="url(#s-stone)">
+        <ellipse cx="77" cy="110" rx="8" ry="14" transform="rotate(18 77 110)"/>
+        <ellipse cx="123" cy="110" rx="8" ry="14" transform="rotate(-18 123 110)"/>
+        <ellipse cx="79" cy="126" rx="6.5" ry="10" transform="rotate(-55 79 126)"/>
+        <ellipse cx="121" cy="126" rx="6.5" ry="10" transform="rotate(55 121 126)"/>
+      </g>
+
+      <!-- Parchemin de pierre -->
+      <g filter="url(#a-stone)" fill="url(#s-stone)">
+        <rect x="80" y="121" width="40" height="19" rx="2"/>
+        <ellipse cx="80" cy="130.5" rx="4.5" ry="11"/>
+        <ellipse cx="120" cy="130.5" rx="4.5" ry="11"/>
+      </g>
+      <path d="M87 127 H113 M87 131 H110 M87 135 H106" stroke="#8f897d" stroke-width="0.8" opacity="0.7"/>
+
+      <!-- Mains -->
+      <g filter="url(#a-stone)" fill="url(#s-stone)">
+        <circle cx="85" cy="131" r="6"/>
+        <circle cx="115" cy="131" r="6"/>
+      </g>
+
+      <!-- Tête et boucles -->
+      <g filter="url(#a-stone)" fill="url(#s-stone)">
+        <circle cx="100" cy="68" r="24"/>
+        <circle cx="80" cy="56" r="7"/><circle cx="86" cy="48" r="7"/><circle cx="94" cy="44" r="7"/>
+        <circle cx="102" cy="43" r="7"/><circle cx="110" cy="45" r="7"/><circle cx="117" cy="50" r="7"/>
+        <circle cx="122" cy="58" r="6.5"/><circle cx="77" cy="66" r="6"/><circle cx="123" cy="67" r="6"/>
+        <circle cx="90" cy="53" r="4.5"/><circle cx="98" cy="50" r="4.5"/><circle cx="107" cy="52" r="4.5"/>
+      </g>
+      <g fill="none" stroke="#8f897d" stroke-width="0.9" opacity="0.65">
+        <circle cx="80" cy="56" r="3"/><circle cx="86" cy="48" r="3"/><circle cx="94" cy="44" r="3"/>
+        <circle cx="102" cy="43" r="3"/><circle cx="110" cy="45" r="3"/><circle cx="117" cy="50" r="3"/>
+        <circle cx="122" cy="58" r="2.5"/><circle cx="77" cy="66" r="2.5"/><circle cx="123" cy="67" r="2.5"/>
+      </g>
+      <!-- Visage sculpté (yeux sans pupille, comme sur les statues) -->
+      <path d="M87 66 Q91 64 95 66 M105 66 Q109 64 113 66" fill="none" stroke="#8f897d" stroke-width="0.9" opacity="0.7"/>
+      <path d="M88 71 Q92 68 96 71 Q92 73 88 71 Z M104 71 Q108 68 112 71 Q108 73 104 71 Z" fill="#b3ad9f" stroke="#8f897d" stroke-width="0.6"/>
+      <path d="M100 72 Q102.5 78 99 79.5" fill="none" stroke="#8f897d" stroke-width="1"/>
+      <path d="M95.5 84 Q100 87.5 104.5 84" fill="none" stroke="#8f897d" stroke-width="1.3" stroke-linecap="round"/>
     </svg>
   </button>
 

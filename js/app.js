@@ -97,12 +97,12 @@ function fly(now) {
 }
 requestAnimationFrame(fly);
 
-/* ===== Ailes : trois rangées de plumes, en éventail depuis l'épaule ===== */
+/* ===== Ailes de pierre : trois rangées de plumes sculptées, en éventail ===== */
 const SVG_NS = "http://www.w3.org/2000/svg";
 const featherRows = [
-  { count: 11, from: -30, to: 72, length: [1.2, 1.75], width: 1.2 }, // rémiges
-  { count: 9, from: -12, to: 66, length: [0.8, 1.05], width: 1.1 },  // couvertures
-  { count: 7, from: 4, to: 60, length: [0.45, 0.6], width: 1 }       // petites plumes
+  { count: 9, from: -5, to: 80, length: [0.9, 1.3], width: 1.3 },  // rémiges
+  { count: 7, from: 10, to: 74, length: [0.6, 0.8], width: 1.2 },  // couvertures
+  { count: 6, from: 20, to: 68, length: [0.35, 0.45], width: 1.1 } // petites plumes
 ];
 
 document.querySelectorAll(".angel .wing").forEach((wing) => {
@@ -113,16 +113,14 @@ document.querySelectorAll(".angel .wing").forEach((wing) => {
       const length = row.length[0] + (row.length[1] - row.length[0]) * k;
       const plume = document.createElementNS(SVG_NS, "use");
       plume.setAttribute("href", "#a-plume");
-      plume.setAttribute("fill", "url(#a-feather)");
-      plume.setAttribute("stroke", "#cfc5b5");
-      plume.setAttribute("stroke-width", "0.5");
+      plume.setAttribute("fill", "url(#s-stone)");
+      plume.setAttribute("stroke", "#8f897d");
+      plume.setAttribute("stroke-width", "0.7");
       plume.setAttribute("transform", `rotate(${angle.toFixed(1)}) scale(${length.toFixed(2)} ${row.width})`);
       wing.appendChild(plume);
     }
   });
 });
-
-if (reduceMotion) angel.querySelector("svg").pauseAnimations();
 
 /* ===== Décor : particules de lumière qui montent ===== */
 const sky = document.getElementById("sky");

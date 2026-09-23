@@ -65,6 +65,7 @@ Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
 - `<title>` raccourci à moins de 60 caractères.
 - Version « réaliste » : nuages volumétriques et mer de nuages réalisés avec
   des filtres SVG (`feTurbulence` + `feDisplacementMap`), parchemin texturé
-  aux bords irréguliers, rouleaux en bois, ange ombré aux ailes en plumes.
+  aux bords irréguliers, rouleaux en bois, et un ange en statue de pierre
+  style Cupidon (relief et grain de la pierre obtenus avec `feDiffuseLighting`).
   Toujours aucune image ni bibliothèque : tout est généré par le navigateur.
 - …
