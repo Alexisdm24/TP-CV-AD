@@ -620,7 +620,7 @@ dialog[open] .panel {
   left: 0;
   top: 0;
   z-index: 10;
-  width: 120px;
+  width: 110px;
   padding: 0;
   border: 0;
   background: none;
@@ -687,7 +687,7 @@ dialog[open] .panel {
   .cloud-label { font-size: 1.45rem; }
   .parchment { padding: 3.25rem 3.25rem 2.75rem; }
   .panel { padding: 2.5rem 2.25rem 2rem; border-radius: 34px; }
-  .angel { width: 170px; }
+  .angel { width: 150px; }
 }
 
 /* ===== Desktop : 3 colonnes de nuages ===== */
@@ -944,101 +944,118 @@ dialog[open] .panel {
 
   <button class="angel" id="angel" type="button" hidden aria-label="Ouvrir le CV complet sur le parchemin de l'ange">
     <span class="angel-tip" aria-hidden="true">Lire mon parchemin ✨</span>
-    <svg viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+    <svg viewBox="0 -40 200 300" aria-hidden="true" focusable="false">
       <defs>
-        <linearGradient id="s-stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f2eb"/><stop offset="0.5" stop-color="#dcd7cc"/><stop offset="1" stop-color="#aba597"/></linearGradient>
-        <linearGradient id="s-stone-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9d4c8"/><stop offset="1" stop-color="#948e81"/></linearGradient>
-        <!-- Pierre : relief (éclairage sur la silhouette adoucie) + grain -->
-        <filter id="a-stone" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="soft"/>
-          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="8" result="grain"/>
+        <linearGradient id="m-marble" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fdfcf9"/><stop offset="0.55" stop-color="#ece8e0"/><stop offset="1" stop-color="#cdc7bb"/></linearGradient>
+        <linearGradient id="m-marble-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6e1d7"/><stop offset="1" stop-color="#b6b0a3"/></linearGradient>
+        <!-- Marbre : relief éclairé, reflet brillant, grain fin et veines grises -->
+        <filter id="a-marble" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3.5" result="soft"/>
+          <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="3" result="grain"/>
           <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.33 0.33 0.33 0 0" result="grainAlpha"/>
-          <feComposite in="grainAlpha" in2="soft" operator="arithmetic" k2="0.07" k3="1" result="height"/>
-          <feDiffuseLighting in="height" surfaceScale="3" diffuseConstant="1.15" lighting-color="#fffaf0" result="light">
-            <feDistantLight azimuth="225" elevation="50"/>
+          <feComposite in="grainAlpha" in2="soft" operator="arithmetic" k2="0.03" k3="1" result="height"/>
+          <feDiffuseLighting in="height" surfaceScale="3" diffuseConstant="1.05" lighting-color="#fffdf7" result="light">
+            <feDistantLight azimuth="225" elevation="55"/>
           </feDiffuseLighting>
-          <feComposite in="light" in2="SourceAlpha" operator="in" result="lightMask"/>
-          <feBlend in="SourceGraphic" in2="lightMask" mode="multiply" result="shaded"/>
-          <feComposite in="shaded" in2="SourceAlpha" operator="in"/>
+          <feSpecularLighting in="height" surfaceScale="3" specularConstant="0.35" specularExponent="18" lighting-color="#fff" result="shine">
+            <feDistantLight azimuth="225" elevation="55"/>
+          </feSpecularLighting>
+          <feTurbulence type="turbulence" baseFrequency="0.012 0.045" numOctaves="4" seed="11" result="veinNoise"/>
+          <feColorMatrix in="veinNoise" type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.53  0 0 0 0 0.5  -2.2 0 0 0 0.35" result="veins"/>
+          <feComposite in="veins" in2="SourceGraphic" operator="atop" result="veined"/>
+          <feBlend in="veined" in2="light" mode="multiply" result="shaded"/>
+          <feComposite in="shine" in2="SourceAlpha" operator="in" result="shineIn"/>
+          <feComposite in="shineIn" in2="shaded" operator="arithmetic" k2="1" k3="1" result="lit"/>
+          <feComposite in="lit" in2="SourceAlpha" operator="in"/>
         </filter>
         <path id="a-plume" d="M0 0 C-10 -6 -36 -7 -52 -1 C-56 0 -56 2 -52 3 C-36 7 -10 6 0 0 Z"/>
       </defs>
 
-      <!-- Ailes sculptées (plumes ajoutées par js/app.js) -->
-      <g filter="url(#a-stone)">
-        <g class="wing" transform="translate(86 98)"></g>
-        <g class="wing" transform="translate(114 98) scale(-1 1)"></g>
+      <!-- Grandes ailes dressées (plumes ajoutées par js/app.js) -->
+      <g filter="url(#a-marble)">
+        <g class="wing" transform="translate(92 84)"></g>
+        <g class="wing" transform="translate(108 84) scale(-1 1)"></g>
       </g>
 
-      <!-- Carquois et flèches à pointe en cœur -->
-      <g filter="url(#a-stone)" fill="url(#s-stone-dark)" stroke="#8f897d" stroke-width="0.6">
-        <g transform="rotate(-28 126 96)">
-          <rect x="119" y="74" width="15" height="44" rx="6"/>
-          <path d="M123 74 V56 M127 74 V52 M131 74 V58" stroke="#8f897d" stroke-width="1.6"/>
-          <path d="M127 45 C124 41 120 45 123 49 L127 53 L131 49 C134 45 130 41 127 45 Z"/>
-          <path d="M120 60 L123 56 L126 60 M128 64 L131 58 L134 64"/>
+      <!-- Pan de draperie soulevé par le vent -->
+      <g filter="url(#a-marble)" fill="url(#m-marble-dark)">
+        <path d="M116 116 Q140 128 156 158 Q162 174 172 184 Q150 182 140 168 Q132 150 118 140 Z"/>
+      </g>
+      <path d="M124 124 Q142 140 150 162 M130 136 Q142 154 156 176" fill="none" stroke="#a9a397" stroke-width="1.2" opacity="0.7"/>
+
+      <!-- Longue tunique (chiton) -->
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <path d="M84 112 Q72 150 68 200 Q65 230 62 246 Q100 254 138 246 Q135 226 132 200 Q128 150 116 112 Z"/>
+        <path d="M62 246 Q70 242 78 247 Q86 243 94 248 Q102 244 110 248 Q118 243 126 247 Q132 243 138 246 L138 249 Q100 257 62 249 Z"/>
+        <g fill="none" stroke="#b1ab9f" stroke-width="1.5" opacity="0.65">
+          <path d="M91 116 Q84 150 86 180 Q88 210 80 244 M100 116 Q103 170 97 248 M109 116 Q118 160 114 200 Q112 224 122 244"/>
+          <path d="M76 200 Q74 222 70 244 M126 200 Q128 222 132 244 M114 190 Q116 220 118 246"/>
+        </g>
+        <g fill="none" stroke="#fff" stroke-width="1" opacity="0.9">
+          <path d="M89.5 118 Q82.5 150 84.5 180 Q86.5 210 78.5 244 M98.5 118 Q101.5 170 95.5 248 M107.5 118 Q116.5 160 112.5 200 Q110.5 224 120.5 244"/>
         </g>
       </g>
 
-      <!-- Jambes potelées -->
-      <g filter="url(#a-stone)" fill="url(#s-stone-dark)">
-        <ellipse cx="86" cy="158" rx="13" ry="18" transform="rotate(25 86 158)"/>
-        <ellipse cx="75" cy="180" rx="9" ry="14" transform="rotate(-35 75 180)"/>
-        <ellipse cx="67" cy="191" rx="7" ry="4" transform="rotate(-20 67 191)"/>
-        <ellipse cx="114" cy="156" rx="13" ry="18" transform="rotate(-30 114 156)"/>
-        <ellipse cx="128" cy="172" rx="9" ry="14" transform="rotate(45 128 172)"/>
-        <ellipse cx="138" cy="181" rx="7" ry="4" transform="rotate(30 138 181)"/>
+      <!-- Genou suggéré par les plis du drapé -->
+      <path d="M78 164 Q88 174 97 162 M77 188 Q87 196 97 186 M79 226 Q86 232 93 224" fill="none" stroke="#a9a397" stroke-width="1.2" opacity="0.75"/>
+
+      <!-- Pieds en sandales -->
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <ellipse cx="84" cy="251" rx="7" ry="3.5"/>
+        <ellipse cx="114" cy="251" rx="7" ry="3.5"/>
       </g>
 
-      <!-- Corps et drapé -->
-      <g filter="url(#a-stone)" fill="url(#s-stone)">
-        <path d="M100 90 C80 90 72 105 74 124 C76 142 86 153 100 153 C114 153 124 142 126 124 C128 105 120 90 100 90 Z"/>
-        <path d="M72 134 Q100 150 128 128 Q126 150 112 161 Q100 167 86 161 Q76 153 72 134 Z"/>
-        <path d="M126 130 Q142 132 148 144 Q136 142 122 142 Z"/>
+      <!-- Buste et ceinture -->
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <path d="M78 80 Q100 72 122 80 L124 102 Q121 111 116 115 L84 115 Q79 111 76 102 Z"/>
       </g>
-      <path d="M84 143 Q92 152 90 160 M100 147 Q104 156 100 164 M114 141 Q116 150 112 158" fill="none" stroke="#8f897d" stroke-width="1" opacity="0.7"/>
-      <path d="M99 112 Q101 114 99 116" fill="none" stroke="#8f897d" stroke-width="0.8" opacity="0.6"/>
+      <path d="M90 80 Q94 92 92 103 M100 78 Q100 92 100 104 M110 80 Q106 92 108 103" fill="none" stroke="#b1ab9f" stroke-width="1.2" opacity="0.75"/>
+      <path d="M79 105 Q100 110 121 105" fill="none" stroke="#a9a397" stroke-width="2.6"/>
+      <path d="M79 104 Q100 109 121 104" fill="none" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
 
       <!-- Bras -->
-      <g filter="url(#a-stone)" fill="url(#s-stone)">
-        <ellipse cx="77" cy="110" rx="8" ry="14" transform="rotate(18 77 110)"/>
-        <ellipse cx="123" cy="110" rx="8" ry="14" transform="rotate(-18 123 110)"/>
-        <ellipse cx="79" cy="126" rx="6.5" ry="10" transform="rotate(-55 79 126)"/>
-        <ellipse cx="121" cy="126" rx="6.5" ry="10" transform="rotate(55 121 126)"/>
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <path d="M80 80 Q70 94 72 112 L81 112 Q80 97 86 86 Z"/>
+        <path d="M120 80 Q130 94 128 112 L119 112 Q120 97 114 86 Z"/>
+        <path d="M72 108 Q76 121 88 126 L92 120 Q83 116 81 108 Z"/>
+        <path d="M128 108 Q124 121 112 126 L108 120 Q117 116 119 108 Z"/>
       </g>
 
-      <!-- Parchemin de pierre -->
-      <g filter="url(#a-stone)" fill="url(#s-stone)">
-        <rect x="80" y="121" width="40" height="19" rx="2"/>
-        <ellipse cx="80" cy="130.5" rx="4.5" ry="11"/>
-        <ellipse cx="120" cy="130.5" rx="4.5" ry="11"/>
+      <!-- Parchemin de marbre -->
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <rect x="84" y="115" width="32" height="15" rx="1.5"/>
+        <ellipse cx="84" cy="122.5" rx="4" ry="9"/>
+        <ellipse cx="116" cy="122.5" rx="4" ry="9"/>
       </g>
-      <path d="M87 127 H113 M87 131 H110 M87 135 H106" stroke="#8f897d" stroke-width="0.8" opacity="0.7"/>
+      <path d="M90 120 H110 M90 123.5 H108 M90 127 H104" stroke="#a9a397" stroke-width="0.7" opacity="0.75"/>
 
       <!-- Mains -->
-      <g filter="url(#a-stone)" fill="url(#s-stone)">
-        <circle cx="85" cy="131" r="6"/>
-        <circle cx="115" cy="131" r="6"/>
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <ellipse cx="89" cy="124" rx="4.5" ry="5"/>
+        <ellipse cx="111" cy="124" rx="4.5" ry="5"/>
       </g>
 
-      <!-- Tête et boucles -->
-      <g filter="url(#a-stone)" fill="url(#s-stone)">
-        <circle cx="100" cy="68" r="24"/>
-        <circle cx="80" cy="56" r="7"/><circle cx="86" cy="48" r="7"/><circle cx="94" cy="44" r="7"/>
-        <circle cx="102" cy="43" r="7"/><circle cx="110" cy="45" r="7"/><circle cx="117" cy="50" r="7"/>
-        <circle cx="122" cy="58" r="6.5"/><circle cx="77" cy="66" r="6"/><circle cx="123" cy="67" r="6"/>
-        <circle cx="90" cy="53" r="4.5"/><circle cx="98" cy="50" r="4.5"/><circle cx="107" cy="52" r="4.5"/>
+      <!-- Cou et tête -->
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <path d="M95 56 L95 72 Q100 75 105 72 L105 56 Z"/>
+        <ellipse cx="100" cy="46" rx="10.5" ry="13.5"/>
       </g>
-      <g fill="none" stroke="#8f897d" stroke-width="0.9" opacity="0.65">
-        <circle cx="80" cy="56" r="3"/><circle cx="86" cy="48" r="3"/><circle cx="94" cy="44" r="3"/>
-        <circle cx="102" cy="43" r="3"/><circle cx="110" cy="45" r="3"/><circle cx="117" cy="50" r="3"/>
-        <circle cx="122" cy="58" r="2.5"/><circle cx="77" cy="66" r="2.5"/><circle cx="123" cy="67" r="2.5"/>
+
+      <!-- Coiffure : ondulations, bandeau et chignon -->
+      <g filter="url(#a-marble)" fill="url(#m-marble)">
+        <ellipse cx="100" cy="27" rx="8" ry="6"/>
+        <path d="M88 46 Q85 30 100 28 Q115 30 112 46 Q111 38 104 36 Q100 40 96 36 Q89 38 88 46 Z"/>
+        <path d="M88.5 43 Q84.5 52 88 59 Q90 52 90.5 45 Z"/>
+        <path d="M111.5 43 Q115.5 52 112 59 Q110 52 109.5 45 Z"/>
       </g>
-      <!-- Visage sculpté (yeux sans pupille, comme sur les statues) -->
-      <path d="M87 66 Q91 64 95 66 M105 66 Q109 64 113 66" fill="none" stroke="#8f897d" stroke-width="0.9" opacity="0.7"/>
-      <path d="M88 71 Q92 68 96 71 Q92 73 88 71 Z M104 71 Q108 68 112 71 Q108 73 104 71 Z" fill="#b3ad9f" stroke="#8f897d" stroke-width="0.6"/>
-      <path d="M100 72 Q102.5 78 99 79.5" fill="none" stroke="#8f897d" stroke-width="1"/>
-      <path d="M95.5 84 Q100 87.5 104.5 84" fill="none" stroke="#8f897d" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M89 38 Q100 33 111 38" fill="none" stroke="#a9a397" stroke-width="1.2"/>
+      <path d="M91 34.5 Q95.5 31 100 33 Q104.5 31 109 34.5 M94 28 Q100 25 106 28" fill="none" stroke="#b1ab9f" stroke-width="0.9"/>
+
+      <!-- Visage grec : nez droit, yeux en amande sans pupille -->
+      <path d="M93 42 Q96 40.5 99 42 M101 42 Q104 40.5 107 42" fill="none" stroke="#a9a397" stroke-width="0.8"/>
+      <path d="M93.5 45.5 Q96 44 98.5 45.5 Q96 47 93.5 45.5 Z M101.5 45.5 Q104 44 106.5 45.5 Q104 47 101.5 45.5 Z" fill="#dcd7cc" stroke="#a9a397" stroke-width="0.5"/>
+      <path d="M100 42 L99.2 51.5 Q100 53 102 52" fill="none" stroke="#a9a397" stroke-width="0.8"/>
+      <path d="M97 55.5 Q100 54.4 103 55.5 M97.6 55.7 Q100 57.6 102.4 55.7" fill="none" stroke="#a29c90" stroke-width="0.8"/>
     </svg>
   </button>
 

@@ -97,29 +97,50 @@ function fly(now) {
 }
 requestAnimationFrame(fly);
 
-/* ===== Ailes de pierre : trois rangées de plumes sculptées, en éventail ===== */
+/* ===== Ailes de marbre =====
+   Comme une vraie aile : un bord d'attaque courbe monte de l'épaule vers la
+   pointe, et les plumes pendent de ce bord (courtes près du corps, longues à
+   la pointe). Trois rangées : rémiges, couvertures, petites plumes. */
 const SVG_NS = "http://www.w3.org/2000/svg";
+const EDGE = { start: [0, 0], control: [-6, -60], end: [-46, -92] };
 const featherRows = [
-  { count: 9, from: -5, to: 80, length: [0.9, 1.3], width: 1.3 },  // rémiges
-  { count: 7, from: 10, to: 74, length: [0.6, 0.8], width: 1.2 },  // couvertures
-  { count: 6, from: 20, to: 68, length: [0.35, 0.45], width: 1.1 } // petites plumes
+  { count: 18, angle: [-85, 20], length: [0.95, 1.75], width: 1.35 }, // rémiges
+  { count: 14, angle: [-80, 15], length: [0.55, 0.85], width: 1.3 },  // couvertures
+  { count: 12, angle: [-70, 10], length: [0.3, 0.42], width: 1.2 }    // petites plumes
 ];
+
+const lerp = (a, b, k) => a + (b - a) * k;
+
+function edgePoint(k) {
+  const u = 1 - k;
+  return [0, 1].map((axis) =>
+    u * u * EDGE.start[axis] + 2 * u * k * EDGE.control[axis] + k * k * EDGE.end[axis]);
+}
 
 document.querySelectorAll(".angel .wing").forEach((wing) => {
   featherRows.forEach((row) => {
     for (let i = 0; i < row.count; i++) {
-      const k = i / (row.count - 1);
-      const angle = row.from + (row.to - row.from) * k;
-      const length = row.length[0] + (row.length[1] - row.length[0]) * k;
+      const k = 0.04 + 0.96 * (i / (row.count - 1));
+      const [x, y] = edgePoint(k);
       const plume = document.createElementNS(SVG_NS, "use");
       plume.setAttribute("href", "#a-plume");
-      plume.setAttribute("fill", "url(#s-stone)");
-      plume.setAttribute("stroke", "#8f897d");
-      plume.setAttribute("stroke-width", "0.7");
-      plume.setAttribute("transform", `rotate(${angle.toFixed(1)}) scale(${length.toFixed(2)} ${row.width})`);
+      plume.setAttribute("fill", "url(#m-marble)");
+      plume.setAttribute("stroke", "#aaa498");
+      plume.setAttribute("stroke-width", "0.6");
+      plume.setAttribute("transform",
+        `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${lerp(...row.angle, k).toFixed(1)}) ` +
+        `scale(${lerp(...row.length, k).toFixed(2)} ${row.width})`);
       wing.appendChild(plume);
     }
   });
+
+  const edge = document.createElementNS(SVG_NS, "path");
+  edge.setAttribute("d", `M${EDGE.start} Q${EDGE.control} ${EDGE.end}`);
+  edge.setAttribute("fill", "none");
+  edge.setAttribute("stroke", "#f1eee7");
+  edge.setAttribute("stroke-width", "7");
+  edge.setAttribute("stroke-linecap", "round");
+  wing.appendChild(edge);
 });
 
 /* ===== Décor : particules de lumière qui montent ===== */
