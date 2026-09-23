@@ -3,8 +3,13 @@
 CV en ligne statique (HTML / CSS / JS), réalisé dans le cadre du BTS SIO,
 d'après le sujet [fabrice1618/cv_html_statique](https://github.com/fabrice1618/cv_html_statique).
 
+<<<<<<< HEAD
 - **Dépôt GitHub** : https://github.com/alexisdm24/TP-CV-AD
 - **Site en ligne (GitHub Pages)** : https://alexisdm24.github.io/TP-CV-AD/
+=======
+- **Dépôt GitHub** : [https://github.com/VOTRE-ALIAS/TP-CV-AD](https://github.com/Alexisdm24/TP-CV-AD)
+- **Site en ligne (GitHub Pages)** : [https://VOTRE-ALIAS.github.io/TP-CV-AD/](https://alexisdm24.github.io/TP-CV-AD/)
+>>>>>>> f01f09f82c18967ed110a6d1eae05125359c30f3
 
 ## Concept
 
