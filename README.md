@@ -8,12 +8,26 @@ d'après le sujet [fabrice1618/cv_html_statique](https://github.com/fabrice1618/
 
 ## Concept
 
-Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
+Thème inspiré de **Dragon Quest IX** (hommage non officiel, © Square Enix) :
+en fond, l'**Observatoire** des Célestelliens, une citadelle flottante en
+pierre ocre à étages (socle couvert de verdure et de lianes, arches,
+colonnes, tours rondes à colonnades, balcons) qui sort de la mer de nuages,
+avec à son sommet l'**Yggdrasil** lumineux et ses sept **Fyggs**, des fruits
+dorés en forme de poire à feuilles vertes. Les nuages reprennent le style
+peint des illustrations du jeu : sommets blancs, dessous lavande et violet
+avec des reflets rosés, petits nuages flottants et traînées de cirrus. Tous les dessins sont originaux (SVG et CSS),
+aucune image ni logo du jeu n'est utilisé.
 
 - Chaque **nuage** ouvre une partie du CV (Présentation, Expériences,
-  Formations, Compétences, Langues, Hobbies).
-- Le **petit ange** vole avec un parchemin : un clic dessus déroule le
-  **CV complet**, qui peut être imprimé.
+  Formations, Compétences, Langues, Hobbies) dans une fenêtre au style de
+  Dragon Quest IX : fond anthracite légèrement granuleux, fin liseré blanc
+  aux coins arrondis, texte blanc à empattements, titres dans une petite
+  fenêtre-onglet, et la ligne sélectionnée en jaune avec la flèche ▶.
+- Le **Célestellien** vole avec un parchemin : un clic dessus ouvre le
+  **CV complet**, qui peut être imprimé. Son dessin reprend le costume des
+  Célestelliens du jeu (sous-pull à col montant, empiècement violet bordé
+  d'or, cape et jupe à lanières orange, collants moutarde, bottes à revers),
+  avec l'auréole dorée et les ailes blanches.
 - Sans JavaScript, le CV complet reste affiché et les nuages deviennent des
   liens vers chaque section.
 
@@ -22,8 +36,8 @@ Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
 ```
 .
 ├─ index.html      contenu du CV + styles (balise <style>, mobile-first)
-├─ js/app.js       nuages, ange, parchemin (chargé avec defer)
-├─ img/            images optimisées (aucune pour l'instant, l'ange est en SVG)
+├─ js/app.js       nuages, Célestellien, CV complet (chargé avec defer)
+├─ img/            images optimisées (aucune : tout est dessiné en SVG)
 └─ cv.md           contenu source rédigé en Markdown
 ```
 
@@ -37,8 +51,12 @@ Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
 - **Accessibilité** : lien d'évitement, focus visibles, navigation au clavier
   (Tab, Entrée, Échap), police ≥ 16 px, contrastes AA. Les animations sont
   coupées si l'utilisateur a activé « réduire les animations ».
-- **Performance** : aucune bibliothèque ni police web (polices système),
-  aucune image bitmap, script chargé avec `defer`.
+- **Performance** : aucune bibliothèque, aucune image bitmap, script chargé
+  avec `defer`. Une **seule** police web, *DotGothic16* (Google Fonts, licence
+  libre OFL), choisie parce qu'elle reproduit les caractères pixel des jeux
+  Dragon Quest : chargée avec `preconnect` et `display=swap` (le texte
+  s'affiche tout de suite en police de secours), et seuls les caractères
+  utilisés sont téléchargés.
 
 ## Auto-évaluation (à compléter)
 
@@ -70,4 +88,12 @@ Thème « paradis » : un ciel très lumineux, des nuages et un petit ange.
   `feDiffuseLighting`, `feSpecularLighting` et `feTurbulence`, ailes
   construites en JavaScript à partir d'un bord d'attaque courbe.
   Toujours aucune image ni bibliothèque : tout est généré par le navigateur.
+- Changement de thème pour Dragon Quest IX : Yggdrasil en fond, fenêtres
+  façon Dragon Quest IX (texte blanc sur fond anthracite, contraste élevé), et un
+  Célestellien dessiné en style dessin animé à la place de la statue.
+- Décor rapproché des illustrations officielles : ciel bleu profond, soleil
+  et rayons venant d'en haut à gauche, Observatoire avec texture de pierre,
+  joints de maçonnerie et ombres sous les corniches ; police pixel
+  *DotGothic16* façon Dragon Quest (une seule graisse : la mise en valeur se
+  fait en jaune, comme dans les dialogues du jeu).
 - …

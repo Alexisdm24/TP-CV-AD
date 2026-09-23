@@ -1,4 +1,4 @@
-/* CV « paradis » : nuages -> sections, ange -> parchemin complet.
+/* CV thème Dragon Quest IX : nuages -> sections, Célestellien -> CV complet.
    Sans JavaScript, la page reste lisible : les nuages sont des ancres
    vers les sections du CV affiché en entier. */
 
@@ -97,16 +97,16 @@ function fly(now) {
 }
 requestAnimationFrame(fly);
 
-/* ===== Ailes de marbre =====
+/* ===== Ailes du Célestellien =====
    Comme une vraie aile : un bord d'attaque courbe monte de l'épaule vers la
    pointe, et les plumes pendent de ce bord (courtes près du corps, longues à
-   la pointe). Trois rangées : rémiges, couvertures, petites plumes. */
+   la pointe). Trois rangées, contour sombre façon dessin animé. */
 const SVG_NS = "http://www.w3.org/2000/svg";
-const EDGE = { start: [0, 0], control: [-6, -60], end: [-46, -92] };
+const EDGE = { start: [0, 0], control: [-4, -40], end: [-34, -62] };
 const featherRows = [
-  { count: 18, angle: [-85, 20], length: [0.95, 1.75], width: 1.35 }, // rémiges
-  { count: 14, angle: [-80, 15], length: [0.55, 0.85], width: 1.3 },  // couvertures
-  { count: 12, angle: [-70, 10], length: [0.3, 0.42], width: 1.2 }    // petites plumes
+  { count: 12, angle: [-85, 20], length: [0.65, 1.2], width: 1.5, fill: "#dfe4f3" }, // rémiges
+  { count: 10, angle: [-80, 15], length: [0.42, 0.62], width: 1.45, fill: "#f4f6fc" }, // couvertures
+  { count: 8, angle: [-70, 10], length: [0.24, 0.32], width: 1.4, fill: "#ffffff" }    // petites plumes
 ];
 
 const lerp = (a, b, k) => a + (b - a) * k;
@@ -124,9 +124,10 @@ document.querySelectorAll(".angel .wing").forEach((wing) => {
       const [x, y] = edgePoint(k);
       const plume = document.createElementNS(SVG_NS, "use");
       plume.setAttribute("href", "#a-plume");
-      plume.setAttribute("fill", "url(#m-marble)");
-      plume.setAttribute("stroke", "#aaa498");
-      plume.setAttribute("stroke-width", "0.6");
+      plume.setAttribute("fill", row.fill);
+      plume.setAttribute("stroke", "#2b2440");
+      plume.setAttribute("stroke-width", "1.1");
+      plume.setAttribute("vector-effect", "non-scaling-stroke");
       plume.setAttribute("transform",
         `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${lerp(...row.angle, k).toFixed(1)}) ` +
         `scale(${lerp(...row.length, k).toFixed(2)} ${row.width})`);
@@ -137,11 +138,13 @@ document.querySelectorAll(".angel .wing").forEach((wing) => {
   const edge = document.createElementNS(SVG_NS, "path");
   edge.setAttribute("d", `M${EDGE.start} Q${EDGE.control} ${EDGE.end}`);
   edge.setAttribute("fill", "none");
-  edge.setAttribute("stroke", "#f1eee7");
-  edge.setAttribute("stroke-width", "7");
+  edge.setAttribute("stroke", "#ffffff");
+  edge.setAttribute("stroke-width", "5");
   edge.setAttribute("stroke-linecap", "round");
   wing.appendChild(edge);
 });
+
+if (reduceMotion) angel.querySelector("svg").pauseAnimations();
 
 /* ===== Décor : particules de lumière qui montent ===== */
 const sky = document.getElementById("sky");
