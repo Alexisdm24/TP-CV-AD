@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&amp;display=swap">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M2 2h4v1h1v3h-6v-3h1z' fill='%2358d854'/%3E%3Cpath d='M3 3h1v1h-1zM5 3h1v1h-1z' fill='%23000'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M4 1h1v1h1v1h1v4h-6v-4h1v-1h2z' fill='%233cbcfc'/%3E%3Cpath d='M3 3h1v1h-1zM5 3h1v1h-1z' fill='%23000'/%3E%3C/svg%3E">
   <style>
 /* ===== Palette limitée façon 8/16 bits ===== */
 :root {
@@ -154,6 +154,31 @@ button:focus-visible {
   transform: translateX(-50%);
 }
 
+#fx,
+.flash-fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.flash-fx {
+  background: var(--white);
+  opacity: 0;
+}
+
+.scene.flash .flash-fx {
+  animation: flash 0.45s steps(1);
+}
+
+@keyframes flash {
+  0% { opacity: 0.9; }
+  25% { opacity: 0; }
+  50% { opacity: 0.9; }
+  75% { opacity: 0; }
+}
+
 #monster.hit {
   animation: flicker 0.12s steps(1) 6;
 }
@@ -270,6 +295,68 @@ h1 {
   outline: none;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+/* Fenêtre des sorts : s'ouvre par-dessus le menu, comme un sous-menu du jeu */
+.command-area {
+  position: relative;
+}
+
+.command-win {
+  height: 100%;
+}
+
+.spell-win {
+  position: absolute;
+  left: 2rem;
+  bottom: 1.5rem;
+  z-index: 6;
+  width: min(20rem, calc(100% - 1rem));
+}
+
+.spells {
+  margin: 0.3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spell {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.2rem 0.2rem 0.2rem 1.5rem;
+  border: 0;
+  background: none;
+  color: var(--white);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.spell::before {
+  content: "▶";
+  position: absolute;
+  left: 0.2rem;
+  opacity: 0;
+}
+
+.spell:hover::before,
+.spell:focus-visible::before {
+  opacity: 1;
+  animation: blink 1s steps(1) infinite;
+}
+
+.spell:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.spell-cost {
+  color: var(--grey);
 }
 
 .message-win {
@@ -737,7 +824,8 @@ dialog[open] .panel {
 }
   </style>
   <script>document.documentElement.classList.add("js");</script>
-  <script src="js/app.js" defer></script>
+  <!-- ?v=… : à changer à chaque modification de app.js pour éviter l'ancienne version en cache -->
+  <script src="js/app.js?v=6" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#cv">Aller directement au CV complet</a>
@@ -749,9 +837,9 @@ dialog[open] .panel {
           <h1>Alexis Dominguez</h1>
           <p class="status-class">Vocation : Alternant BTS SIO SISR – Systèmes &amp; Réseaux</p>
           <dl class="stats">
-            <div><dt>NIV</dt><dd>1</dd></div>
-            <div><dt>PV</dt><dd>42</dd></div>
-            <div><dt>PM</dt><dd>12</dd></div>
+            <div><dt>NIV</dt><dd id="niv">1</dd></div>
+            <div><dt>PV</dt><dd id="pv">42</dd></div>
+            <div><dt>PM</dt><dd id="pm">12</dd></div>
             <div><dt>EXP</dt><dd id="exp">0</dd></div>
           </dl>
           <button class="btn sound-btn" id="soundBtn" type="button" aria-pressed="false" hidden>♪ Son : non</button>
@@ -762,10 +850,13 @@ dialog[open] .panel {
       <div class="scene" id="scene" aria-hidden="true">
         <canvas id="backdrop" width="256" height="144"></canvas>
         <canvas id="monster" width="24" height="22"></canvas>
+        <canvas id="fx" width="256" height="144"></canvas>
+        <div class="flash-fx"></div>
       </div>
     </div>
 
     <div class="battle-ui">
+      <div class="command-area">
       <nav class="win command-win" aria-label="Sections du CV">
         <p class="win-title">Alexis</p>
         <ul class="commands">
@@ -779,6 +870,13 @@ dialog[open] .panel {
           <li><button class="command" type="button" id="fightBtn" hidden>Combattre</button></li>
         </ul>
       </nav>
+
+      <!-- Fenêtre des sorts (ouverte par « Combattre », remplie par js/app.js) -->
+      <div class="win spell-win" id="spellWin" role="group" aria-labelledby="spellTitle" hidden>
+        <p class="win-title" id="spellTitle">Sorts</p>
+        <ul class="spells" id="spellList"></ul>
+      </div>
+      </div>
 
       <div class="win message-win">
         <p class="message" id="message">Un Bogue sauvage apparaît ! Choisis une commande pour découvrir le CV d'Alexis.</p>

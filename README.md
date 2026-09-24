@@ -14,10 +14,12 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 
 - **Écran de combat** vu à la première personne : un décor en pixel art
   (ciel en bandes tramées, montagnes enneigées, château royal, prairie et
-  chemin de terre) et un monstre original, le **Bogue**, une goutte verte à
-  antennes (clin d'œil aux bugs informatiques), animé sur 2 images.
-  Tout est dessiné en JavaScript sur un <canvas> en basse résolution
-  (256 × 144), agrandi sans lissage (image-rendering: pixelated).
+  chemin de terre) et le **Bogue** (clin d'œil aux bugs informatiques), un
+  slime bleu translucide à la pointe recourbée, avec de grands yeux ronds et
+  un large sourire, dessiné pixel par pixel et animé sur 2 images (il
+  s'écrase légèrement, comme quand il sautille).
+  Tout est dessiné en JavaScript sur un `<canvas>` en basse résolution
+  (256 × 144), agrandi sans lissage (`image-rendering: pixelated`).
 - **Fenêtre d'état** en haut : nom, vocation, NIV, PV, PM et EXP.
 - **Menu de commandes** : Présentation, Expériences, Formations,
   Compétences, Langues, Loisirs, CV complet, Combattre. Curseur ▶ qui
@@ -27,8 +29,29 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   clignotant.
 - **Fenêtre de message** : le texte s'affiche lettre par lettre (un clic
   affiche tout d'un coup). Les lecteurs d'écran reçoivent le texte complet.
-- **Combat bonus** : « Alexis attaque ! », le Bogue clignote, l'écran tremble
-  sur le coup critique, « Le Bogue est vaincu ! », +2 EXP.
+- **Combat bonus** : « Combattre » ouvre une fenêtre **Sorts**, avec des sorts
+  originaux au thème informatique et leur coût en PM :
+  - *Attaque* (gratuit) ;
+  - *Ping* (2 PM) : un éclair en pixels frappe le Bogue ;
+  - *Pare-feu* (4 PM) : un mur de flammes s'élève ;
+  - *Redémarrage* (6 PM) : l'écran flashe en blanc ;
+  - *Pause café* (gratuit) : rend 10 PV et 6 PM.
+
+  Chaque monstre riposte à chaque tour. Coups critiques avec tremblement
+  d'écran, passage de niveau tous les 10 points d'expérience (PV et PM
+  restaurés). Navigation au clavier (flèches, Entrée, Échap pour revenir).
+- **Bestiaire** : après chaque victoire, le monstre suivant apparaît, de plus
+  en plus coriace (puis on recommence au début). Tous sont originaux, dessinés
+  pixel par pixel et animés sur 2 images, sur le thème des menaces
+  informatiques :
+
+  | Monstre | PV | EXP | Animation |
+  |---|---|---|---|
+  | Le Bogue (slime bleu) | 24 | 2 | s'écrase en sautillant |
+  | La Chauve-Spam | 28 | 3 | bat des ailes |
+  | Le Fantôme 404 | 30 | 4 | flotte, traîne ondulée |
+  | Le Ver du Réseau | 34 | 5 | ondule |
+  | Le Golem Serveur | 44 | 8 | voyants qui clignotent, bras qui bougent |
 - **Son rétro** facultatif (désactivé par défaut) : « bip » du texte, bruit
   d'impact et petite fanfare de victoire, générés avec la Web Audio API.
 - Sans JavaScript, le CV complet reste affiché et les commandes deviennent
