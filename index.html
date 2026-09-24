@@ -8,27 +8,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&amp;display=swap">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='16' rx='13' ry='5' fill='none' stroke='%23ffd65a' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M2 2h4v1h1v3h-6v-3h1z' fill='%2358d854'/%3E%3Cpath d='M3 3h1v1h-1zM5 3h1v1h-1z' fill='%23000'/%3E%3C/svg%3E">
   <style>
-/* ===== Design tokens ===== */
+/* ===== Palette limitée façon 8/16 bits ===== */
 :root {
-  --sky-1: #1c64d6;
-  --sky-2: #3f95ea;
-  --sky-3: #8fcaf6;
-  --sky-4: #dff1fc;
-  --cloud-shade: #a596dc;
-  --cloud-blush: #f4c6e2;
-  --dq-navy: #1c1c26;
-  --dq-edge: #000000;
-  --dq-text: #ffffff;
-  --dq-soft: #dcdce4;
-  --dq-gold: #f5e27a;
-  --dq-link: #a8d4ff;
-  --dq-line: #ecebf0;
-  --font-window: "DotGothic16", "MS Gothic", "Courier New", monospace;
-  --ink: #1e1b2c;
-  --font-heading: var(--font-window);
-  --font-body: var(--font-window);
+  --black: #000000;
+  --white: #ffffff;
+  --yellow: #f8d878;
+  --grey: #bcbcbc;
+  --link: #7cc4f8;
+  --border: 4px;
+  --radius: 10px;
+  --font: "DotGothic16", "MS Gothic", "Courier New", monospace;
 }
 
 /* ===== Reset minimal ===== */
@@ -45,27 +36,39 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: var(--font-body);
-  font-size: 1rem;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 1.125rem;
   line-height: 1.6;
-  color: var(--ink);
-  background-color: var(--sky-3);
-  background-image: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 35%, var(--sky-3) 70%, var(--sky-4) 100%);
-  background-attachment: fixed;
-  overflow-x: hidden;
+  letter-spacing: 0.03em;
+}
+
+h1, h2, h3, strong, b {
+  font-weight: 400;
+}
+
+strong {
+  color: var(--yellow);
+}
+
+a {
+  color: var(--link);
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--dq-gold);
+  outline: 2px dashed var(--white);
   outline-offset: 3px;
 }
 
-.svg-defs {
+.sr-only {
   position: absolute;
-  width: 0;
-  height: 0;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 /* ===== Lien d'évitement ===== */
@@ -75,8 +78,9 @@ button:focus-visible {
   top: 0;
   z-index: 30;
   padding: 0.5rem 1rem;
-  background: var(--dq-navy);
-  color: #fff;
+  background: var(--black);
+  border: 2px solid var(--white);
+  color: var(--white);
 }
 
 .skip-link:focus {
@@ -84,360 +88,212 @@ button:focus-visible {
   top: 1rem;
 }
 
-/* ===== Fenêtre façon Dragon Quest IX : anthracite, liseré blanc, coins arrondis ===== */
-.dq-window {
+/* ===== Fenêtre Dragon Quest : fond noir uni, bordure blanche épaisse ===== */
+.win {
   position: relative;
-  border: 2px solid var(--dq-line);
-  border-radius: 9px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(180deg, rgba(34, 34, 44, 0.94) 0%, rgba(14, 14, 20, 0.95) 100%);
-  box-shadow: 0 0 0 2px var(--dq-edge), inset 0 0 0 1px var(--dq-edge), 0 14px 32px rgba(0, 0, 0, 0.35);
-  color: var(--dq-text);
-  font-family: var(--font-window);
+  padding: 0.9rem 1.1rem;
+  border: var(--border) solid var(--white);
+  border-radius: var(--radius);
+  background: var(--black);
+  box-shadow: 0 0 0 3px var(--black);
 }
 
-.dq-window a {
-  color: var(--dq-link);
+/* Titre posé sur la bordure du haut, comme le nom du héros dans le jeu */
+.win-title {
+  position: absolute;
+  top: -0.85em;
+  left: 50%;
+  margin: 0;
+  padding: 0 0.5em;
+  transform: translateX(-50%);
+  background: var(--black);
+  white-space: nowrap;
 }
 
-/* Police pixel : une seule graisse, la mise en valeur se fait en jaune comme dans les dialogues du jeu */
-h1, h2, h3, strong, b {
-  font-weight: 400;
+/* Curseur ▶ qui clignote */
+@keyframes blink {
+  50% { opacity: 0; }
 }
 
-.dq-window strong {
-  color: var(--dq-gold);
+/* ===== Écran de jeu ===== */
+.screen {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-body {
-  letter-spacing: 0.02em;
+.stage {
+  position: relative;
 }
 
-/* ===== Ciel de l'Observatoire ===== */
-.sky {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+.scene {
+  position: relative;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  pointer-events: none;
+  border: var(--border) solid var(--white);
+  border-radius: 6px;
+  background: #3cbcfc;
 }
 
-/* Soleil en haut à gauche, comme sur l'illustration de l'Observatoire */
-.sun {
-  position: absolute;
-  top: -38vh;
-  left: 12%;
-  width: 90vh;
-  height: 90vh;
-  margin-left: -45vh;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #fff 9%, rgba(255, 251, 232, 0.95) 17%, rgba(255, 238, 180, 0.55) 34%, rgba(255, 230, 160, 0.18) 52%, transparent 70%);
+.scene canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
-.rays {
-  position: absolute;
-  top: calc(-80vmax + 7vh);
-  left: 12%;
-  width: 160vmax;
-  height: 160vmax;
-  margin-left: -80vmax;
-  background: repeating-conic-gradient(from 0deg,
-    rgba(255, 246, 214, 0.3) 0deg 2.5deg,
-    transparent 2.5deg 9deg,
-    rgba(255, 246, 214, 0.16) 9deg 11deg,
-    transparent 11deg 19deg);
-  -webkit-mask-image: radial-gradient(circle, #000 4%, rgba(0, 0, 0, 0.5) 25%, transparent 48%);
-  mask-image: radial-gradient(circle, #000 4%, rgba(0, 0, 0, 0.5) 25%, transparent 48%);
-  filter: blur(7px);
-  animation: rays 240s linear infinite;
+#backdrop {
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes rays {
-  to { transform: rotate(360deg); }
-}
-
-/* L'Yggdrasil, l'arbre-monde, qui s'élève au-dessus des nuages */
-.yggdrasil {
+#monster {
   position: absolute;
   left: 50%;
-  bottom: -14vh;
-  width: max(83vh, 533px);
-  height: max(100vh, 640px);
+  bottom: 12%;
+  width: 24%;
   transform: translateX(-50%);
-  opacity: 0.92;
 }
 
-.fygg {
-  animation: fygg-glow 3.5s ease-in-out infinite;
+#monster.hit {
+  animation: flicker 0.12s steps(1) 6;
 }
 
-.fygg:nth-of-type(2n) { animation-delay: -1.2s; }
-.fygg:nth-of-type(3n) { animation-delay: -2.4s; }
-
-@keyframes fygg-glow {
-  50% { opacity: 0.45; }
+#monster.defeated {
+  visibility: hidden;
 }
 
-/* Petits nuages flottants : blancs dessus, violets dessous (comme dans le jeu) */
-.wisp {
-  position: absolute;
-  left: 0;
-  width: 150px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #fff 0%, #fff 40%, #d9cff4 72%, #a596dc 100%);
-  filter: url(#puff);
-  animation: drift linear infinite;
-  will-change: transform;
+@keyframes flicker {
+  50% { visibility: hidden; }
 }
 
-.wisp:nth-of-type(1) { top: 14%; animation-duration: 150s; animation-delay: -40s; }
-.wisp:nth-of-type(2) { top: 34%; width: 110px; height: 34px; animation-duration: 190s; animation-delay: -120s; }
-.wisp:nth-of-type(3) { top: 55%; width: 190px; height: 50px; animation-duration: 170s; animation-delay: -75s; }
-.wisp:nth-of-type(4) { top: 24%; width: 90px; height: 28px; animation-duration: 210s; animation-delay: -20s; }
-.wisp:nth-of-type(5) { top: 46%; width: 130px; height: 38px; animation-duration: 160s; animation-delay: -95s; }
-
-/* Longues traînées de cirrus dans le haut du ciel */
-.cirrus {
-  position: absolute;
-  height: 9px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0.6) 70%, transparent);
-  filter: blur(3px);
-  transform: rotate(-4deg);
+.screen.shake {
+  animation: shake 0.4s steps(8);
 }
 
-.cirrus:nth-of-type(1) { top: 5%; left: -5%; width: 55vw; }
-.cirrus:nth-of-type(2) { top: 10%; left: 45%; width: 60vw; height: 6px; }
-.cirrus:nth-of-type(3) { top: 17%; left: 10%; width: 40vw; height: 5px; opacity: 0.7; }
-.cirrus:nth-of-type(4) { top: 8%; left: 25%; width: 30vw; height: 4px; opacity: 0.6; }
-
-@keyframes drift {
-  from { transform: translateX(-40vw); }
-  to { transform: translateX(130vw); }
+@keyframes shake {
+  20% { transform: translate(-6px, 2px); }
+  40% { transform: translate(6px, -2px); }
+  60% { transform: translate(-4px, 0); }
+  80% { transform: translate(4px, 2px); }
 }
 
-.cloud-sea {
-  position: absolute;
-  left: -20vw;
-  right: -20vw;
-  bottom: -13vh;
-  height: 33vh;
-}
-
-.cloud-sea span {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.sea-back { inset: 0; background: linear-gradient(180deg, #fff 0%, #fff 35%, #e8e1fa 70%, #cfc3f0 100%); filter: url(#sea-back); }
-.sea-mid { left: 4%; right: 6%; top: 42%; bottom: -10%; background: var(--cloud-shade); opacity: 0.7; filter: url(#sea-mid); }
-.sea-front { left: 10%; right: 12%; top: 8%; bottom: 40%; background: #fff; filter: url(#sea-front); }
-.sea-blush { left: 20%; right: 30%; top: 30%; bottom: 20%; background: var(--cloud-blush); opacity: 0.45; filter: url(#sea-mid); }
-
-/* Bienveillessence : orbes dorés qui montent vers l'arbre */
-.mote {
-  position: absolute;
-  bottom: -10px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #ffe38a 35%, rgba(255, 200, 60, 0.5) 60%, transparent 72%);
-  animation: rise-up linear infinite;
-}
-
-@keyframes rise-up {
-  0% { transform: translate(0, 0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 0.8; }
-  100% { transform: translate(40px, -105vh); opacity: 0; }
-}
-
-/* ===== En-tête ===== */
+/* Fenêtre d'état : nom, vocation, niveau, PV, PM */
 .site-header {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1.5rem 1rem 1rem;
-  text-align: center;
+  margin-bottom: 1rem;
 }
 
-.title-window {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 1.25rem 1.25rem 1.1rem;
-}
-
-.gate {
-  margin: 0 0 0.25rem;
-  font-size: 1rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--dq-soft);
+.status-win {
+  padding-top: 1rem;
 }
 
 h1 {
   margin: 0;
-  font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 8vw, 3.8rem);
-  font-weight: 400;
-  line-height: 1.1;
-  color: #fff;
-  text-shadow: 0 2px 0 #000;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  line-height: 1.2;
 }
 
-.subtitle {
-  margin: 0.5rem 0 0;
-  font-weight: 400;
-  font-size: clamp(1.05rem, 3vw, 1.25rem);
-  color: #fff;
+.status-class {
+  margin: 0.2rem 0 0.5rem;
 }
 
-.hint {
-  margin: 0.75rem 0 0;
-  color: var(--dq-soft);
-}
-
-.hint::before {
-  content: "▶ ";
-  color: var(--dq-gold);
-  animation: blink 1s steps(2, start) infinite;
-}
-
-@keyframes blink {
-  to { visibility: hidden; }
-}
-
-/* ===== Nuages cliquables (navigation) — mobile d'abord ===== */
-.clouds {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem 0.5rem;
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.4rem;
   margin: 0;
-  padding: 2.5rem 0 1rem;
+}
+
+.stats div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stats dt {
+  color: var(--grey);
+}
+
+.stats dd {
+  margin: 0;
+}
+
+.sound-btn {
+  margin-top: 0.6rem;
+}
+
+/* ===== Menu de commandes + fenêtre de message ===== */
+.battle-ui {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.commands {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.1rem 1rem;
+  margin: 0.3rem 0 0;
+  padding: 0;
   list-style: none;
 }
 
-.clouds li {
-  display: flex;
-  justify-content: center;
-  animation: float 7s ease-in-out infinite;
-  will-change: transform;
-}
-
-.clouds li:nth-child(even) {
-  margin-top: 2.5rem;
-  animation-delay: -3.5s;
-  animation-duration: 8.5s;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.cloud {
+.command {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 100%;
-  max-width: 300px;
-  height: 115px;
-  color: var(--ink);
+  padding: 0.25rem 0.2rem 0.25rem 1.5rem;
+  border: 0;
+  background: none;
+  color: var(--white);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
   text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-.cloud-body {
-  position: absolute;
-  inset: 0;
-  transition: transform 0.6s cubic-bezier(0.2, 1.2, 0.4, 1), filter 0.4s;
-}
-
-.cloud-body span {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.c-back { left: 6%; right: 6%; top: 10%; bottom: 10%; background: radial-gradient(ellipse at 50% 20%, #fff 40%, #ece5fb 72%, #d6cbf3 100%); filter: url(#cloud-back-a); }
-.c-mid { left: 20%; right: 18%; top: 52%; bottom: 16%; background: var(--cloud-shade); opacity: 0.75; filter: url(#cloud-mid-a); }
-.c-front { left: 16%; right: 22%; top: 2%; bottom: 46%; background: #fffdf6; filter: url(#cloud-front-a); }
-
-.clouds li:nth-child(even) .c-back { left: 2%; right: 10%; filter: url(#cloud-back-b); }
-.clouds li:nth-child(even) .c-mid { left: 14%; right: 24%; filter: url(#cloud-mid-b); }
-.clouds li:nth-child(even) .c-front { left: 24%; right: 14%; filter: url(#cloud-front-b); }
-
-.clouds li:nth-child(3n) .c-back { top: 4%; }
-
-/* Reflet rosé sous les nuages, comme sur les illustrations du jeu */
-.cloud-body::after {
-  content: "";
-  position: absolute;
-  left: 26%;
-  right: 30%;
-  top: 58%;
-  bottom: 14%;
-  border-radius: 50%;
-  background: var(--cloud-blush);
-  opacity: 0.5;
-  filter: url(#cloud-mid-b);
-}
-.clouds li:nth-child(3n) .c-front { left: 12%; right: 30%; }
-
-.cloud-label {
-  position: relative;
-  font-weight: 400;
-  font-size: 1.1rem;
-  letter-spacing: 0.02em;
-  text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 22px #fff;
-}
-
-/* Curseur ▶ de Dragon Quest au survol ou au focus */
-.cloud-label::before {
+.command::before {
   content: "▶";
   position: absolute;
-  right: 100%;
-  margin-right: 0.35em;
-  color: var(--dq-navy);
+  left: 0.2rem;
   opacity: 0;
 }
 
-.cloud:hover .cloud-label::before,
-.cloud:focus-visible .cloud-label::before {
+.command:hover::before,
+.command:focus-visible::before,
+.command.selected::before {
   opacity: 1;
-  animation: blink 0.8s steps(2, start) infinite;
+  animation: blink 1s steps(1) infinite;
 }
 
-.cloud:hover .cloud-body {
-  transform: scale(1.06);
-  filter: drop-shadow(0 0 22px rgba(255, 222, 140, 0.9));
+.command:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.cloud:focus-visible {
-  outline: 3px solid var(--dq-navy);
-  outline-offset: 4px;
-  border-radius: 60px;
+.message-win {
+  min-height: 7.2rem;
 }
 
-/* ===== Contenu du CV (fenêtres Dragon Quest) ===== */
+.message {
+  margin: 0;
+}
+
+.message.more::after {
+  content: " ▼";
+  animation: blink 0.8s steps(1) infinite;
+}
+
+/* ===== Contenu du CV ===== */
 main {
-  max-width: 820px;
+  max-width: 1024px;
   margin: 0 auto;
-  padding: 1rem 1rem 2rem;
+  padding: 0 1rem 1.5rem;
 }
 
 .cv-window {
-  padding: 2.5rem 1.25rem 2rem;
-  transform-origin: top center;
-}
-
-.cv-name {
-  margin: 0 0 0.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.35);
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  font-weight: 400;
-  text-align: center;
-  color: var(--dq-gold);
+  padding: 2.25rem 1.25rem 1.75rem;
 }
 
 .cv-window section {
@@ -445,94 +301,78 @@ main {
   scroll-margin-top: 1.5rem;
 }
 
-h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1.4rem;
-  color: var(--dq-gold);
+.cv-window section:first-of-type {
+  margin-top: 0.5rem;
 }
 
-/* Titre de section : petite fenêtre-onglet, comme les titres de menu du jeu */
-.dq-window h2 {
-  display: inline-block;
-  padding: 0.15rem 0.9rem;
-  border: 2px solid var(--dq-line);
-  border-radius: 7px;
-  background: #121218;
-  box-shadow: 0 0 0 2px var(--dq-edge);
-  font-size: 1.25rem;
-  color: #fff;
+h2 {
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--white);
+  font-size: 1.35rem;
+  text-transform: uppercase;
 }
 
 h3 {
   margin: 0;
   font-size: 1.1rem;
-  line-height: 1.35;
-  color: #fff;
+  line-height: 1.4;
 }
 
 .meta {
-  margin: 0.15rem 0 0.5rem;
-  font-weight: 400;
-  color: var(--dq-gold);
+  margin: 0.1rem 0 0.4rem;
+  color: var(--yellow);
 }
 
 .entry {
-  margin-bottom: 0.75rem;
-  padding: 0.6rem 0 0.4rem 1rem;
-  border-left: 2px solid rgba(255, 255, 255, 0.25);
+  margin-bottom: 1rem;
 }
 
 .entry ul {
   margin: 0;
-  padding-left: 1.2rem;
-  color: var(--dq-soft);
+  padding-left: 1.4rem;
+  list-style: none;
 }
 
+.entry li {
+  position: relative;
+}
+
+.entry li::before {
+  content: "・";
+  position: absolute;
+  left: -1.3rem;
+}
+
+/* Listes façon menu : la ligne survolée reçoit le curseur ▶ */
 .cursor-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Liste façon menu : la ligne survolée passe en jaune avec la flèche du jeu */
 .cursor-list li {
   position: relative;
-  padding: 0.3rem 0 0.3rem 1.6rem;
+  padding: 0.2rem 0 0.2rem 1.5rem;
 }
 
 .cursor-list li::before {
   content: "▶";
   position: absolute;
   left: 0.2rem;
-  top: 0.5rem;
-  font-size: 0.8em;
-  color: var(--dq-gold);
   opacity: 0;
 }
 
-.cursor-list li:hover,
-.cursor-list li:first-child {
-  color: var(--dq-gold);
-}
-
-.cursor-list li:hover::before,
-.cursor-list li:first-child::before {
+.cursor-list li:hover::before {
   opacity: 1;
-}
-
-.cursor-list:hover li:first-child:not(:hover) {
-  color: inherit;
-}
-
-.cursor-list:hover li:first-child:not(:hover)::before {
-  opacity: 0;
+  animation: blink 1s steps(1) infinite;
 }
 
 .contact,
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.8rem;
   margin: 1rem 0 0;
   padding: 0;
   list-style: none;
@@ -540,55 +380,42 @@ h3 {
 
 .chips li,
 .contact li {
-  padding: 0.35rem 0.9rem;
-  border: 2px solid var(--dq-line);
-  border-radius: 7px;
-  background: #121218;
-  box-shadow: 0 0 0 2px var(--dq-edge);
+  padding: 0.2rem 0.8rem;
+  border: 2px solid var(--white);
+  border-radius: 6px;
 }
 
 .cv-actions {
-  margin: 1.75rem 0 0;
+  margin: 1.5rem 0 0;
   text-align: center;
 }
 
 .btn {
-  padding: 0.6rem 1.4rem;
-  border: 2px solid var(--dq-line);
-  border-radius: 7px;
-  background: var(--dq-navy);
-  box-shadow: 0 0 0 2px var(--dq-edge);
-  color: #fff;
+  padding: 0.3rem 1rem;
+  border: 3px solid var(--white);
+  border-radius: 8px;
+  background: var(--black);
+  color: var(--white);
   font: inherit;
-  font-weight: 400;
+  letter-spacing: inherit;
   cursor: pointer;
 }
 
 .btn:hover {
-  color: var(--dq-gold);
+  color: var(--yellow);
 }
 
 .close-btn {
   position: absolute;
-  top: 0.9rem;
-  right: 0.9rem;
+  top: 0.6rem;
+  right: 0.6rem;
   z-index: 3;
   width: 44px;
   height: 44px;
-  border: 2px solid var(--dq-line);
-  border-radius: 7px;
-  background: var(--dq-navy);
-  box-shadow: 0 0 0 2px var(--dq-edge);
-  color: #fff;
-  font-size: 1.1rem;
-  cursor: pointer;
+  padding: 0;
 }
 
-.close-btn:hover {
-  color: var(--dq-gold);
-}
-
-/* ===== Mode JavaScript : le CV complet s'ouvre par le Célestellien ===== */
+/* ===== Mode JavaScript : le CV complet s'ouvre depuis le menu ===== */
 .js main {
   display: none;
 }
@@ -605,9 +432,13 @@ h3 {
   max-width: none;
   padding: 1.5rem 1rem;
   overflow-y: auto;
-  background: rgba(8, 16, 52, 0.45);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.js.cv-open .cv-window {
+  max-width: 820px;
+  margin: 0 auto;
+  animation: open-window 0.3s steps(5, end);
 }
 
 .js.cv-open #closeCv {
@@ -617,150 +448,86 @@ h3 {
   z-index: 5;
 }
 
-.js.cv-open .cv-window {
-  max-width: 780px;
-  margin: 0 auto;
-  animation: open-window 0.35s steps(6, end);
-}
-
 @keyframes open-window {
   from { transform: scaleY(0.05); }
 }
 
-/* ===== Fenêtre d'une section (nuage) ===== */
+/* ===== Fenêtre d'une section ===== */
 dialog {
   width: 100%;
-  max-width: min(680px, calc(100vw - 2rem));
+  max-width: min(720px, calc(100vw - 2rem));
   max-height: calc(100vh - 3rem);
   padding: 0;
   border: 0;
   background: transparent;
+  color: var(--white);
   overflow: visible;
 }
 
 dialog::backdrop {
-  background: rgba(8, 16, 52, 0.35);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .panel {
   max-height: calc(100vh - 3rem);
   overflow-y: auto;
-  padding: 1.75rem 1.25rem 2rem;
+  padding: 1.5rem 1.25rem 2rem;
+}
+
+.panel h2 {
+  padding-right: 3rem;
 }
 
 .panel::after {
   content: "▼";
   position: absolute;
   right: 1rem;
-  bottom: 0.4rem;
-  color: #fff;
-  animation: blink 0.8s steps(2, start) infinite;
+  bottom: 0.3rem;
+  animation: blink 0.8s steps(1) infinite;
 }
 
 dialog[open] .panel {
-  animation: open-window 0.3s steps(5, end);
-}
-
-.panel h2 {
-  padding-right: 3rem;
-  font-size: 1.6rem;
-}
-
-/* ===== Célestellien ===== */
-.angel {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 10;
-  width: 105px;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  cursor: pointer;
-  filter: drop-shadow(0 12px 12px rgba(40, 60, 110, 0.3)) drop-shadow(0 0 16px rgba(255, 236, 170, 0.7));
-  will-change: transform;
-}
-
-.angel[hidden] {
-  display: none;
-}
-
-.angel svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  transition: transform 0.5s;
-}
-
-.angel.facing-left svg {
-  transform: scaleX(-1);
-}
-
-.angel:focus-visible {
-  outline: 3px dashed var(--dq-navy);
-  border-radius: 20px;
-}
-
-.angel-tip {
-  position: absolute;
-  left: 50%;
-  bottom: 100%;
-  transform: translateX(-50%);
-  padding: 0.25rem 0.8rem;
-  border: 2px solid var(--dq-line);
-  border-radius: 7px;
-  background: var(--dq-navy);
-  box-shadow: 0 0 0 2px var(--dq-edge);
-  color: #fff;
-  font-family: var(--font-window);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.angel:hover .angel-tip,
-.angel:focus-visible .angel-tip {
-  opacity: 1;
+  animation: open-window 0.25s steps(4, end);
 }
 
 /* ===== Pied de page ===== */
 .site-footer {
-  padding: 2rem 1rem 3rem;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 2rem;
+  color: var(--grey);
   text-align: center;
-  color: var(--ink);
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff;
 }
 
 .site-footer p {
-  margin: 0.25rem 0;
+  margin: 0.2rem 0;
 }
 
-.site-footer a {
-  color: var(--dq-navy);
-}
-
-/* ===== Tablette ===== */
-@media (min-width: 600px) {
-  .clouds { gap: 3rem 1.5rem; }
-  .cloud { height: 140px; }
-  .cloud-label { font-size: 1.3rem; }
-  .cv-window { padding: 2.75rem 2.75rem 2.25rem; }
-  .panel { padding: 2rem 2.25rem 2.25rem; }
-  .angel { width: 140px; }
-}
-
-/* ===== Desktop : 3 colonnes de nuages ===== */
-@media (min-width: 900px) {
-  .clouds {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3.5rem 2.5rem;
+/* ===== Desktop : état par-dessus la scène, menu et message côte à côte ===== */
+@media (min-width: 760px) {
+  .site-header {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 2;
   }
 
-  .clouds li:nth-child(even) { margin-top: 0; }
-  .clouds li:nth-child(3n + 2) { margin-top: 3rem; }
+  .sound-btn {
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.6rem;
+    margin: 0;
+  }
+
+  .battle-ui {
+    grid-template-columns: minmax(280px, 0.9fr) 1.6fr;
+    align-items: stretch;
+  }
+
+  .cv-window {
+    padding: 2.5rem 2.5rem 2rem;
+  }
 }
 
 /* ===== Mouvement réduit ===== */
@@ -775,43 +542,198 @@ dialog[open] .panel {
   }
 }
 
-/* ===== Impression : uniquement le CV ===== */
-@media print {
-  body { background: #fff; }
+/* En-tête visible uniquement à l'impression */
+.print-only {
+  display: none;
+}
 
-  .sky,
-  .site-header,
+/* ===== Impression : CV standard sur une page A4, sans le style Dragon Quest ===== */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 15mm;
+  }
+
+  html,
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  body {
+    font-family: "Segoe UI", Calibri, Arial, Helvetica, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.4;
+    letter-spacing: normal;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    text-shadow: none !important;
+  }
+
+  .screen,
   .site-footer,
-  .angel,
   .close-btn,
   .cv-actions,
+  .win-title,
+  #presentation .contact,
   dialog,
   .skip-link {
     display: none !important;
   }
 
   .js main,
-  .js.cv-open main {
+  .js.cv-open main,
+  main {
     display: block;
     position: static;
+    max-width: none;
     padding: 0;
     background: none;
     overflow: visible;
   }
 
-  .cv-window {
+  /* Mise en page sur deux colonnes : parcours à gauche, atouts à droite */
+  .cv-window,
+  .js.cv-open .cv-window {
+    display: grid;
+    grid-template-columns: 1.75fr 1fr;
+    grid-template-areas:
+      "head head"
+      "pres pres"
+      "exp  form"
+      "exp  comp"
+      "exp  lang"
+      "exp  hob";
+    grid-template-rows: auto auto auto auto auto 1fr;
+    column-gap: 9mm;
+    max-width: none;
+    margin: 0;
     padding: 0;
     border: 0;
-    background: #fff;
+    border-radius: 0;
     box-shadow: none;
+    background: none;
     color: #000;
   }
 
-  .cv-window h2,
-  .cv-window h3,
-  .cv-name,
-  .meta,
-  .entry ul { color: #000; }
+  .print-only {
+    display: block;
+  }
+
+  .print-header {
+    grid-area: head;
+    margin-bottom: 5mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #000;
+  }
+
+  .print-name {
+    margin: 0;
+    font-size: 22pt;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .print-title {
+    margin: 1mm 0 0;
+    font-size: 12pt;
+  }
+
+  .print-contact {
+    margin: 1.5mm 0 0;
+    font-size: 9.5pt;
+    color: #333;
+  }
+
+  #presentation { grid-area: pres; }
+  #experiences { grid-area: exp; }
+  #formations { grid-area: form; }
+  #competences { grid-area: comp; }
+  #langues { grid-area: lang; }
+  #hobbies { grid-area: hob; }
+
+  .cv-window section,
+  .cv-window section:first-of-type {
+    margin: 0 0 4mm;
+    break-inside: avoid;
+  }
+
+  #presentation p {
+    margin: 0;
+  }
+
+  h2 {
+    margin: 0 0 2mm;
+    padding-bottom: 0.8mm;
+    border-bottom: 1px solid #000;
+    font-size: 10.5pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  h3 {
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
+
+  strong {
+    color: #000;
+    font-weight: 600;
+  }
+
+  .meta {
+    margin: 0 0 1mm;
+    font-size: 9.5pt;
+    font-style: italic;
+    color: #444;
+  }
+
+  .entry {
+    margin-bottom: 3mm;
+    break-inside: avoid;
+  }
+
+  .entry ul,
+  .cursor-list {
+    margin: 0;
+    padding-left: 4mm;
+  }
+
+  .entry li::before,
+  .cursor-list li::before {
+    content: "•";
+    position: absolute;
+    left: -3.5mm;
+    opacity: 1;
+  }
+
+  .cursor-list li {
+    padding: 0 0 0.8mm;
+  }
+
+  .chips {
+    display: block;
+    margin: 0;
+  }
+
+  .chips li {
+    display: inline;
+    padding: 0;
+    border: 0;
+  }
+
+  .chips li:not(:last-child)::after {
+    content: " · ";
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
 }
   </style>
   <script>document.documentElement.classList.add("js");</script>
@@ -820,268 +742,60 @@ dialog[open] .panel {
 <body>
   <a class="skip-link" href="#cv">Aller directement au CV complet</a>
 
-  <!-- Filtres SVG : nuages volumétriques et feuillage -->
-  <svg class="svg-defs" aria-hidden="true" focusable="false">
-    <filter id="cloud-back-a" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="5" seed="4"/>
-      <feDisplacementMap in="SourceGraphic" scale="85" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="1.5"/>
-    </filter>
-    <filter id="cloud-mid-a" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="4" seed="9"/>
-      <feDisplacementMap in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="10"/>
-    </filter>
-    <filter id="cloud-front-a" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" seed="14"/>
-      <feDisplacementMap in="SourceGraphic" scale="55" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="2.5"/>
-    </filter>
-    <filter id="cloud-back-b" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="5" seed="23"/>
-      <feDisplacementMap in="SourceGraphic" scale="85" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="1.5"/>
-    </filter>
-    <filter id="cloud-mid-b" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="4" seed="31"/>
-      <feDisplacementMap in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="10"/>
-    </filter>
-    <filter id="cloud-front-b" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" seed="37"/>
-      <feDisplacementMap in="SourceGraphic" scale="55" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="2.5"/>
-    </filter>
-    <filter id="sea-back" x="-20%" y="-50%" width="140%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="5" seed="2"/>
-      <feDisplacementMap in="SourceGraphic" scale="170" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="4"/>
-    </filter>
-    <filter id="sea-mid" x="-20%" y="-50%" width="140%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="12"/>
-      <feDisplacementMap in="SourceGraphic" scale="130" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="12"/>
-    </filter>
-    <filter id="sea-front" x="-20%" y="-50%" width="140%" height="200%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="4" seed="19"/>
-      <feDisplacementMap in="SourceGraphic" scale="110" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="7"/>
-    </filter>
-    <filter id="puff" x="-30%" y="-60%" width="160%" height="220%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="8"/>
-      <feDisplacementMap in="SourceGraphic" scale="26" xChannelSelector="R" yChannelSelector="G"/>
-      <feGaussianBlur stdDeviation="1"/>
-    </filter>
-    <filter id="foliage" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="4" seed="7"/>
-      <feDisplacementMap in="SourceGraphic" scale="45" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="10"/>
-    </filter>
-  </svg>
+  <div class="screen" id="screen">
+    <div class="stage">
+      <header class="site-header">
+        <div class="win status-win">
+          <h1>Alexis Dominguez</h1>
+          <p class="status-class">Vocation : Alternant BTS SIO SISR – Systèmes &amp; Réseaux</p>
+          <dl class="stats">
+            <div><dt>NIV</dt><dd>1</dd></div>
+            <div><dt>PV</dt><dd>42</dd></div>
+            <div><dt>PM</dt><dd>12</dd></div>
+            <div><dt>EXP</dt><dd id="exp">0</dd></div>
+          </dl>
+          <button class="btn sound-btn" id="soundBtn" type="button" aria-pressed="false" hidden>♪ Son : non</button>
+        </div>
+      </header>
 
-  <div class="sky" id="sky" aria-hidden="true">
-    <div class="sun"></div>
-    <div class="rays"></div>
-    <span class="wisp"></span>
-    <span class="wisp"></span>
-    <span class="wisp"></span>
-    <span class="wisp"></span>
-    <span class="wisp"></span>
-    <i class="cirrus"></i>
-    <i class="cirrus"></i>
-    <i class="cirrus"></i>
-    <i class="cirrus"></i>
-
-
-    <!-- L'Observatoire et l'Yggdrasil (dessin original inspiré de Dragon Quest IX) -->
-    <svg class="yggdrasil" viewBox="0 0 1000 1200" preserveAspectRatio="xMidYMax meet" focusable="false">
-      <defs>
-        <radialGradient id="o-aura" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fffbe0" stop-opacity="0.95"/><stop offset="0.55" stop-color="#ffeaa0" stop-opacity="0.4"/><stop offset="1" stop-color="#ffeaa0" stop-opacity="0"/></radialGradient>
-        <linearGradient id="o-wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8956a"/><stop offset="0.35" stop-color="#e6caa0"/><stop offset="0.75" stop-color="#cfa97a"/><stop offset="1" stop-color="#a8825a"/></linearGradient>
-        <linearGradient id="o-drum" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7650"/><stop offset="0.35" stop-color="#ecd3a8"/><stop offset="0.7" stop-color="#c9a476"/><stop offset="1" stop-color="#8f6c48"/></linearGradient>
-        <linearGradient id="o-column" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9a476"/><stop offset="0.4" stop-color="#fbe8c4"/><stop offset="1" stop-color="#b08b60"/></linearGradient>
-        <linearGradient id="o-bark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4a2f1a"/><stop offset="0.4" stop-color="#9a6a3e"/><stop offset="1" stop-color="#3e2614"/></linearGradient>
-        <radialGradient id="y-leaf" cx="0.38" cy="0.32" r="0.7"><stop offset="0" stop-color="#c6f58a"/><stop offset="0.5" stop-color="#6cbb4a"/><stop offset="1" stop-color="#3a8a3a"/></radialGradient>
-        <radialGradient id="o-gold" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#fffbe0"/><stop offset="0.45" stop-color="#ffd23a"/><stop offset="1" stop-color="#e09000"/></radialGradient>
-        <filter id="o-vines" x="-5%" y="-50%" width="110%" height="200%"><feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="14" xChannelSelector="R" yChannelSelector="G"/></filter>
-        <linearGradient id="o-shadow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2e14" stop-opacity="0.5"/><stop offset="1" stop-color="#4a2e14" stop-opacity="0"/></linearGradient>
-        <filter id="o-stone" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="3" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.25  0 0 0 0 0.12  0 0 0 -1.4 0.75" result="speckle"/><feComposite in="speckle" in2="SourceGraphic" operator="atop"/></filter>
-        <g id="o-fygg">
-          <path d="M0 -10 C6 -10 8 -4 9 2 C10 9 6 13 0 13 C-6 13 -10 9 -9 2 C-8 -4 -6 -10 0 -10 Z" fill="url(#o-gold)" stroke="#c07a00" stroke-width="1.2"/>
-          <path d="M0 -10 L1 -15" stroke="#5a8a2a" stroke-width="1.5"/>
-          <path d="M1 -14 Q-8 -20 -12 -13 Q-5 -11 1 -14 Z M1 -14 Q9 -21 13 -14 Q6 -11 1 -14 Z" fill="#3f9a3a" stroke="#256b25" stroke-width="0.8"/>
-        </g>
-      </defs>
-      <ellipse cx="500" cy="440" rx="360" ry="330" fill="url(#o-aura)"/>
-      <g filter="url(#o-stone)">
-      <path d="M160 1200 L185 905 L815 905 L840 1200 Z" fill="url(#o-wall)"/>
-      <g stroke="#8a6a48" stroke-opacity="0.35" stroke-width="1.5"><path d="M183 925 H817"/><path d="M182 943 H818"/><path d="M180 961 H820"/><path d="M179 979 H821"/><path d="M177 997 H823"/><path d="M176 1015 H824"/><path d="M174 1033 H826"/><path d="M173 1051 H827"/><path d="M171 1069 H829"/><path d="M170 1087 H830"/><path d="M168 1105 H832"/><path d="M166 1123 H834"/><path d="M165 1141 H835"/><path d="M163 1159 H837"/><path d="M162 1177 H838"/><path d="M160 1195 H840"/></g>
-      <path d="M200.0 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M252.2 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M304.4 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M356.5 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M408.7 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M460.9 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M513.1 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M565.3 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M617.5 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M669.6 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M721.8 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M774.0 980 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M204.0 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M255.5 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M306.9 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M358.4 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M409.8 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M461.3 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M512.7 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M564.2 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M615.6 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M667.1 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M718.5 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M770.0 1060 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M208.0 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M258.7 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M309.5 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M360.2 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M410.9 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M461.6 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M512.4 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M563.1 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M613.8 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M664.5 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M715.3 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M766.0 1140 v-37.0 a13.0 13.0 0 0 1 26 0 v37.0 Z" fill="#6e5238"/>
-      <path d="M175 905 L825 905 L850 925 L150 925 Z" fill="#ecd3a8"/>
-      <g filter="url(#o-vines)" fill="#5fae45"><circle cx="160" cy="930" r="14"/><circle cx="178" cy="927" r="13"/><circle cx="195" cy="930" r="12"/><circle cx="211" cy="927" r="11"/><circle cx="225" cy="930" r="10"/><circle cx="238" cy="927" r="9"/><circle cx="250" cy="930" r="8"/><circle cx="260" cy="927" r="7"/><circle cx="269" cy="930" r="17"/><circle cx="291" cy="927" r="16"/><circle cx="312" cy="930" r="15"/><circle cx="332" cy="927" r="14"/><circle cx="350" cy="930" r="13"/><circle cx="367" cy="927" r="12"/><circle cx="382" cy="930" r="11"/><circle cx="397" cy="927" r="10"/><circle cx="410" cy="930" r="9"/><circle cx="421" cy="927" r="8"/><circle cx="432" cy="930" r="7"/><circle cx="441" cy="927" r="17"/><circle cx="463" cy="930" r="16"/><circle cx="484" cy="927" r="15"/><circle cx="503" cy="930" r="14"/><circle cx="521" cy="927" r="13"/><circle cx="538" cy="930" r="12"/><circle cx="554" cy="927" r="11"/><circle cx="568" cy="930" r="10"/><circle cx="581" cy="927" r="9"/><circle cx="593" cy="930" r="8"/><circle cx="603" cy="927" r="7"/><circle cx="612" cy="930" r="17"/><circle cx="635" cy="927" r="16"/><circle cx="655" cy="930" r="15"/><circle cx="675" cy="927" r="14"/><circle cx="693" cy="930" r="13"/><circle cx="710" cy="927" r="12"/><circle cx="726" cy="930" r="11"/><circle cx="740" cy="927" r="10"/><circle cx="753" cy="930" r="9"/><circle cx="765" cy="927" r="8"/><circle cx="775" cy="930" r="7"/><circle cx="784" cy="927" r="17"/><circle cx="806" cy="930" r="16"/><circle cx="827" cy="927" r="15"/><circle cx="846" cy="930" r="14"/></g>
-      <g filter="url(#o-vines)" fill="#4e9a3a" opacity="0.9"><circle cx="170" cy="987" r="13"/><circle cx="187" cy="990" r="12"/><circle cx="202" cy="987" r="11"/><circle cx="217" cy="990" r="10"/><circle cx="230" cy="987" r="9"/><circle cx="242" cy="990" r="8"/><circle cx="252" cy="987" r="7"/><circle cx="261" cy="990" r="17"/><circle cx="283" cy="987" r="16"/><circle cx="304" cy="990" r="15"/><circle cx="323" cy="987" r="14"/><circle cx="342" cy="990" r="13"/><circle cx="358" cy="987" r="12"/><circle cx="374" cy="990" r="11"/><circle cx="388" cy="987" r="10"/><circle cx="401" cy="990" r="9"/><circle cx="413" cy="987" r="8"/><circle cx="424" cy="990" r="7"/><circle cx="433" cy="987" r="17"/><circle cx="455" cy="990" r="16"/><circle cx="476" cy="987" r="15"/><circle cx="495" cy="990" r="14"/><circle cx="513" cy="987" r="13"/><circle cx="530" cy="990" r="12"/><circle cx="546" cy="987" r="11"/><circle cx="560" cy="990" r="10"/><circle cx="573" cy="987" r="9"/><circle cx="585" cy="990" r="8"/><circle cx="595" cy="987" r="7"/><circle cx="604" cy="990" r="17"/><circle cx="626" cy="987" r="16"/><circle cx="647" cy="990" r="15"/><circle cx="667" cy="987" r="14"/><circle cx="685" cy="990" r="13"/><circle cx="702" cy="987" r="12"/><circle cx="717" cy="990" r="11"/><circle cx="732" cy="987" r="10"/><circle cx="745" cy="990" r="9"/><circle cx="756" cy="987" r="8"/><circle cx="767" cy="990" r="7"/><circle cx="776" cy="987" r="17"/><circle cx="798" cy="990" r="16"/><circle cx="819" cy="987" r="15"/><circle cx="170" cy="1069" r="10"/><circle cx="183" cy="1066" r="9"/><circle cx="195" cy="1069" r="8"/><circle cx="205" cy="1066" r="7"/><circle cx="214" cy="1069" r="17"/><circle cx="236" cy="1066" r="16"/><circle cx="257" cy="1069" r="15"/><circle cx="277" cy="1066" r="14"/><circle cx="295" cy="1069" r="13"/><circle cx="312" cy="1066" r="12"/><circle cx="327" cy="1069" r="11"/><circle cx="342" cy="1066" r="10"/><circle cx="355" cy="1069" r="9"/><circle cx="366" cy="1066" r="8"/><circle cx="377" cy="1069" r="7"/><circle cx="386" cy="1066" r="17"/><circle cx="408" cy="1069" r="16"/><circle cx="429" cy="1066" r="15"/><circle cx="448" cy="1069" r="14"/><circle cx="466" cy="1066" r="13"/><circle cx="483" cy="1069" r="12"/><circle cx="499" cy="1066" r="11"/><circle cx="513" cy="1069" r="10"/><circle cx="526" cy="1066" r="9"/><circle cx="538" cy="1069" r="8"/><circle cx="548" cy="1066" r="7"/><circle cx="557" cy="1069" r="17"/><circle cx="580" cy="1066" r="16"/><circle cx="600" cy="1069" r="15"/><circle cx="620" cy="1066" r="14"/><circle cx="638" cy="1069" r="13"/><circle cx="655" cy="1066" r="12"/><circle cx="670" cy="1069" r="11"/><circle cx="685" cy="1066" r="10"/><circle cx="698" cy="1069" r="9"/><circle cx="710" cy="1066" r="8"/><circle cx="720" cy="1069" r="7"/><circle cx="729" cy="1066" r="17"/><circle cx="751" cy="1069" r="16"/><circle cx="772" cy="1066" r="15"/><circle cx="791" cy="1069" r="14"/><circle cx="810" cy="1066" r="13"/><circle cx="826" cy="1069" r="12"/></g>
-      <rect x="185" y="925" width="630" height="28" fill="url(#o-shadow)"/>
-      <rect x="177.0" y="820" width="26" height="105" fill="url(#o-column)"/>
-      <rect x="172.0" y="812" width="36" height="10" rx="2" fill="#ecd3a8"/>
-      <rect x="173.0" y="919" width="34" height="8" fill="#b8956a"/>
-      <rect x="797.0" y="820" width="26" height="105" fill="url(#o-column)"/>
-      <rect x="792.0" y="812" width="36" height="10" rx="2" fill="#ecd3a8"/>
-      <rect x="793.0" y="919" width="34" height="8" fill="#b8956a"/>
-      <rect x="291.0" y="850" width="18" height="65" fill="url(#o-column)"/>
-      <rect x="286.0" y="842" width="28" height="10" rx="2" fill="#ecd3a8"/>
-      <rect x="287.0" y="909" width="26" height="8" fill="#b8956a"/>
-      <rect x="691.0" y="850" width="18" height="65" fill="url(#o-column)"/>
-      <rect x="686.0" y="842" width="28" height="10" rx="2" fill="#ecd3a8"/>
-      <rect x="687.0" y="909" width="26" height="8" fill="#b8956a"/>
-      <g filter="url(#o-vines)" fill="#57a843"><rect x="215" y="925" width="7" height="30" rx="4"/><rect x="262" y="925" width="10" height="53" rx="4"/><rect x="309" y="925" width="13" height="76" rx="4"/><rect x="356" y="925" width="7" height="44" rx="4"/><rect x="403" y="925" width="10" height="67" rx="4"/><rect x="450" y="925" width="13" height="35" rx="4"/><rect x="497" y="925" width="7" height="58" rx="4"/><rect x="544" y="925" width="10" height="81" rx="4"/><rect x="591" y="925" width="13" height="49" rx="4"/><rect x="638" y="925" width="7" height="72" rx="4"/><rect x="685" y="925" width="10" height="40" rx="4"/><rect x="732" y="925" width="13" height="63" rx="4"/><rect x="779" y="925" width="7" height="31" rx="4"/><rect x="318" y="815" width="6" height="20" rx="3"/><rect x="371" y="815" width="9" height="37" rx="3"/><rect x="424" y="815" width="6" height="54" rx="3"/><rect x="477" y="815" width="9" height="36" rx="3"/><rect x="530" y="815" width="6" height="53" rx="3"/><rect x="583" y="815" width="9" height="35" rx="3"/><rect x="636" y="815" width="6" height="52" rx="3"/><rect x="689" y="815" width="9" height="34" rx="3"/></g>
-      <path d="M290 910 L300 800 L700 800 L710 910 Z" fill="url(#o-wall)"/>
-      <path d="M320.0 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M367.1 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M414.3 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M461.4 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M508.6 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M555.7 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M602.9 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M650.0 885 v-40.0 a15.0 15.0 0 0 1 30 0 v40.0 Z" fill="#6e5238"/>
-      <path d="M292 800 L708 800 L725 815 L275 815 Z" fill="#ecd3a8"/>
-      <rect x="298" y="815" width="404" height="22" fill="url(#o-shadow)"/>
-      <g filter="url(#o-vines)" fill="#6cbc4c"><circle cx="280" cy="816" r="9"/><circle cx="292" cy="819" r="8"/><circle cx="302" cy="816" r="7"/><circle cx="311" cy="819" r="17"/><circle cx="333" cy="816" r="16"/><circle cx="354" cy="819" r="15"/><circle cx="374" cy="816" r="14"/><circle cx="392" cy="819" r="13"/><circle cx="409" cy="816" r="12"/><circle cx="424" cy="819" r="11"/><circle cx="439" cy="816" r="10"/><circle cx="452" cy="819" r="9"/><circle cx="463" cy="816" r="8"/><circle cx="474" cy="819" r="7"/><circle cx="483" cy="816" r="17"/><circle cx="505" cy="819" r="16"/><circle cx="526" cy="816" r="15"/><circle cx="545" cy="819" r="14"/><circle cx="563" cy="816" r="13"/><circle cx="580" cy="819" r="12"/><circle cx="596" cy="816" r="11"/><circle cx="610" cy="819" r="10"/><circle cx="623" cy="816" r="9"/><circle cx="635" cy="819" r="8"/><circle cx="645" cy="816" r="7"/><circle cx="654" cy="819" r="17"/><circle cx="677" cy="816" r="16"/><circle cx="697" cy="819" r="15"/><circle cx="717" cy="816" r="14"/></g>
-      <rect x="360" y="700" width="280" height="100" fill="url(#o-drum)"/>
-      <rect x="366" y="708" width="268" height="86" fill="#6e5238" opacity="0.85"/>
-      <rect x="360.0" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="386.4" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="412.8" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="439.2" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="465.6" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="492.0" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="518.4" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="544.8" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="571.2" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="597.6" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <rect x="624.0" y="704" width="16" height="92" fill="url(#o-column)"/>
-      <path d="M340 700 A160 20 0 0 0 660 700 v10 A160 20 0 0 1 340 710 Z" fill="#b8956a"/>
-      <ellipse cx="500" cy="700" rx="160" ry="20" fill="#ecd3a8"/>
-      <rect x="362" y="710" width="276" height="18" fill="url(#o-shadow)"/>
-      <g filter="url(#o-vines)" fill="#6cbc4c"><circle cx="345" cy="717" r="12"/><circle cx="361" cy="714" r="11"/><circle cx="375" cy="717" r="10"/><circle cx="388" cy="714" r="9"/><circle cx="400" cy="717" r="8"/><circle cx="410" cy="714" r="7"/><circle cx="419" cy="717" r="17"/><circle cx="441" cy="714" r="16"/><circle cx="462" cy="717" r="15"/><circle cx="482" cy="714" r="14"/><circle cx="500" cy="717" r="13"/><circle cx="517" cy="714" r="12"/><circle cx="532" cy="717" r="11"/><circle cx="546" cy="714" r="10"/><circle cx="560" cy="717" r="9"/><circle cx="571" cy="714" r="8"/><circle cx="582" cy="717" r="7"/><circle cx="591" cy="714" r="17"/><circle cx="613" cy="717" r="16"/><circle cx="634" cy="714" r="15"/><circle cx="653" cy="717" r="14"/></g>
-      <rect x="300" y="760" width="60" height="12" fill="#b8956a"/>
-      <path d="M300 760 h60" stroke="#ecd3a8" stroke-width="3"/>
-      <rect x="304" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="316" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="328" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="340" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="352" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="300" y="738" width="60" height="5" fill="#ecd3a8"/>
-      <rect x="640" y="760" width="60" height="12" fill="#b8956a"/>
-      <path d="M640 760 h60" stroke="#ecd3a8" stroke-width="3"/>
-      <rect x="644" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="656" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="668" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="680" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="692" y="742" width="4" height="18" fill="#ecd3a8"/>
-      <rect x="640" y="738" width="60" height="5" fill="#ecd3a8"/>
-      <rect x="400" y="615" width="200" height="85" fill="url(#o-drum)"/>
-      <rect x="406" y="623" width="188" height="71" fill="#6e5238" opacity="0.85"/>
-      <rect x="400.0" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="423.2" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="446.5" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="469.8" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="493.0" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="516.2" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="539.5" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="562.8" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <rect x="586.0" y="619" width="14" height="77" fill="url(#o-column)"/>
-      <path d="M382 615 A118 16 0 0 0 618 615 v9 A118 16 0 0 1 382 624 Z" fill="#b8956a"/>
-      <ellipse cx="500" cy="615" rx="118" ry="16" fill="#ecd3a8"/>
-      <rect x="402" y="624" width="196" height="16" fill="url(#o-shadow)"/>
-      <g filter="url(#o-vines)" fill="#6cbc4c"><circle cx="390" cy="629" r="17"/><circle cx="412" cy="626" r="16"/><circle cx="433" cy="629" r="15"/><circle cx="452" cy="626" r="14"/><circle cx="471" cy="629" r="13"/><circle cx="488" cy="626" r="12"/><circle cx="503" cy="629" r="11"/><circle cx="517" cy="626" r="10"/><circle cx="530" cy="629" r="9"/><circle cx="542" cy="626" r="8"/><circle cx="552" cy="629" r="7"/><circle cx="562" cy="626" r="17"/><circle cx="584" cy="629" r="16"/><circle cx="604" cy="626" r="15"/></g>
-      <path d="M405 600 L420 560 L580 560 L595 600 Z" fill="url(#o-wall)"/>
-      <path d="M430.0 598 v-21.0 a9.0 9.0 0 0 1 18 0 v21.0 Z" fill="#6e5238"/>
-      <path d="M460.5 598 v-21.0 a9.0 9.0 0 0 1 18 0 v21.0 Z" fill="#6e5238"/>
-      <path d="M491.0 598 v-21.0 a9.0 9.0 0 0 1 18 0 v21.0 Z" fill="#6e5238"/>
-      <path d="M521.5 598 v-21.0 a9.0 9.0 0 0 1 18 0 v21.0 Z" fill="#6e5238"/>
-      <path d="M552.0 598 v-21.0 a9.0 9.0 0 0 1 18 0 v21.0 Z" fill="#6e5238"/>
-      <path d="M395 560 A105 16 0 0 0 605 560 v8 A105 16 0 0 1 395 568 Z" fill="#b8956a"/>
-      <ellipse cx="500" cy="560" rx="105" ry="16" fill="#ecd3a8"/>
-      <path d="M485 600 L480 560 L520 560 L515 600 Z" fill="#ecd3a8"/>
-      <path d="M482 570 H518 M483 580 H517 M484 590 H516" stroke="#b8956a" stroke-width="2"/>
-      </g>
-      <path d="M478 562 C482 530 474 505 486 470 L514 470 C526 505 518 530 522 562 Z" fill="url(#o-bark)"/>
-      <path d="M470 562 Q480 552 486 540 M530 562 Q520 552 514 540" stroke="#5a3a22" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <g fill="none" stroke="#6b4528" stroke-linecap="round"><path d="M492 478 C470 440 440 420 400 410" stroke-width="12"/><path d="M508 478 C530 440 560 420 600 410" stroke-width="12"/><path d="M500 475 C500 440 498 410 502 370" stroke-width="10"/></g>
-      <g filter="url(#foliage)">
-      <g fill="#2f7a35"><circle cx="500" cy="392" r="95"/><circle cx="420" cy="422" r="80"/><circle cx="580" cy="422" r="80"/><circle cx="360" cy="462" r="60"/><circle cx="640" cy="462" r="60"/><circle cx="455" cy="342" r="70"/><circle cx="545" cy="342" r="70"/><circle cx="500" cy="307" r="65"/><circle cx="450" cy="467" r="60"/><circle cx="550" cy="467" r="60"/><circle cx="500" cy="452" r="65"/></g>
-      <g fill="url(#y-leaf)"><circle cx="500" cy="380" r="95"/><circle cx="420" cy="410" r="80"/><circle cx="580" cy="410" r="80"/><circle cx="360" cy="450" r="60"/><circle cx="640" cy="450" r="60"/><circle cx="455" cy="330" r="70"/><circle cx="545" cy="330" r="70"/><circle cx="500" cy="295" r="65"/><circle cx="450" cy="455" r="60"/><circle cx="550" cy="455" r="60"/><circle cx="500" cy="440" r="65"/></g>
-      <g fill="#dcf9a8" opacity="0.6"><circle cx="480" cy="300" r="36"/><circle cx="430" cy="355" r="30"/><circle cx="560" cy="330" r="32"/><circle cx="385" cy="425" r="22"/><circle cx="610" cy="420" r="22"/><circle cx="505" cy="390" r="28"/></g>
-      </g>
-      <g fill="#ffe27a" filter="url(#glow)"><circle class="fygg" cx="440" cy="360" r="18"/><circle class="fygg" cx="560" cy="300" r="18"/><circle class="fygg" cx="600" cy="430" r="18"/><circle class="fygg" cx="390" cy="450" r="18"/><circle class="fygg" cx="500" cy="430" r="18"/><circle class="fygg" cx="500" cy="335" r="18"/><circle class="fygg" cx="655" cy="470" r="18"/></g>
-      <use href="#o-fygg" transform="translate(440 360)"/><use href="#o-fygg" transform="translate(560 300)"/><use href="#o-fygg" transform="translate(600 430)"/><use href="#o-fygg" transform="translate(390 450)"/><use href="#o-fygg" transform="translate(500 430)"/><use href="#o-fygg" transform="translate(500 335)"/><use href="#o-fygg" transform="translate(655 470)"/>
-      <g fill="#fff" filter="url(#glow)"><ellipse cx="300" cy="880" rx="220" ry="14" opacity="0.55"/><ellipse cx="720" cy="960" rx="240" ry="16" opacity="0.5"/><ellipse cx="480" cy="760" rx="170" ry="10" opacity="0.45"/></g>
-    </svg>
-
-    <div class="cloud-sea"><span class="sea-back"></span><span class="sea-mid"></span><span class="sea-blush"></span><span class="sea-front"></span></div>
-  </div>
-
-  <header class="site-header">
-    <div class="dq-window title-window">
-      <p class="gate">✦ L'Observatoire ✦</p>
-      <h1>Alexis Dominguez</h1>
-      <p class="subtitle">Alternant BTS SIO SISR – Systèmes &amp; Réseaux</p>
-      <p class="hint">Choisis un nuage… ou attrape le Célestellien pour lire le CV complet</p>
+      <!-- Scène de combat en pixel art (dessinée par js/app.js) -->
+      <div class="scene" id="scene" aria-hidden="true">
+        <canvas id="backdrop" width="256" height="144"></canvas>
+        <canvas id="monster" width="24" height="22"></canvas>
+      </div>
     </div>
 
-    <nav aria-label="Sections du CV">
-      <ul class="clouds">
-        <li><a class="cloud" href="#presentation"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Présentation</span></a></li>
-        <li><a class="cloud" href="#experiences"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Expériences</span></a></li>
-        <li><a class="cloud" href="#formations"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Formations</span></a></li>
-        <li><a class="cloud" href="#competences"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Compétences</span></a></li>
-        <li><a class="cloud" href="#langues"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Langues</span></a></li>
-        <li><a class="cloud" href="#hobbies"><span class="cloud-body" aria-hidden="true"><span class="c-back"></span><span class="c-mid"></span><span class="c-front"></span></span><span class="cloud-label">Hobbies</span></a></li>
-      </ul>
-    </nav>
-  </header>
+    <div class="battle-ui">
+      <nav class="win command-win" aria-label="Sections du CV">
+        <p class="win-title">Alexis</p>
+        <ul class="commands">
+          <li><a class="command" href="#presentation">Présentation</a></li>
+          <li><a class="command" href="#experiences">Expériences</a></li>
+          <li><a class="command" href="#formations">Formations</a></li>
+          <li><a class="command" href="#competences">Compétences</a></li>
+          <li><a class="command" href="#langues">Langues</a></li>
+          <li><a class="command" href="#hobbies">Loisirs</a></li>
+          <li><a class="command" href="#cv" data-full>CV complet</a></li>
+          <li><button class="command" type="button" id="fightBtn" hidden>Combattre</button></li>
+        </ul>
+      </nav>
+
+      <div class="win message-win">
+        <p class="message" id="message">Un Bogue sauvage apparaît ! Choisis une commande pour découvrir le CV d'Alexis.</p>
+      </div>
+    </div>
+  </div>
 
   <main id="cv" tabindex="-1">
-    <button class="close-btn" type="button" id="closeCv" hidden aria-label="Fermer le CV complet">✕</button>
-    <div class="dq-window cv-window">
-      <p class="cv-name" aria-hidden="true">Alexis Dominguez</p>
+    <button class="btn close-btn" type="button" id="closeCv" hidden aria-label="Fermer le CV complet">✕</button>
+    <div class="win cv-window">
+      <p class="win-title" aria-hidden="true">CV complet</p>
+
+      <div class="print-only print-header" aria-hidden="true">
+        <p class="print-name">Alexis Dominguez</p>
+        <p class="print-title">Alternant BTS SIO option SISR – Systèmes &amp; Réseaux</p>
+        <p class="print-contact">Permis A et B · github.com/alexisdm24</p>
+      </div>
 
       <section id="presentation" aria-labelledby="presentation-title">
         <h2 id="presentation-title">Présentation</h2>
@@ -1181,159 +895,12 @@ dialog[open] .panel {
 
   <footer class="site-footer">
     <p>© 2026 Alexis Dominguez · <a href="https://github.com/alexisdm24">Voir mes projets sur GitHub</a></p>
-    <p>Thème : hommage non officiel à Dragon Quest IX (© Square Enix)</p>
+    <p>Style inspiré de la série Dragon Quest (© Square Enix) – hommage non officiel, graphismes et personnages originaux.</p>
   </footer>
 
-  <button class="angel" id="angel" type="button" hidden aria-label="Ouvrir le CV complet que porte le Célestellien">
-    <span class="angel-tip" aria-hidden="true">Lire le CV complet</span>
-    <svg viewBox="0 -24 200 250" aria-hidden="true" focusable="false">
-      <defs>
-        <path id="a-plume" d="M0 0 C-10 -6 -36 -7 -52 -1 C-56 0 -56 2 -52 3 C-36 7 -10 6 0 0 Z"/>
-        <filter id="a-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
-      </defs>
-
-      <!-- Ailes blanches (plumes ajoutées par js/app.js) -->
-      <g transform="translate(88 86)"><g class="wing"><animateTransform attributeName="transform" type="rotate" values="-6;10;-6" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="1.4s" repeatCount="indefinite"/></g></g>
-      <g transform="translate(112 86) scale(-1 1)"><g class="wing"><animateTransform attributeName="transform" type="rotate" values="-6;10;-6" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="1.4s" repeatCount="indefinite"/></g></g>
-
-      <g stroke="#2b2440" stroke-width="1.6" stroke-linejoin="round">
-        <!-- Collants moutarde et bottes à revers -->
-        <path d="M86 144 L85 178 L96 178 L97 146 Z" fill="#dcb83e"/>
-        <path d="M103 146 L104 178 L115 178 L114 144 Z" fill="#b8942a"/>
-        <path d="M85.5 154 H96.5 M85.3 162 H96.3 M85.1 170 H96.1 M103.3 154 H114.3 M103.6 162 H114.6 M103.8 170 H114.8" fill="none" stroke-width="1"/>
-        <path d="M82 180 L81 196 Q89 201 99 197 L98 180 Z" fill="#d9c28c"/>
-        <path d="M102 180 L101 197 Q111 201 119 196 L118 180 Z" fill="#b89f66"/>
-        <path d="M80 173 L99 173 L100 182 L79 182 Z" fill="#e8d6a6"/>
-        <path d="M101 173 L120 173 L121 182 L100 182 Z" fill="#c8b07a"/>
-
-        <!-- Sous-pull marron -->
-        <path d="M80 82 Q100 76 120 82 L124 124 L76 124 Z" fill="#6b4a33"/>
-
-        <!-- Jupe à lanières et ceinture violette en zigzag -->
-        <path d="M74.0 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#e2764a"/>
-        <path d="M75.3 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="76.9" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="76.9" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M79.8 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#e2764a"/>
-        <path d="M81.1 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="82.7" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="82.7" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M85.6 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#e2764a"/>
-        <path d="M86.9 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="88.4" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="88.4" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M91.3 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#e2764a"/>
-        <path d="M92.6 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="94.2" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="94.2" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M97.1 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#e2764a"/>
-        <path d="M98.4 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="100.0" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="100.0" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M102.9 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#e2764a"/>
-        <path d="M104.2 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="105.8" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="105.8" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M108.7 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#c55b37"/>
-        <path d="M110.0 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="111.6" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="111.6" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M114.4 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#c55b37"/>
-        <path d="M115.7 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="117.3" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="117.3" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M120.2 122 h5.8 v22 l-2.9 4.0 l-2.9 -4.0 Z" fill="#c55b37"/>
-        <path d="M121.5 123 v21" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <circle cx="123.1" cy="138" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <circle cx="123.1" cy="143" r="1.2" fill="#8a4fb5" stroke="none"/>
-        <path d="M76 116 H124 V122 L120 126 L116 122 L112 126 L108 122 L104 126 L100 122 L96 126 L92 122 L88 126 L84 122 L80 126 L76 122 Z" fill="#9a6fc0"/>
-        <g stroke="none" fill="#f7a8b8">
-          <circle cx="82" cy="119" r="1.2"/><circle cx="90" cy="119" r="1.2"/><circle cx="98" cy="119" r="1.2"/>
-          <circle cx="106" cy="119" r="1.2"/><circle cx="114" cy="119" r="1.2"/><circle cx="120" cy="119" r="1.2"/>
-        </g>
-
-        <!-- Cape à lanières orange -->
-        <path d="M71.0 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#e2764a"/>
-        <path d="M72.3 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M76.8 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#e2764a"/>
-        <path d="M78.1 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M82.6 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#e2764a"/>
-        <path d="M83.9 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M88.4 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#e2764a"/>
-        <path d="M89.7 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M94.2 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#e2764a"/>
-        <path d="M95.5 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M100.0 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#e2764a"/>
-        <path d="M101.3 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M105.8 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#c55b37"/>
-        <path d="M107.1 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M111.6 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#c55b37"/>
-        <path d="M112.9 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M117.4 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#c55b37"/>
-        <path d="M118.7 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-        <path d="M123.2 86 h5.8 v20 l-2.9 4.1 l-2.9 -4.1 Z" fill="#c55b37"/>
-        <path d="M124.5 87 v19" stroke="#f3e3b0" stroke-width="0.9" fill="none"/>
-
-        <!-- Empiècement violet bordé d'or, boutons dorés -->
-        <path d="M74 88 Q74 78 88 76 L112 76 Q126 78 126 88 Q100 82 74 88 Z" fill="#9a6fc0"/>
-        <path d="M74 88 Q100 82 126 88" fill="none" stroke="#f0d27a" stroke-width="2.4"/>
-        <circle cx="93" cy="80" r="2.2" fill="#f0d27a"/>
-        <circle cx="107" cy="80" r="2.2" fill="#f0d27a"/>
-
-        <!-- Sangle de cuir en travers -->
-        <path d="M80 90 L117 114 L114 118 L78 94 Z" fill="#8a5a36"/>
-        <rect x="95" y="100" width="7" height="6" rx="1" fill="#f0d27a" transform="rotate(33 98.5 103)"/>
-
-        <!-- Manches marron et mains -->
-        <path d="M74 88 Q68 100 72 110 L82 112 Q80 102 82 94 Z" fill="#6b4a33"/>
-        <path d="M126 88 Q132 100 128 110 L118 112 Q120 102 118 94 Z" fill="#553926"/>
-        <path d="M72 108 Q76 118 88 118 L89 111 Q82 111 81 106 Z" fill="#6b4a33"/>
-        <path d="M128 108 Q124 118 112 118 L111 111 Q118 111 119 106 Z" fill="#553926"/>
-
-        <!-- Parchemin -->
-        <rect x="86" y="105" width="28" height="16" rx="1.5" fill="#f6e6bb"/>
-        <ellipse cx="86" cy="113" rx="3.5" ry="9" fill="#e8d3a0"/>
-        <ellipse cx="114" cy="113" rx="3.5" ry="9" fill="#e8d3a0"/>
-        <path d="M100 121 L98 129 M100 121 L102 129" fill="none" stroke="#c0392b" stroke-width="2"/>
-        <circle cx="100" cy="120" r="3.5" fill="#c0392b"/>
-        <circle cx="88" cy="115" r="4.5" fill="#ffe0c4"/>
-        <circle cx="112" cy="115" r="4.5" fill="#f2c4a2"/>
-
-        <!-- Col montant -->
-        <rect x="91" y="66" width="18" height="12" rx="3" fill="#6b4a33"/>
-        <path d="M91 71 H109" fill="none" stroke="#c0392b" stroke-width="2"/>
-
-        <!-- Tête -->
-        <ellipse cx="78" cy="56" rx="3" ry="4.5" fill="#f2c4a2"/>
-        <ellipse cx="122" cy="56" rx="3" ry="4.5" fill="#f2c4a2"/>
-        <path d="M78 50 Q78 28 100 28 Q122 28 122 50 Q122 66 110 71 Q100 75 90 71 Q78 66 78 50 Z" fill="#ffe0c4"/>
-
-        <!-- Cheveux châtains en bataille -->
-        <path d="M74 56 Q66 36 78 22 Q86 8 104 9 Q124 10 130 26 Q136 42 126 58 L122 47 L119 57 L115 42 L109 51 L105 38 L99 49 L94 38 L89 51 L85 42 L81 56 L78 46 Z" fill="#7a5436"/>
-        <path d="M84 18 L74 14 L80 24 Z M120 17 L129 15 L124 24 Z" fill="#7a5436"/>
-        <path d="M112 16 Q124 22 126 36 M86 20 Q80 28 80 38" fill="none" stroke="#4e321f" stroke-width="1.1"/>
-      </g>
-
-      <!-- Visage : regard déterminé -->
-      <path d="M85 47 L96 50.5 M115 47 L104 50.5" stroke="#3a2618" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M88 53.5 Q92 51.5 96 53 L95.2 58 Q91.5 59.2 88.4 57.2 Z" fill="#2b2440"/>
-      <path d="M112 53.5 Q108 51.5 104 53 L104.8 58 Q108.5 59.2 111.6 57.2 Z" fill="#2b2440"/>
-      <circle cx="93.4" cy="54.6" r="1.1" fill="#fff"/>
-      <circle cx="106.6" cy="54.6" r="1.1" fill="#fff"/>
-      <path d="M100.5 58.5 L99.5 62 L101 62.3" fill="none" stroke="#c98b6e" stroke-width="1"/>
-      <path d="M96.5 66 Q100 67.5 103.5 66" fill="none" stroke="#2b2440" stroke-width="1.5" stroke-linecap="round"/>
-
-      <!-- Auréole dorée des Célestelliens -->
-      <ellipse cx="102" cy="-12" rx="21" ry="5.5" fill="none" stroke="#ffe38a" stroke-width="8" opacity="0.7" filter="url(#a-glow)"/>
-      <ellipse cx="102" cy="-12" rx="21" ry="5.5" fill="none" stroke="#2b2440" stroke-width="7"/>
-      <ellipse cx="102" cy="-12" rx="21" ry="5.5" fill="none" stroke="#ffd65a" stroke-width="4.2"/>
-      <path d="M85 -14.5 Q94 -17.3 105 -17.5" fill="none" stroke="#fff6c0" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>
-  </button>
-
   <dialog id="sectionDialog" aria-label="Section du CV">
-    <div class="dq-window panel">
-      <button class="close-btn" type="button" id="closeSection" aria-label="Fermer la section">✕</button>
+    <div class="win panel">
+      <button class="btn close-btn" type="button" id="closeSection" aria-label="Fermer la section">✕</button>
       <div id="sectionContent"></div>
     </div>
   </dialog>

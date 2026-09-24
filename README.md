@@ -8,36 +8,44 @@ d'après le sujet [fabrice1618/cv_html_statique](https://github.com/fabrice1618/
 
 ## Concept
 
-Thème inspiré de **Dragon Quest IX** (hommage non officiel, © Square Enix) :
-en fond, l'**Observatoire** des Célestelliens, une citadelle flottante en
-pierre ocre à étages (socle couvert de verdure et de lianes, arches,
-colonnes, tours rondes à colonnades, balcons) qui sort de la mer de nuages,
-avec à son sommet l'**Yggdrasil** lumineux et ses sept **Fyggs**, des fruits
-dorés en forme de poire à feuilles vertes. Les nuages reprennent le style
-peint des illustrations du jeu : sommets blancs, dessous lavande et violet
-avec des reflets rosés, petits nuages flottants et traînées de cirrus. Tous les dessins sont originaux (SVG et CSS),
-aucune image ni logo du jeu n'est utilisé.
+Style des **Dragon Quest classiques** (épisodes I à V et remakes 2D-HD),
+hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
+**originaux** : aucun sprite, logo ni musique du jeu n'est utilisé.
 
-- Chaque **nuage** ouvre une partie du CV (Présentation, Expériences,
-  Formations, Compétences, Langues, Hobbies) dans une fenêtre au style de
-  Dragon Quest IX : fond anthracite légèrement granuleux, fin liseré blanc
-  aux coins arrondis, texte blanc à empattements, titres dans une petite
-  fenêtre-onglet, et la ligne sélectionnée en jaune avec la flèche ▶.
-- Le **Célestellien** vole avec un parchemin : un clic dessus ouvre le
-  **CV complet**, qui peut être imprimé. Son dessin reprend le costume des
-  Célestelliens du jeu (sous-pull à col montant, empiècement violet bordé
-  d'or, cape et jupe à lanières orange, collants moutarde, bottes à revers),
-  avec l'auréole dorée et les ailes blanches.
-- Sans JavaScript, le CV complet reste affiché et les nuages deviennent des
-  liens vers chaque section.
+- **Écran de combat** vu à la première personne : un décor en pixel art
+  (ciel en bandes tramées, montagnes enneigées, château royal, prairie et
+  chemin de terre) et un monstre original, le **Bogue**, une goutte verte à
+  antennes (clin d'œil aux bugs informatiques), animé sur 2 images.
+  Tout est dessiné en JavaScript sur un <canvas> en basse résolution
+  (256 × 144), agrandi sans lissage (image-rendering: pixelated).
+- **Fenêtre d'état** en haut : nom, vocation, NIV, PV, PM et EXP.
+- **Menu de commandes** : Présentation, Expériences, Formations,
+  Compétences, Langues, Loisirs, CV complet, Combattre. Curseur ▶ qui
+  clignote, navigation à la souris ou au clavier (flèches + Entrée).
+  Chaque commande ouvre la section dans une fenêtre Dragon Quest : fond noir
+  uni, bordure blanche épaisse, coins arrondis, police pixel blanche, ▼
+  clignotant.
+- **Fenêtre de message** : le texte s'affiche lettre par lettre (un clic
+  affiche tout d'un coup). Les lecteurs d'écran reçoivent le texte complet.
+- **Combat bonus** : « Alexis attaque ! », le Bogue clignote, l'écran tremble
+  sur le coup critique, « Le Bogue est vaincu ! », +2 EXP.
+- **Son rétro** facultatif (désactivé par défaut) : « bip » du texte, bruit
+  d'impact et petite fanfare de victoire, générés avec la Web Audio API.
+- Sans JavaScript, le CV complet reste affiché et les commandes deviennent
+  des liens vers chaque section.
+- **Impression** (bouton « Imprimer le CV » ou Ctrl+P) : une feuille de style
+  dédiée produit un **CV standard sur une page A4**, sans le style Dragon
+  Quest : police classique, noir sur blanc, en-tête avec nom, poste visé et
+  contact, puis deux colonnes (présentation et expériences à gauche ;
+  formations, compétences, langues et centres d'intérêt à droite).
 
 ## Arborescence
 
 ```
 .
 ├─ index.html      contenu du CV + styles (balise <style>, mobile-first)
-├─ js/app.js       nuages, Célestellien, CV complet (chargé avec defer)
-├─ img/            images optimisées (aucune : tout est dessiné en SVG)
+├─ js/app.js       pixel art, menu, messages, combat, son (chargé avec defer)
+├─ img/            images optimisées (aucune : tout est dessiné en code)
 └─ cv.md           contenu source rédigé en Markdown
 ```
 
@@ -96,4 +104,7 @@ aucune image ni logo du jeu n'est utilisé.
   joints de maçonnerie et ombres sous les corniches ; police pixel
   *DotGothic16* façon Dragon Quest (une seule graisse : la mise en valeur se
   fait en jaune, comme dans les dialogues du jeu).
+- Refonte complète dans le style des Dragon Quest classiques : écran de
+  combat en pixel art, fenêtres noires à bordure blanche épaisse, menu de
+  commandes utilisable au clavier, messages lettre par lettre, combat bonus.
 - …
