@@ -25,7 +25,7 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   Compétences, Langues, Loisirs, CV complet, Combattre. Curseur ▶ qui
   clignote, navigation à la souris ou au clavier (flèches + Entrée).
   Chaque commande ouvre la section dans une fenêtre Dragon Quest : fond noir
-  uni, bordure blanche épaisse, coins arrondis, police pixel blanche, ▼
+  uni, bordure blanche épaisse, coins arrondis, texte blanc en police à chasse fixe, ▼
   clignotant.
 - **Fenêtre de message** : le texte s'affiche lettre par lettre (un clic
   affiche tout d'un coup). Les lecteurs d'écran reçoivent le texte complet.
@@ -52,6 +52,7 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   | Le Fantôme 404 | 30 | 4 | flotte, traîne ondulée |
   | Le Ver du Réseau | 34 | 5 | ondule |
   | Le Golem Serveur | 44 | 8 | voyants qui clignotent, bras qui bougent |
+- **Options** : boutons « Son » et « Animations » dans la fenêtre d'état.
 - **Son rétro** facultatif (désactivé par défaut) : « bip » du texte, bruit
   d'impact et petite fanfare de victoire, générés avec la Web Audio API.
 - Sans JavaScript, le CV complet reste affiché et les commandes deviennent
@@ -66,10 +67,12 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 
 ```
 .
-├─ index.html      contenu du CV + styles (balise <style>, mobile-first)
-├─ js/app.js       pixel art, menu, messages, combat, son (chargé avec defer)
+├─ index.html      structure et contenu du CV (HTML sémantique)
+├─ css/style.css   mise en page mobile-first + feuille d'impression
+├─ js/app.js       pixel art, menu, messages, combat, son (facultatif, chargé avec defer)
 ├─ img/            images optimisées (aucune : tout est dessiné en code)
-└─ cv.md           contenu source rédigé en Markdown
+├─ cv.md           contenu source rédigé en Markdown
+└─ .gitignore      fichiers locaux exclus du dépôt
 ```
 
 ## Choix techniques
@@ -80,54 +83,64 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 - **Confidentialité** : aucun téléphone, adresse ou e-mail. Seul contact :
   le lien GitHub.
 - **Accessibilité** : lien d'évitement, focus visibles, navigation au clavier
-  (Tab, Entrée, Échap), police ≥ 16 px, contrastes AA. Les animations sont
-  coupées si l'utilisateur a activé « réduire les animations ».
-- **Performance** : aucune bibliothèque, aucune image bitmap, script chargé
-  avec `defer`. Une **seule** police web, *DotGothic16* (Google Fonts, licence
-  libre OFL), choisie parce qu'elle reproduit les caractères pixel des jeux
-  Dragon Quest : chargée avec `preconnect` et `display=swap` (le texte
-  s'affiche tout de suite en police de secours), et seuls les caractères
-  utilisés sont téléchargés.
+  (Tab, flèches, Entrée, Échap), texte ≥ 16 px, contraste blanc sur noir.
+  Un bouton **« Animations : oui / non »** permet d'arrêter le clignotement et
+  les animations (WCAG 2.2.2) ; elles sont aussi coupées si le système demande
+  de réduire les animations. Les messages animés sont lus en entier par les
+  lecteurs d'écran.
+- **Sans JavaScript** : le CV complet s'affiche, les commandes deviennent des
+  liens vers chaque section, et la scène (dessinée en JS) est masquée.
+- **Performance** : aucune bibliothèque, aucune police web (polices système à
+  chasse fixe : Consolas, Lucida Console, Courier New), aucune image bitmap,
+  aucune requête vers un site externe, script chargé avec `defer`.
+- **Cache** : les liens vers `css/style.css` et `js/app.js` portent un numéro
+  de version (`?v=…`), à augmenter à chaque modification pour que les
+  navigateurs ne gardent pas l'ancienne version.
 
-## Auto-évaluation (à compléter)
+## Auto-évaluation
 
-- **W3C** : … erreur(s) / … avertissement(s) : …
-- **Outiref** : H1 unique, hiérarchie H2 → H3 : …
+### Résultats des outils
+
+- **W3C (validator.w3.org)** : V1 publiée → **1 erreur** (ligne 11 : l'icône
+  d'onglet en `data:` contenait des espaces non encodés). Corrigée (espaces
+  encodés en `%20`). À revalider après publication : 0 erreur attendue.
+- **Structure des titres (Outiref)** : 1 seul `<h1>` (le nom), puis 6 `<h2>`
+  (une par section) et des `<h3>` pour chaque expérience et formation, sans
+  saut de niveau. Vérifié automatiquement : aucun identifiant en double,
+  aucune référence ARIA cassée.
 - **PageSpeed (mobile)** : Performance … · Accessibilité … · Bonnes
-  pratiques … · SEO …
+  pratiques … · SEO … *(à compléter après publication)*
+- **Vérifications complémentaires** (outils de développement du navigateur) :
+  aucun texte sous 16 px, aucun contraste insuffisant, aucune zone cliquable
+  sous 24 px, aucun défilement horizontal à 320, 375, 480, 600, 760, 900 et
+  1024 px, aucune erreur dans la console, impression sur **une page A4**.
+
+### Analyse et corrections
+
+| Problème constaté | Cause | Correction |
+|---|---|---|
+| Erreur W3C sur l'icône d'onglet | espaces non encodés dans l'URL `data:` | espaces encodés en `%20` |
+| CSS dans `index.html` | regroupement initial dans un seul fichier | CSS déplacé dans `css/style.css`, conforme à l'arborescence |
+| Police web (Google Fonts) | police pixel pour l'ambiance du jeu | remplacée par des polices système (conseil du sujet) |
+| Menu qui débordait sur petits écrans | police à chasse fixe plus large | une colonne sur téléphone, deux colonnes à partir de 480 px |
+| Animations sans moyen de les arrêter | curseur et monstres animés en continu | bouton « Animations : oui / non » (WCAG 2.2.2) |
+| Scène vide sans JavaScript | décor dessiné uniquement en JS | scène masquée quand le JS est absent |
+| Ancien script gardé en cache après publication | cache du navigateur (GitHub Pages) | numéro de version dans les liens CSS et JS |
+| Fichiers inutiles dans le dépôt | `gitkeep` parasite, configuration locale | supprimés, `.gitignore` ajouté |
 
 ### Améliorations entre la V1 et la version finale
 
-- V1 en un seul fichier (`index.html` avec le CSS et le JS intégrés), puis
-  JavaScript déplacé dans `js/app.js` (chargé avec `defer`). Le CSS reste dans
-  `index.html` : la page n'a qu'une feuille de style, ce qui évite une requête
-  réseau de plus au chargement.
-- Suppression du téléphone, de l'adresse et de l'e-mail. Seul contact : le
+- Suppression du téléphone, de l'adresse et de l'e-mail : seul contact, le
   lien GitHub.
-- Suppression des polices Google Fonts au profit des polices système.
-- Contenu du CV écrit directement dans le HTML (et plus généré en JavaScript),
+- Contenu du CV écrit directement dans le HTML (et non généré en JavaScript),
   pour le référencement et l'affichage sans JavaScript.
-- Toutes les tailles de texte passées à 16 px minimum (y compris l'infobulle
-  de l'ange, qui héritait des 13 px par défaut des boutons).
-- Fenêtre des sections : `aria-labelledby` pointait vers un id absent au
-  chargement, remplacé par un `aria-label`.
-- `<title>` raccourci à moins de 60 caractères.
-- Version « réaliste » : nuages volumétriques et mer de nuages réalisés avec
-  des filtres SVG (`feTurbulence` + `feDisplacementMap`), parchemin texturé
-  aux bords irréguliers, rouleaux en bois, et un ange en statue grecque de
-  marbre blanc : relief, reflets et veines du marbre obtenus avec
-  `feDiffuseLighting`, `feSpecularLighting` et `feTurbulence`, ailes
-  construites en JavaScript à partir d'un bord d'attaque courbe.
-  Toujours aucune image ni bibliothèque : tout est généré par le navigateur.
-- Changement de thème pour Dragon Quest IX : Yggdrasil en fond, fenêtres
-  façon Dragon Quest IX (texte blanc sur fond anthracite, contraste élevé), et un
-  Célestellien dessiné en style dessin animé à la place de la statue.
-- Décor rapproché des illustrations officielles : ciel bleu profond, soleil
-  et rayons venant d'en haut à gauche, Observatoire avec texture de pierre,
-  joints de maçonnerie et ombres sous les corniches ; police pixel
-  *DotGothic16* façon Dragon Quest (une seule graisse : la mise en valeur se
-  fait en jaune, comme dans les dialogues du jeu).
-- Refonte complète dans le style des Dragon Quest classiques : écran de
-  combat en pixel art, fenêtres noires à bordure blanche épaisse, menu de
-  commandes utilisable au clavier, messages lettre par lettre, combat bonus.
-- …
+- Toutes les tailles de texte passées à 16 px minimum ; `<title>` raccourci à
+  moins de 60 caractères ; `aria-labelledby` qui pointait vers un id absent
+  remplacé par un `aria-label`.
+- Plusieurs thèmes essayés (paradis, version « réaliste » en filtres SVG,
+  Dragon Quest IX), puis refonte finale dans le style des **Dragon Quest
+  classiques** : écran de combat en pixel art, fenêtres noires à bordure
+  blanche, menu de commandes au clavier, messages lettre par lettre, combat
+  bonus avec sorts et bestiaire de 5 monstres originaux.
+- Feuille de style d'impression : CV standard sur une page A4.
+- Mise en conformité finale avec les consignes (voir le tableau ci-dessus).

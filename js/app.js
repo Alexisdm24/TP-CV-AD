@@ -4,7 +4,15 @@
    vers les sections du CV affiché en entier. */
 
 const root = document.documentElement;
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Animations coupées si le système le demande ou si le visiteur l'a choisi (bouton « Animations »)
+let reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+try {
+  const saved = localStorage.getItem("animations");
+  if (saved) reduceMotion = saved === "non";
+} catch (error) {
+  // Stockage indisponible (navigation privée…) : on garde le réglage du système
+}
+root.classList.toggle("no-motion", reduceMotion);
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /* ===== Petit générateur pseudo-aléatoire (décor identique à chaque visite) ===== */
@@ -393,12 +401,37 @@ drawBackdrop(document.getElementById("backdrop"));
 drawMonster(monster);
 
 // Animation de 2 images, comme les sprites du jeu
-if (!reduceMotion) {
-  setInterval(() => {
-    spriteFrame ^= 1;
+setInterval(() => {
+  if (reduceMotion) return;
+  spriteFrame ^= 1;
+  drawMonster(monster);
+}, 450);
+
+/* ===== Bouton « Animations : oui / non » (accessibilité, WCAG 2.2.2) ===== */
+const motionBtn = document.getElementById("motionBtn");
+
+function applyMotion() {
+  root.classList.toggle("no-motion", reduceMotion);
+  motionBtn.setAttribute("aria-pressed", String(!reduceMotion));
+  // Texte court pour tenir sur téléphone ; le nom complet est dans aria-label et title
+  motionBtn.textContent = `Anim. : ${reduceMotion ? "non" : "oui"}`;
+  if (reduceMotion) {
+    spriteFrame = 0;
     drawMonster(monster);
-  }, 450);
+  }
 }
+
+motionBtn.hidden = false;
+applyMotion();
+motionBtn.addEventListener("click", () => {
+  reduceMotion = !reduceMotion;
+  try {
+    localStorage.setItem("animations", reduceMotion ? "non" : "oui");
+  } catch (error) {
+    // Stockage indisponible : le choix vaut seulement pour cette visite
+  }
+  applyMotion();
+});
 
 /* ===== Son rétro (désactivé par défaut) ===== */
 const soundBtn = document.getElementById("soundBtn");
@@ -805,7 +838,9 @@ updateStats();
 
 /* ===== Menu de commandes : souris, clic et flèches du clavier ===== */
 const commands = [...document.querySelectorAll(".command")];
-const COLUMNS = 2;
+// Nombre de colonnes réellement affichées (1 sur petit écran, 2 sinon)
+const columnCount = () =>
+  getComputedStyle(document.querySelector(".commands")).gridTemplateColumns.split(" ").length;
 
 function select(index) {
   commands.forEach((cmd, i) => cmd.classList.toggle("selected", i === index));
@@ -815,7 +850,8 @@ commands.forEach((cmd, i) => {
   cmd.addEventListener("focus", () => select(i));
   cmd.addEventListener("mouseenter", () => select(i));
   cmd.addEventListener("keydown", (event) => {
-    const moves = { ArrowDown: COLUMNS, ArrowUp: -COLUMNS, ArrowRight: 1, ArrowLeft: -1 };
+    const cols = columnCount();
+    const moves = { ArrowDown: cols, ArrowUp: -cols, ArrowRight: 1, ArrowLeft: -1 };
     if (!(event.key in moves)) return;
     event.preventDefault();
     commands[(i + moves[event.key] + commands.length) % commands.length].focus();
