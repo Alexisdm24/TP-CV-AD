@@ -604,8 +604,30 @@ const SPELLS = [
 
 const randomInt = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
 
+/* --- Barres de vie : vert, puis jaune sous 50 %, puis rouge sous 25 % --- */
+const heroHpFill = document.getElementById("heroHpFill");
+const foeHud = document.getElementById("foeHud");
+const foeName = document.getElementById("foeName");
+const foeHpFill = document.getElementById("foeHpFill");
+const foeHpText = document.getElementById("foeHpText");
+
+function setBar(fill, current, max) {
+  const ratio = Math.max(0, current) / max;
+  fill.style.width = `${ratio * 100}%`;
+  fill.dataset.level = ratio > 0.5 ? "ok" : ratio > 0.25 ? "warn" : "low";
+}
+
 function updateStats() {
   for (const key of Object.keys(stat)) stat[key].textContent = HERO[key];
+  stat.pv.textContent = `${HERO.pv}/${HERO.pvMax}`;
+  setBar(heroHpFill, HERO.pv, HERO.pvMax);
+}
+
+function updateFoeHud() {
+  const { the, pv } = foe();
+  foeName.textContent = the.replace(/^(Le|La) /, "");
+  foeHpText.textContent = `${Math.max(0, bugPv)}/${pv}`;
+  setBar(foeHpFill, bugPv, pv);
 }
 
 /* --- Effets visuels des sorts, dessinés en pixels sur le canvas fx --- */
@@ -726,6 +748,7 @@ async function victory() {
   // Monstre suivant du bestiaire (on recommence au début après le dernier)
   foeIndex = (foeIndex + 1) % MONSTERS.length;
   bugPv = foe().pv;
+  updateFoeHud();
   drawMonster(monster);
   monster.classList.remove("defeated");
   await say(`${foe().a} apparaît ! Que doit faire Alexis ?`);
@@ -767,10 +790,12 @@ async function cast(spell) {
       await shakeScreen();
     }
     bugPv -= damage;
+    updateFoeHud();
     await sayThenWait(`${foe().the} perd ${damage} PV !`, 500);
 
     if (bugPv <= 0) {
       await victory();
+      autoSave();
       busy = false;
       fightBtn.focus();
       return;
@@ -779,6 +804,7 @@ async function cast(spell) {
   }
 
   say("Que doit faire Alexis ?");
+  autoSave();
   busy = false;
   fightBtn.focus();
 }
@@ -834,7 +860,170 @@ function closeSpells(returnFocus) {
 
 fightBtn.hidden = false;
 fightBtn.addEventListener("click", openSpells);
+document.getElementById("heroHp").hidden = false;
+foeHud.hidden = false;
 updateStats();
+updateFoeHud();
+
+/* ===== Journal d'aventure : sauvegarde locale, facultative =====
+   Tout reste dans le navigateur du visiteur (localStorage) : rien n'est
+   envoyé sur Internet, et aucune donnée personnelle n'est enregistrée. */
+const SAVE_KEY = "cv-dq-journal";
+const AUTO_KEY = "cv-dq-sauvegarde-auto";
+const journalBtn = document.getElementById("journalBtn");
+const journalWin = document.getElementById("journalWin");
+const journalList = document.getElementById("journalList");
+
+// localStorage peut être indisponible (navigation privée, stockage bloqué)
+const store = {
+  get(key) {
+    try { return localStorage.getItem(key); } catch (error) { return null; }
+  },
+  set(key, value) {
+    try { localStorage.setItem(key, value); return true; } catch (error) { return false; }
+  },
+  remove(key) {
+    try { localStorage.removeItem(key); } catch (error) { /* rien à effacer */ }
+  }
+};
+
+let autoSaveOn = store.get(AUTO_KEY) === "oui";
+
+function saveGame() {
+  const data = { version: 1, hero: { ...HERO }, foeIndex, bugPv, date: new Date().toISOString() };
+  return store.set(SAVE_KEY, JSON.stringify(data));
+}
+
+// Lecture prudente : une sauvegarde abîmée ou modifiée à la main est ignorée
+function readSave() {
+  try {
+    const data = JSON.parse(store.get(SAVE_KEY));
+    const numbers = data && data.hero && Object.keys(HERO).every((key) => Number.isFinite(data.hero[key]));
+    if (!data || data.version !== 1 || !numbers || !Number.isInteger(data.foeIndex) || !Number.isFinite(data.bugPv)) return null;
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+function loadGame(data) {
+  for (const key of Object.keys(HERO)) HERO[key] = Math.max(0, Math.round(data.hero[key]));
+  HERO.pv = Math.min(Math.max(1, HERO.pv), HERO.pvMax);
+  HERO.pm = Math.min(HERO.pm, HERO.pmMax);
+  foeIndex = Math.abs(data.foeIndex) % MONSTERS.length;
+  bugPv = Math.min(Math.max(1, data.bugPv), foe().pv);
+  updateStats();
+  updateFoeHud();
+  drawMonster(monster);
+}
+
+function autoSave() {
+  if (autoSaveOn) saveGame();
+}
+
+const formatDate = (iso) =>
+  new Date(iso).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" });
+
+/* --- Fenêtre du journal (contenu reconstruit à chaque ouverture) --- */
+let journalButtons = [];
+
+function journalItem(label, action) {
+  const li = document.createElement("li");
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "spell";
+  btn.textContent = label;
+  btn.addEventListener("click", action);
+  li.append(btn);
+  journalList.append(li);
+  journalButtons.push(btn);
+}
+
+function buildJournal() {
+  journalList.replaceChildren();
+  journalButtons = [];
+  const save = readSave();
+
+  journalItem("Sauvegarder", () => {
+    const ok = saveGame();
+    closeJournal(true);
+    if (ok) {
+      fanfare();
+      say("Le journal d'aventure a été sauvegardé sur cet appareil.");
+    } else {
+      say("Impossible de sauvegarder : le stockage du navigateur est bloqué.");
+    }
+  });
+
+  if (save) {
+    journalItem("Charger", () => {
+      loadGame(save);
+      closeJournal(true);
+      say(`Partie reprise (${formatDate(save.date)}) : NIV ${HERO.niv}, EXP ${HERO.exp}. ${foe().a} apparaît !`);
+    });
+  }
+
+  journalItem(`Sauvegarde auto : ${autoSaveOn ? "oui" : "non"}`, () => {
+    autoSaveOn = !autoSaveOn;
+    store.set(AUTO_KEY, autoSaveOn ? "oui" : "non");
+    if (autoSaveOn) saveGame();
+    closeJournal(true);
+    say(autoSaveOn
+      ? "Sauvegarde automatique activée : la partie sera enregistrée après chaque tour."
+      : "Sauvegarde automatique désactivée.");
+  });
+
+  if (save) {
+    journalItem("Effacer le journal", () => {
+      store.remove(SAVE_KEY);
+      closeJournal(true);
+      say("Le journal d'aventure a été effacé de cet appareil.");
+    });
+  }
+
+  journalItem("Retour", () => closeJournal(true));
+
+  journalButtons.forEach((btn, i) => {
+    btn.addEventListener("keydown", (event) => {
+      const moves = { ArrowDown: 1, ArrowUp: -1 };
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeJournal(true);
+      }
+      if (!(event.key in moves)) return;
+      event.preventDefault();
+      journalButtons[(i + moves[event.key] + journalButtons.length) % journalButtons.length].focus();
+    });
+  });
+  return save;
+}
+
+function openJournal() {
+  if (busy) return;
+  closeSpells(false);
+  const save = buildJournal();
+  journalWin.hidden = false;
+  journalButtons[0].focus();
+  say(save
+    ? `Journal d'aventure du ${formatDate(save.date)} : NIV ${save.hero.niv}, EXP ${save.hero.exp}.`
+    : "Aucun journal d'aventure sur cet appareil. Veux-tu sauvegarder ta partie ?");
+}
+
+function closeJournal(returnFocus) {
+  journalWin.hidden = true;
+  if (returnFocus) journalBtn.focus();
+}
+
+journalBtn.hidden = false;
+journalBtn.addEventListener("click", openJournal);
+fightBtn.addEventListener("click", () => closeJournal(false));
+
+// Sauvegarde automatique activée : on reprend la partie là où elle en était
+const startSave = autoSaveOn ? readSave() : null;
+if (startSave) {
+  loadGame(startSave);
+  say(`Partie reprise : NIV ${HERO.niv}, EXP ${HERO.exp}. ${foe().a} apparaît ! Choisis une commande.`);
+}
 
 /* ===== Menu de commandes : souris, clic et flèches du clavier ===== */
 const commands = [...document.querySelectorAll(".command")];
@@ -857,7 +1046,7 @@ commands.forEach((cmd, i) => {
     commands[(i + moves[event.key] + commands.length) % commands.length].focus();
   });
 
-  if (cmd === fightBtn) return;
+  if (cmd === fightBtn || cmd === journalBtn) return;
   cmd.addEventListener("click", (event) => {
     event.preventDefault();
     if (cmd.hasAttribute("data-full")) {

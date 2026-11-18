@@ -230,6 +230,64 @@ h1 {
   margin: 0;
 }
 
+/* ===== Barres de vie (Alexis et monstre) ===== */
+.hp-bar {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 12px;
+  border: 2px solid var(--white);
+  background: var(--black);
+  vertical-align: middle;
+}
+
+.hp-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #58d854;
+  transition: width 0.4s steps(6);
+}
+
+.hp-fill[data-level="warn"] {
+  background: #f8d878;
+}
+
+.hp-fill[data-level="low"] {
+  background: #f83800;
+}
+
+.hero-hp {
+  max-width: 16rem;
+  margin-top: 0.4rem;
+}
+
+/* Petite fenêtre au-dessus du monstre : nom, barre, PV restants */
+.foe-hud {
+  position: absolute;
+  left: 50%;
+  bottom: 54%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.1rem 0.6rem;
+  transform: translateX(-50%);
+  border: 3px solid var(--white);
+  border-radius: 6px;
+  background: var(--black);
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.foe-hud .hp-bar {
+  width: 5rem;
+}
+
+.foe-hud[hidden] {
+  display: none;
+}
+
 /* Options : son et animations */
 .options {
   display: flex;

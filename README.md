@@ -37,7 +37,10 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   - *Redémarrage* (6 PM) : l'écran flashe en blanc ;
   - *Pause café* (gratuit) : rend 10 PV et 6 PM.
 
-  Chaque monstre riposte à chaque tour. Coups critiques avec tremblement
+  **Barres de vie** : le monstre affiche son nom, une barre et ses PV restants
+  (ex. « Bogue 16/24 ») ; la barre d'Alexis est sous ses statistiques
+  (« PV 39/42 »). Elles passent du vert au jaune (sous 50 %) puis au rouge
+  (sous 25 %). Chaque monstre riposte à chaque tour. Coups critiques avec tremblement
   d'écran, passage de niveau tous les 10 points d'expérience (PV et PM
   restaurés). Navigation au clavier (flèches, Entrée, Échap pour revenir).
 - **Bestiaire** : après chaque victoire, le monstre suivant apparaît, de plus
@@ -52,6 +55,15 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   | Le Fantôme 404 | 30 | 4 | flotte, traîne ondulée |
   | Le Ver du Réseau | 34 | 5 | ondule |
   | Le Golem Serveur | 44 | 8 | voyants qui clignotent, bras qui bougent |
+- **Journal d'aventure** (commande « Journal », facultatif) : sauvegarde de la
+  partie du mini-jeu (niveau, PV, PM, EXP, monstre en cours) pour ceux qui le
+  veulent. Sauvegarder, Charger, Effacer le journal, et une option
+  « Sauvegarde auto » qui enregistre après chaque tour et reprend la partie à
+  la visite suivante. Les données restent **uniquement dans le navigateur du
+  visiteur** (`localStorage`) : rien n'est envoyé sur Internet et aucune
+  donnée personnelle n'est enregistrée. Une sauvegarde abîmée ou modifiée à
+  la main est ignorée ; si le stockage est bloqué (navigation privée), le jeu
+  fonctionne normalement sans sauvegarde.
 - **Options** : boutons « Son » et « Animations » dans la fenêtre d'état.
 - **Son rétro** facultatif (désactivé par défaut) : « bip » du texte, bruit
   d'impact et petite fanfare de victoire, générés avec la Web Audio API.

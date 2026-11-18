@@ -7,9 +7,9 @@
   <meta name="description" content="CV en ligne d'Alexis Dominguez : reconversion vers l'informatique, recherche d'alternance en BTS SIO option SISR (systèmes, réseaux, cybersécurité).">
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%208'%20shape-rendering='crispEdges'%3E%3Cpath%20d='M4%201h1v1h1v1h1v4h-6v-4h1v-1h2z'%20fill='%233cbcfc'/%3E%3Cpath%20d='M3%203h1v1h-1zM5%203h1v1h-1z'%20fill='%23000'/%3E%3C/svg%3E">
   <!-- ?v=… : à changer à chaque modification du fichier, pour éviter l'ancienne version en cache -->
-  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/style.css?v=9">
   <script>document.documentElement.classList.add("js");</script>
-  <script src="js/app.js?v=9" defer></script>
+  <script src="js/app.js?v=11" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#cv">Aller directement au CV complet</a>
@@ -26,6 +26,10 @@
             <div><dt>PM</dt><dd id="pm">12</dd></div>
             <div><dt>EXP</dt><dd id="exp">0</dd></div>
           </dl>
+          <!-- Barre de vie d'Alexis (la valeur exacte est dans « PV » ci-dessus) -->
+          <div class="hp hero-hp" id="heroHp" aria-hidden="true" hidden>
+            <span class="hp-bar"><span class="hp-fill" id="heroHpFill"></span></span>
+          </div>
           <div class="options">
             <button class="btn" id="soundBtn" type="button" aria-label="Son" title="Son" aria-pressed="false" hidden>♪ Son : non</button>
             <button class="btn" id="motionBtn" type="button" aria-label="Animations" title="Animations" aria-pressed="true" hidden>Anim. : oui</button>
@@ -37,6 +41,12 @@
       <div class="scene" id="scene" aria-hidden="true">
         <canvas id="backdrop" width="256" height="144"></canvas>
         <canvas id="monster" width="24" height="22"></canvas>
+        <!-- Nom et barre de vie du monstre -->
+        <div class="foe-hud" id="foeHud" hidden>
+          <span id="foeName">Bogue</span>
+          <span class="hp-bar"><span class="hp-fill" id="foeHpFill"></span></span>
+          <span id="foeHpText">24/24</span>
+        </div>
         <canvas id="fx" width="256" height="144"></canvas>
         <div class="flash-fx"></div>
       </div>
@@ -55,6 +65,7 @@
           <li><a class="command" href="#hobbies">Loisirs</a></li>
           <li><a class="command" href="#cv" data-full>CV complet</a></li>
           <li><button class="command" type="button" id="fightBtn" hidden>Combattre</button></li>
+          <li><button class="command" type="button" id="journalBtn" hidden>Journal</button></li>
         </ul>
       </nav>
 
@@ -62,6 +73,12 @@
       <div class="win spell-win" id="spellWin" role="group" aria-labelledby="spellTitle" hidden>
         <p class="win-title" id="spellTitle">Sorts</p>
         <ul class="spells" id="spellList"></ul>
+      </div>
+
+      <!-- Journal d'aventure : sauvegarde locale facultative (remplie par js/app.js) -->
+      <div class="win spell-win" id="journalWin" role="group" aria-labelledby="journalTitle" hidden>
+        <p class="win-title" id="journalTitle">Journal</p>
+        <ul class="spells" id="journalList"></ul>
       </div>
       </div>
 
