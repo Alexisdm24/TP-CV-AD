@@ -964,10 +964,18 @@ html.classic .cv {
   #projets { grid-area: proj; }
 
   /* Sur papier, l'adresse des liens de projets s'affiche en clair */
-  #projets a::after {
-    content: " : " attr(href);
-    font-size: 9pt;
-    word-break: break-all;
+  /* QR codes : sur papier, ils remplacent les liens cliquables */
+  .qr {
+    float: right;
+    width: 16mm;
+    height: 16mm;
+    margin: 0 0 1mm 3mm;
+  }
+
+  .qr-site {
+    width: 20mm;
+    height: 20mm;
+    margin: 0 0 0 4mm;
   }
   #formations { grid-area: form; }
   #competences { grid-area: comp; }
