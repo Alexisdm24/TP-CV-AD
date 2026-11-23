@@ -733,7 +733,7 @@ dialog[open] .panel {
 @media print {
   @page {
     size: A4;
-    margin: 14mm 15mm;
+    margin: 11mm 13mm;
   }
 
   html,
@@ -744,8 +744,8 @@ dialog[open] .panel {
 
   body {
     font-family: "Segoe UI", Calibri, Arial, Helvetica, sans-serif;
-    font-size: 10.5pt;
-    line-height: 1.4;
+    font-size: 9.5pt;
+    line-height: 1.3;
     letter-spacing: normal;
   }
 
@@ -788,8 +788,8 @@ dialog[open] .panel {
       "pres pres"
       "exp  form"
       "exp  comp"
-      "exp  lang"
-      "exp  hob";
+      "proj lang"
+      "proj hob";
     grid-template-rows: auto auto auto auto auto 1fr;
     column-gap: 9mm;
     max-width: none;
@@ -808,7 +808,7 @@ dialog[open] .panel {
 
   .print-header {
     grid-area: head;
-    margin-bottom: 5mm;
+    margin-bottom: 3.5mm;
     padding-bottom: 3mm;
     border-bottom: 2px solid #000;
   }
@@ -833,6 +833,14 @@ dialog[open] .panel {
 
   #presentation { grid-area: pres; }
   #experiences { grid-area: exp; }
+  #projets { grid-area: proj; }
+
+  /* Sur papier, l'adresse des liens de projets s'affiche en clair */
+  #projets a::after {
+    content: " : " attr(href);
+    font-size: 9pt;
+    word-break: break-all;
+  }
   #formations { grid-area: form; }
   #competences { grid-area: comp; }
   #langues { grid-area: lang; }
@@ -840,7 +848,7 @@ dialog[open] .panel {
 
   .cv-window section,
   .cv-window section:first-of-type {
-    margin: 0 0 4mm;
+    margin: 0 0 3mm;
     break-inside: avoid;
   }
 
@@ -852,13 +860,13 @@ dialog[open] .panel {
     margin: 0 0 2mm;
     padding-bottom: 0.8mm;
     border-bottom: 1px solid #000;
-    font-size: 10.5pt;
+    font-size: 9.5pt;
     font-weight: 700;
     letter-spacing: 0.08em;
   }
 
   h3 {
-    font-size: 10.5pt;
+    font-size: 9.5pt;
     font-weight: 600;
   }
 
@@ -875,7 +883,7 @@ dialog[open] .panel {
   }
 
   .entry {
-    margin-bottom: 3mm;
+    margin-bottom: 2mm;
     break-inside: avoid;
   }
 

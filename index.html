@@ -7,7 +7,7 @@
   <meta name="description" content="CV en ligne d'Alexis Dominguez : reconversion vers l'informatique, recherche d'alternance en BTS SIO option SISR (systèmes, réseaux, cybersécurité).">
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%208'%20shape-rendering='crispEdges'%3E%3Cpath%20d='M4%201h1v1h1v1h1v4h-6v-4h1v-1h2z'%20fill='%233cbcfc'/%3E%3Cpath%20d='M3%203h1v1h-1zM5%203h1v1h-1z'%20fill='%23000'/%3E%3C/svg%3E">
   <!-- ?v=… : à changer à chaque modification du fichier, pour éviter l'ancienne version en cache -->
-  <link rel="stylesheet" href="css/style.css?v=11">
+  <link rel="stylesheet" href="css/style.css?v=13">
   <script>document.documentElement.classList.add("js");</script>
   <script src="js/app.js?v=11" defer></script>
 </head>
@@ -61,6 +61,7 @@
         <ul class="commands">
           <li><a class="command" href="#presentation">Présentation</a></li>
           <li><a class="command" href="#experiences">Expériences</a></li>
+          <li><a class="command" href="#projets">Projets</a></li>
           <li><a class="command" href="#formations">Formations</a></li>
           <li><a class="command" href="#competences">Compétences</a></li>
           <li><a class="command" href="#langues">Langues</a></li>
@@ -126,6 +127,31 @@
           <h3>Apprenti pâtissier puis pâtissier – EURL Le Tual, Monteux</h3>
           <p class="meta"><time datetime="2014">2014</time> – <time datetime="2017">2017</time></p>
           <p class="result">Production artisanale dans le respect des normes d'hygiène et de qualité.</p>
+        </article>
+      </section>
+
+      <section id="projets" aria-labelledby="projets-title">
+        <h2 id="projets-title">Projets</h2>
+        <article class="entry">
+          <h3>Infoleader : panel d'administration sécurisé (TP BTS SIO)</h3>
+          <p class="meta">PHP · WAMP · Mailjet</p>
+          <ul>
+            <li>Connexion au panel d'administration, menu admin visible uniquement quand un administrateur est connecté.</li>
+            <li>« Mot de passe oublié » par code à 8 chiffres envoyé par mail (Mailjet).</li>
+            <li>Protection contre les attaques par force brute.</li>
+            <li>Analyse du site et plan d'améliorations documentés sur GitHub.</li>
+          </ul>
+          <p><a href="https://github.com/Alexisdm24/infoleader-documentation">Voir la documentation du projet Infoleader sur GitHub</a></p>
+        </article>
+        <article class="entry">
+          <h3>CV en ligne « RPG » (ce site)</h3>
+          <p class="meta">HTML · CSS · JavaScript · GitHub Pages</p>
+          <ul>
+            <li>CV statique sans bibliothèque, thème rétro inspiré de Dragon Quest.</li>
+            <li>Scène de combat en pixel art dessinée dans un canvas, mini-jeu avec sauvegarde locale.</li>
+            <li>Publié sur GitHub Pages, accessible au clavier et imprimable sur une page.</li>
+          </ul>
+          <p><a href="https://github.com/Alexisdm24/TP-CV-AD">Voir le code de ce CV sur GitHub</a></p>
         </article>
       </section>
 
