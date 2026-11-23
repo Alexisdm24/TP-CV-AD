@@ -470,6 +470,11 @@ h3 {
   color: var(--yellow);
 }
 
+/* Phrase de résultat sous une expérience ou un projet */
+.result {
+  margin: 0 0 0.4rem;
+}
+
 .entry {
   margin-bottom: 1rem;
 }
