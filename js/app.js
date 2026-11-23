@@ -569,7 +569,11 @@ cv.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && root.classList.contains("cv-open")) closeCvPanel();
 });
+// Mode classique : le CV est déjà affiché, les liens fonctionnent normalement
+const isClassic = () => root.classList.contains("classic");
+
 document.querySelector(".skip-link").addEventListener("click", (event) => {
+  if (isClassic()) return;
   event.preventDefault();
   openCv(null);
 });
@@ -1048,6 +1052,7 @@ commands.forEach((cmd, i) => {
 
   if (cmd === fightBtn || cmd === journalBtn) return;
   cmd.addEventListener("click", (event) => {
+    if (isClassic()) return;
     event.preventDefault();
     if (cmd.hasAttribute("data-full")) {
       openCv(cmd);
@@ -1059,3 +1064,34 @@ commands.forEach((cmd, i) => {
 });
 
 select(0);
+
+/* ===== Bouton « Mode classique » : version sobre, sans jeu ni animations =====
+   Bascule la classe « classic » sur <body> (et <html>), choix mémorisé. */
+const classicBtn = document.getElementById("classicBtn");
+let classicOn = isClassic();
+
+function applyClassic() {
+  root.classList.toggle("classic", classicOn);
+  document.body.classList.toggle("classic", classicOn);
+  classicBtn.setAttribute("aria-pressed", String(classicOn));
+  classicBtn.textContent = `Classique : ${classicOn ? "oui" : "non"}`;
+  if (classicOn) {
+    closeSpells(false);
+    closeJournal(false);
+    if (root.classList.contains("cv-open")) closeCvPanel();
+    if (sectionDialog.open) sectionDialog.close();
+  }
+}
+
+classicBtn.hidden = false;
+applyClassic();
+classicBtn.addEventListener("click", () => {
+  classicOn = !classicOn;
+  try {
+    localStorage.setItem("cv-mode", classicOn ? "classique" : "jeu");
+  } catch (error) {
+    // Stockage indisponible : le choix vaut seulement pour cette visite
+  }
+  applyClassic();
+  classicBtn.focus();
+});

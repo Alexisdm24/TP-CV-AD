@@ -724,6 +724,116 @@ dialog[open] .panel {
   transition: none !important;
 }
 
+/* ===== Mode classique : version sobre (fond clair, police système, sans jeu) =====
+   La classe est posée sur <body> par js/app.js (et sur <html> dès le chargement
+   pour éviter un flash du jeu). */
+.classic {
+  background: #f5f5f0;
+  color: #1e1e1e;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: normal;
+}
+
+.classic *,
+.classic *::before,
+.classic *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+.classic .scene,
+.classic .stats,
+.classic .hero-hp,
+.classic .message-win,
+.classic .win-title,
+.classic .spell-win,
+.classic .close-btn,
+.classic #fightBtn,
+.classic #journalBtn,
+.classic #soundBtn,
+.classic #motionBtn {
+  display: none !important;
+}
+
+.classic .win {
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: none;
+  color: #1e1e1e;
+}
+
+.classic .site-header {
+  position: static;
+}
+
+.classic .battle-ui {
+  grid-template-columns: 1fr;
+}
+
+.classic h1,
+.classic h2,
+.classic h3 {
+  color: #1e1e1e;
+}
+
+.classic h2 {
+  border-bottom-color: #1e1e1e;
+}
+
+.classic strong {
+  color: inherit;
+  font-weight: 700;
+}
+
+.classic .meta {
+  color: #555555;
+}
+
+.classic a {
+  color: #0b57d0;
+}
+
+.classic .command {
+  color: #1e1e1e;
+  text-transform: none;
+}
+
+.classic .chips li,
+.classic .contact li {
+  border-color: #bbbbbb;
+}
+
+.classic .btn {
+  border: 1px solid #888888;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1e1e1e;
+}
+
+.classic .btn:hover {
+  color: #0b57d0;
+}
+
+.classic .site-footer {
+  color: #555555;
+}
+
+.classic .skip-link {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Le CV complet est affiché directement, sans fenêtre à ouvrir */
+html.classic .cv {
+  display: block;
+  position: static;
+  max-width: 1024px;
+  padding: 0 1rem 1.5rem;
+  overflow: visible;
+  background: none;
+}
+
 /* En-tête visible uniquement à l'impression */
 .print-only {
   display: none;
