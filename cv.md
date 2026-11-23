@@ -66,7 +66,7 @@ En reconversion professionnelle vers l'informatique, je souhaite intégrer un **
 ## Langues
 
 - **Français** : langue maternelle
-- **Anglais** : notions
+- **Anglais** : B2
 
 ---
 
