@@ -4,14 +4,16 @@
    vers les sections du CV affiché en entier. */
 
 const root = document.documentElement;
-// Animations coupées si le système le demande ou si le visiteur l'a choisi (bouton « Animations »)
-let reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Animations coupées si le système le demande (prefers-reduced-motion, toujours
+// prioritaire) ou si le visiteur l'a choisi avec le bouton « Animations »
+const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+let userMotionOff = false;
 try {
-  const saved = localStorage.getItem("animations");
-  if (saved) reduceMotion = saved === "non";
+  userMotionOff = localStorage.getItem("animations") === "non";
 } catch (error) {
-  // Stockage indisponible (navigation privée…) : on garde le réglage du système
+  // Stockage indisponible (navigation privée…) : on suit le réglage du système
 }
+let reduceMotion = motionQuery.matches || userMotionOff;
 root.classList.toggle("no-motion", reduceMotion);
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -411,10 +413,15 @@ setInterval(() => {
 const motionBtn = document.getElementById("motionBtn");
 
 function applyMotion() {
+  const systemOff = motionQuery.matches;
+  reduceMotion = systemOff || userMotionOff;
   root.classList.toggle("no-motion", reduceMotion);
   motionBtn.setAttribute("aria-pressed", String(!reduceMotion));
   // Texte court pour tenir sur téléphone ; le nom complet est dans aria-label et title
   motionBtn.textContent = `Anim. : ${reduceMotion ? "non" : "oui"}`;
+  // Si le système demande moins d'animations, le bouton ne peut pas les réactiver
+  motionBtn.disabled = systemOff;
+  motionBtn.title = systemOff ? "Animations coupées par le réglage de votre appareil" : "Animations";
   if (reduceMotion) {
     spriteFrame = 0;
     drawMonster(monster);
@@ -424,14 +431,16 @@ function applyMotion() {
 motionBtn.hidden = false;
 applyMotion();
 motionBtn.addEventListener("click", () => {
-  reduceMotion = !reduceMotion;
+  userMotionOff = !userMotionOff;
   try {
-    localStorage.setItem("animations", reduceMotion ? "non" : "oui");
+    localStorage.setItem("animations", userMotionOff ? "non" : "oui");
   } catch (error) {
     // Stockage indisponible : le choix vaut seulement pour cette visite
   }
   applyMotion();
 });
+// Le réglage du système peut changer pendant la visite
+motionQuery.addEventListener("change", applyMotion);
 
 /* ===== Son rétro (désactivé par défaut) ===== */
 const soundBtn = document.getElementById("soundBtn");
