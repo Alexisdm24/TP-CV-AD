@@ -7,13 +7,15 @@
   <meta name="description" content="CV en ligne d'Alexis Dominguez : reconversion vers l'informatique, recherche d'alternance en BTS SIO option SISR (systèmes, réseaux, cybersécurité).">
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%208'%20shape-rendering='crispEdges'%3E%3Cpath%20d='M4%201h1v1h1v1h1v4h-6v-4h1v-1h2z'%20fill='%233cbcfc'/%3E%3Cpath%20d='M3%203h1v1h-1zM5%203h1v1h-1z'%20fill='%23000'/%3E%3C/svg%3E">
   <!-- ?v=… : à changer à chaque modification du fichier, pour éviter l'ancienne version en cache -->
-  <link rel="stylesheet" href="css/style.css?v=9">
+  <link rel="stylesheet" href="css/style.css?v=10">
   <script>document.documentElement.classList.add("js");</script>
   <script src="js/app.js?v=11" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#cv">Aller directement au CV complet</a>
 
+  <!-- Contenu principal, toujours visible : écran de jeu + CV complet -->
+  <main id="main">
   <div class="screen" id="screen">
     <div class="stage">
       <header class="site-header">
@@ -88,7 +90,7 @@
     </div>
   </div>
 
-  <main id="cv" tabindex="-1">
+  <div class="cv" id="cv" tabindex="-1">
     <button class="btn close-btn" type="button" id="closeCv" hidden aria-label="Fermer le CV complet">✕</button>
     <div class="win cv-window">
       <p class="win-title" aria-hidden="true">CV complet</p>
@@ -193,6 +195,7 @@
         <button class="btn" type="button" id="printBtn" hidden>Imprimer le CV</button>
       </p>
     </div>
+  </div>
   </main>
 
   <footer class="site-footer">

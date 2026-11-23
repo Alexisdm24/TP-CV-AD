@@ -120,8 +120,12 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   (une par section) et des `<h3>` pour chaque expérience et formation, sans
   saut de niveau. Vérifié automatiquement : aucun identifiant en double,
   aucune référence ARIA cassée.
+- **PageSpeed (bureau, 23/11/2026)** : Performance **100** · Accessibilité
+  **98** · Bonnes pratiques **100** · SEO **100**. Seul point signalé : « Le
+  document ne contient pas de repère principal » → corrigé (voir tableau),
+  100 attendu en accessibilité au prochain test.
 - **PageSpeed (mobile)** : Performance … · Accessibilité … · Bonnes
-  pratiques … · SEO … *(à compléter après publication)*
+  pratiques … · SEO … *(à compléter)*
 - **Vérifications complémentaires** (outils de développement du navigateur) :
   aucun texte sous 16 px, aucun contraste insuffisant, aucune zone cliquable
   sous 24 px, aucun défilement horizontal à 320, 375, 480, 600, 760, 900 et
@@ -131,6 +135,7 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 
 | Problème constaté | Cause | Correction |
 |---|---|---|
+| PageSpeed : « pas de repère principal » | le `<main>` (CV complet) était masqué tant qu'on ne l'ouvrait pas | un seul `<main>` toujours visible, qui englobe l'écran de jeu et le CV |
 | Erreur W3C sur l'icône d'onglet | espaces non encodés dans l'URL `data:` | espaces encodés en `%20` |
 | CSS dans `index.html` | regroupement initial dans un seul fichier | CSS déplacé dans `css/style.css`, conforme à l'arborescence |
 | Police web (Google Fonts) | police pixel pour l'ambiance du jeu | remplacée par des polices système (conseil du sujet) |

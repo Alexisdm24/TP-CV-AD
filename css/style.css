@@ -432,7 +432,7 @@ h1 {
 }
 
 /* ===== Contenu du CV ===== */
-main {
+.cv {
   max-width: 1024px;
   margin: 0 auto;
   padding: 0 1rem 1.5rem;
@@ -568,7 +568,7 @@ html:not(.js) .scene {
 }
 
 /* ===== Mode JavaScript : le CV complet s'ouvre depuis le menu ===== */
-.js main {
+.js .cv {
   display: none;
 }
 
@@ -576,7 +576,7 @@ html:not(.js) .scene {
   overflow: hidden;
 }
 
-.js.cv-open main {
+.js.cv-open .cv {
   display: block;
   position: fixed;
   inset: 0;
@@ -762,9 +762,9 @@ dialog[open] .panel {
     display: none !important;
   }
 
-  .js main,
-  .js.cv-open main,
-  main {
+  .js .cv,
+  .js.cv-open .cv,
+  .cv {
     display: block;
     position: static;
     max-width: none;
