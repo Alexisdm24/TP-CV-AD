@@ -45,9 +45,10 @@ a {
   color: var(--link);
 }
 
+/* Focus clavier bien visible : contour jaune épais (bleu en mode classique) */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px dashed var(--white);
+  outline: 3px solid var(--yellow);
   outline-offset: 3px;
 }
 
@@ -349,8 +350,10 @@ h1 {
   animation: blink 1s steps(1) infinite;
 }
 
+/* Menu : curseur ▶ façon Dragon Quest + texte jaune souligné au focus clavier */
 .command:focus-visible {
   outline: none;
+  color: var(--yellow);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -410,6 +413,7 @@ h1 {
 
 .spell:focus-visible {
   outline: none;
+  color: var(--yellow);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -817,6 +821,15 @@ dialog[open] .panel {
 
 .classic .site-footer {
   color: #555555;
+}
+
+.classic a:focus-visible,
+.classic button:focus-visible {
+  outline-color: #0b57d0;
+}
+
+.classic .command:focus-visible {
+  color: #0b57d0;
 }
 
 .classic .skip-link {
