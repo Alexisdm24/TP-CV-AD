@@ -121,9 +121,9 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 
 - **W3C (validator.w3.org)** : V1 publiée → **1 erreur** (ligne 11 : l'icône
   d'onglet en `data:` contenait des espaces non encodés). Corrigée (espaces
-  encodés en `%20`). Version publiée :
-  **0 erreur, 1 avertissement** (`aria-hidden` inutile sur un élément `hidden`),
-  corrigé ensuite.
+  encodés en `%20`). Un avertissement
+  (`aria-hidden` inutile sur un élément `hidden`) corrigé ensuite. Version
+  finale (25/11/2026) : **0 erreur, 0 avertissement**.
 - **Structure des titres (Outiref)** : 1 seul `<h1>` (le nom), puis 7 `<h2>`
   (une par section) et des `<h3>` pour chaque expérience, projet et formation, sans
   saut de niveau. Vérifié automatiquement : aucun identifiant en double,
@@ -159,8 +159,8 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   lien GitHub.
 - Contenu du CV écrit directement dans le HTML (et non généré en JavaScript),
   pour le référencement et l'affichage sans JavaScript.
-- Toutes les tailles de texte passées à 16 px minimum ; `<title>` raccourci à
-  moins de 60 caractères ; `aria-labelledby` qui pointait vers un id absent
+- Toutes les tailles de texte passées à 16 px minimum ; `<title>` ajusté à
+  66 caractères et 11 mots (conseil Outiref : 10 à 12 mots) ; `aria-labelledby` qui pointait vers un id absent
   remplacé par un `aria-label`.
 - Plusieurs thèmes essayés (paradis, version « réaliste » en filtres SVG,
   Dragon Quest IX), puis refonte finale dans le style des **Dragon Quest
