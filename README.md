@@ -126,12 +126,12 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   (une par section) et des `<h3>` pour chaque expérience, projet et formation, sans
   saut de niveau. Vérifié automatiquement : aucun identifiant en double,
   aucune référence ARIA cassée.
-- **PageSpeed (bureau, 23/11/2026)** : Performance **100** · Accessibilité
-  **98** · Bonnes pratiques **100** · SEO **100**. Seul point signalé : « Le
-  document ne contient pas de repère principal » → corrigé (voir tableau),
-  100 attendu en accessibilité au prochain test.
-- **PageSpeed (mobile)** : Performance … · Accessibilité … · Bonnes
-  pratiques … · SEO … *(à compléter)*
+- **PageSpeed (bureau)** : premier test le 23/11/2026, Performance **100** ·
+  Accessibilité **98** · Bonnes pratiques **100** · SEO **100**. Après
+  correction du repère principal (25/11/2026) : **100 / 100 / 100 / 100**.
+- **PageSpeed (mobile, 25/11/2026)** : Performance **99** · Accessibilité
+  **100** · Bonnes pratiques **100** · SEO **100** (FCP 0,8 s · LCP 0,8 s ·
+  TBT 0 ms · CLS 0 · Speed Index 3,6 s).
 - **Vérifications complémentaires** (outils de développement du navigateur) :
   aucun texte sous 16 px, aucun contraste insuffisant, aucune zone cliquable
   sous 24 px, aucun défilement horizontal à 320, 375, 480, 600, 760, 900 et

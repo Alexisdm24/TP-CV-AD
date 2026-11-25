@@ -1071,6 +1071,7 @@ html.classic .cv {
   #presentation { grid-area: pres; }
   #experiences { grid-area: exp; }
   #projets { grid-area: proj; }
+  #projets .entry > p:last-child { display: none; }
 
   /* Sur papier, l'adresse des liens de projets s'affiche en clair */
   /* QR codes : sur papier, ils remplacent les liens cliquables */

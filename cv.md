@@ -48,6 +48,7 @@ Production artisanale dans le respect des normes d'hygiène et de qualité.
 - CV statique sans bibliothèque, thème rétro inspiré de Dragon Quest.
 - Scène de combat en pixel art dessinée dans un canvas, mini-jeu avec sauvegarde locale.
 - Publié sur GitHub Pages, accessible au clavier et imprimable sur une page.
+- PageSpeed : 100 partout sur ordinateur, de 99 à 100 sur mobile.
 
 [Voir le code de ce CV sur GitHub](https://github.com/Alexisdm24/TP-CV-AD)
 
