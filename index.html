@@ -7,10 +7,10 @@
   <meta name="description" content="CV en ligne d'Alexis Dominguez : reconversion vers l'informatique, recherche d'alternance en BTS SIO option SISR (systèmes, réseaux, cybersécurité).">
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%208'%20shape-rendering='crispEdges'%3E%3Cpath%20d='M4%201h1v1h1v1h1v4h-6v-4h1v-1h2z'%20fill='%233cbcfc'/%3E%3Cpath%20d='M3%203h1v1h-1zM5%203h1v1h-1z'%20fill='%23000'/%3E%3C/svg%3E">
   <!-- ?v=… : à changer à chaque modification du fichier, pour éviter l'ancienne version en cache -->
-  <link rel="stylesheet" href="css/style.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=19">
   <!-- Classe « js », et mode classique appliqué tout de suite s'il a été choisi (évite un flash du jeu) -->
   <script>document.documentElement.classList.add("js");try{if(localStorage.getItem("cv-mode")==="classique")document.documentElement.classList.add("classic")}catch(e){}</script>
-  <script src="js/app.js?v=13" defer></script>
+  <script src="js/app.js?v=14" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#cv">Aller directement au CV complet</a>
@@ -18,6 +18,9 @@
   <!-- Contenu principal, toujours visible : écran de jeu + CV complet -->
   <main id="main">
   <div class="screen" id="screen">
+    <div class="mode-bar">
+      <button class="btn mode-btn" id="classicBtn" type="button" title="Version sobre sans jeu" aria-pressed="false" hidden>Mode classique : non</button>
+    </div>
     <div class="stage">
       <header class="site-header">
         <div class="win status-win">
@@ -34,7 +37,6 @@
             <span class="hp-bar"><span class="hp-fill" id="heroHpFill"></span></span>
           </div>
           <div class="options">
-            <button class="btn" id="classicBtn" type="button" aria-label="Mode classique" title="Mode classique : version sobre sans jeu" aria-pressed="false" hidden>Classique : non</button>
             <button class="btn" id="soundBtn" type="button" aria-label="Son" title="Son" aria-pressed="false" hidden>♪ Son : non</button>
             <button class="btn" id="motionBtn" type="button" aria-label="Animations" title="Animations" aria-pressed="true" hidden>Anim. : oui</button>
           </div>

@@ -1083,7 +1083,7 @@ function applyClassic() {
   root.classList.toggle("classic", classicOn);
   document.body.classList.toggle("classic", classicOn);
   classicBtn.setAttribute("aria-pressed", String(classicOn));
-  classicBtn.textContent = `Classique : ${classicOn ? "oui" : "non"}`;
+  classicBtn.textContent = `Mode classique : ${classicOn ? "oui" : "non"}`;
   if (classicOn) {
     closeSpells(false);
     closeJournal(false);
