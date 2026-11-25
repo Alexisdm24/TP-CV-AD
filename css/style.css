@@ -852,6 +852,75 @@ html.classic .cv {
   background: none;
 }
 
+/* ===== Bandeau recruteur : l'essentiel en un coup d'œil ===== */
+.pitch {
+  margin-bottom: 1rem;
+}
+
+.pitch-points {
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+  line-height: 1.45;
+}
+
+.pitch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.pitch-actions .btn {
+  color: var(--white);
+  text-decoration: none;
+}
+
+.pitch-actions .pitch-cv {
+  border-color: var(--yellow);
+  background: var(--yellow);
+  color: var(--black);
+}
+
+.pitch-actions .btn:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.classic .pitch-actions .btn {
+  color: #1e1e1e;
+}
+
+.classic .pitch-actions .pitch-cv {
+  border-color: #0b57d0;
+  background: #0b57d0;
+  color: #ffffff;
+}
+
+.classic .stage {
+  display: none;
+}
+
+/* Scène plus basse sur ordinateur, pour voir le menu sans défiler */
+@media (min-width: 1000px) {
+  .scene {
+    aspect-ratio: 21 / 9;
+  }
+
+  #backdrop,
+  #fx {
+    object-fit: cover;
+  }
+
+  #monster {
+    width: 20%;
+  }
+
+  .foe-hud {
+    bottom: 57%;
+  }
+}
+
 /* ===== Bouton « Mode classique » : bien visible, en haut à droite ===== */
 .mode-bar {
   display: flex;

@@ -581,6 +581,17 @@ document.addEventListener("keydown", (event) => {
 // Mode classique : le CV est déjà affiché, les liens fonctionnent normalement
 const isClassic = () => root.classList.contains("classic");
 
+// Bandeau recruteur : accès direct au CV et à l'impression
+const pitchCv = document.getElementById("pitchCv");
+const pitchPrint = document.getElementById("pitchPrint");
+pitchCv.addEventListener("click", (event) => {
+  if (isClassic()) return;
+  event.preventDefault();
+  openCv(pitchCv);
+});
+pitchPrint.hidden = false;
+pitchPrint.addEventListener("click", () => window.print());
+
 document.querySelector(".skip-link").addEventListener("click", (event) => {
   if (isClassic()) return;
   event.preventDefault();
