@@ -20,9 +20,14 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   s'écrase légèrement, comme quand il sautille).
   Tout est dessiné en JavaScript sur un `<canvas>` en basse résolution
   (256 × 144), agrandi sans lissage (`image-rendering: pixelated`).
-- **Fenêtre d'état** en haut : nom, vocation, NIV, PV, PM et EXP.
-- **Menu de commandes** : Présentation, Expériences, Formations,
-  Compétences, Langues, Loisirs, CV complet, Combattre. Curseur ▶ qui
+- **Bandeau d'accueil** : nom, poste et trois boutons (Lire mon CV, Imprimer /
+  PDF, Voir mon GitHub), pour accéder au CV sans jouer.
+- **Mode classique** (bouton en haut à droite) : version sobre, fond clair,
+  sans jeu ni animations, CV affiché directement. Choix mémorisé dans le
+  navigateur.
+- **Fenêtre d'état** sur la scène : NIV, PV, PM et EXP.
+- **Menu de commandes** : CV complet, Présentation, Expériences, Projets,
+  Formations, Compétences, Langues, Loisirs, Combattre, Journal. Curseur ▶ qui
   clignote, navigation à la souris ou au clavier (flèches + Entrée).
   Chaque commande ouvre la section dans une fenêtre Dragon Quest : fond noir
   uni, bordure blanche épaisse, coins arrondis, texte blanc en police à chasse fixe, ▼
@@ -72,8 +77,9 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 - **Impression** (bouton « Imprimer le CV » ou Ctrl+P) : une feuille de style
   dédiée produit un **CV standard sur une page A4**, sans le style Dragon
   Quest : police classique, noir sur blanc, en-tête avec nom, poste visé et
-  contact, puis deux colonnes (présentation et expériences à gauche ;
-  formations, compétences, langues et centres d'intérêt à droite).
+  contact, puis deux colonnes (expériences et projets à gauche ; formations,
+  compétences, langues et centres d'intérêt à droite). Trois **QR codes**,
+  visibles seulement sur papier, mènent au CV en ligne et aux deux projets.
 
 ## Arborescence
 
@@ -82,7 +88,7 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 ├─ index.html      structure et contenu du CV (HTML sémantique)
 ├─ css/style.css   mise en page mobile-first + feuille d'impression
 ├─ js/app.js       pixel art, menu, messages, combat, son (facultatif, chargé avec defer)
-├─ img/            images optimisées (aucune : tout est dessiné en code)
+├─ img/            QR codes SVG de la version imprimée (moins de 2 Ko chacun)
 ├─ cv.md           contenu source rédigé en Markdown
 └─ .gitignore      fichiers locaux exclus du dépôt
 ```
@@ -116,8 +122,8 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 - **W3C (validator.w3.org)** : V1 publiée → **1 erreur** (ligne 11 : l'icône
   d'onglet en `data:` contenait des espaces non encodés). Corrigée (espaces
   encodés en `%20`). À revalider après publication : 0 erreur attendue.
-- **Structure des titres (Outiref)** : 1 seul `<h1>` (le nom), puis 6 `<h2>`
-  (une par section) et des `<h3>` pour chaque expérience et formation, sans
+- **Structure des titres (Outiref)** : 1 seul `<h1>` (le nom), puis 7 `<h2>`
+  (une par section) et des `<h3>` pour chaque expérience, projet et formation, sans
   saut de niveau. Vérifié automatiquement : aucun identifiant en double,
   aucune référence ARIA cassée.
 - **PageSpeed (bureau, 23/11/2026)** : Performance **100** · Accessibilité
@@ -159,5 +165,9 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
   classiques** : écran de combat en pixel art, fenêtres noires à bordure
   blanche, menu de commandes au clavier, messages lettre par lettre, combat
   bonus avec sorts et bestiaire de 5 monstres originaux.
-- Feuille de style d'impression : CV standard sur une page A4.
+- Feuille de style d'impression : CV standard sur une page A4, avec QR codes.
+- Contenu plus concret : compétences classées par thème, section Projets,
+  trois postes regroupés en une seule progression, BTS en cours ajouté.
+- Bandeau d'accueil et mode classique, focus clavier plus visible, réglage
+  système « moins d'animations » toujours prioritaire.
 - Mise en conformité finale avec les consignes (voir le tableau ci-dessus).
