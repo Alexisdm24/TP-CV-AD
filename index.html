@@ -7,7 +7,7 @@
   <meta name="description" content="CV en ligne d'Alexis Dominguez : reconversion vers l'informatique, recherche d'alternance en BTS SIO option SISR (systèmes, réseaux, cybersécurité).">
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%208'%20shape-rendering='crispEdges'%3E%3Cpath%20d='M4%201h1v1h1v1h1v4h-6v-4h1v-1h2z'%20fill='%233cbcfc'/%3E%3Cpath%20d='M3%203h1v1h-1zM5%203h1v1h-1z'%20fill='%23000'/%3E%3C/svg%3E">
   <!-- ?v=… : à changer à chaque modification du fichier, pour éviter l'ancienne version en cache -->
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <!-- Classe « js », et mode classique appliqué tout de suite s'il a été choisi (évite un flash du jeu) -->
   <script>document.documentElement.classList.add("js");try{if(localStorage.getItem("cv-mode")==="classique")document.documentElement.classList.add("classic")}catch(e){}</script>
   <script src="js/app.js?v=15" defer></script>
@@ -21,15 +21,10 @@
     <div class="mode-bar">
       <button class="btn mode-btn" id="classicBtn" type="button" title="Version sobre sans jeu" aria-pressed="false" hidden>Mode classique : non</button>
     </div>
-    <!-- L'essentiel pour un recruteur pressé : visible sans cliquer -->
+    <!-- Identité et accès direct au CV pour un recruteur pressé -->
     <header class="win pitch">
       <h1>Alexis Dominguez</h1>
       <p class="status-class">Alternant BTS SIO SISR – Systèmes &amp; Réseaux</p>
-      <ul class="pitch-points">
-        <li><strong>Projets :</strong> Infoleader (panel d'administration PHP sécurisé) et ce CV en ligne</li>
-        <li><strong>Atout :</strong> 7 ans en magasin, de vendeur à responsable d'une équipe de 8 personnes</li>
-        <li><strong>Langues :</strong> français, anglais B2 · Permis A et B</li>
-      </ul>
       <p class="pitch-actions">
         <a class="btn pitch-cv" id="pitchCv" href="#cv">Lire mon CV</a>
         <button class="btn" id="pitchPrint" type="button" hidden>Imprimer / PDF</button>

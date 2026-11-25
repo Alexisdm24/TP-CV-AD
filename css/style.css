@@ -857,13 +857,6 @@ html.classic .cv {
   margin-bottom: 1rem;
 }
 
-.pitch-points {
-  margin: 0 0 0.75rem;
-  padding: 0;
-  list-style: none;
-  line-height: 1.45;
-}
-
 .pitch-actions {
   display: flex;
   flex-wrap: wrap;
