@@ -121,7 +121,9 @@ hommage non officiel (© Square Enix). Graphismes, monstre et textes sont
 
 - **W3C (validator.w3.org)** : V1 publiée → **1 erreur** (ligne 11 : l'icône
   d'onglet en `data:` contenait des espaces non encodés). Corrigée (espaces
-  encodés en `%20`). À revalider après publication : 0 erreur attendue.
+  encodés en `%20`). Version publiée :
+  **0 erreur, 1 avertissement** (`aria-hidden` inutile sur un élément `hidden`),
+  corrigé ensuite.
 - **Structure des titres (Outiref)** : 1 seul `<h1>` (le nom), puis 7 `<h2>`
   (une par section) et des `<h3>` pour chaque expérience, projet et formation, sans
   saut de niveau. Vérifié automatiquement : aucun identifiant en double,
